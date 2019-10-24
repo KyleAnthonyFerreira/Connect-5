@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="e0d52bb5-facc-49b0-b91b-e9ce61e2885e" name="Default Changelist" comment="" />
+=======
+    <list default="true" id="e0d52bb5-facc-49b0-b91b-e9ce61e2885e" name="Default Changelist" comment="Testing...">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+>>>>>>> Stashed changes
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,11 +148,29 @@
       <option name="project" value="LOCAL" />
       <updated>1570660889306</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Here is a test python file. :D">
+      <created>1570672797444</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1570672797444</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Testing...">
+      <created>1570672822987</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1570672822987</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< Updated upstream
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+=======
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+>>>>>>> Stashed changes
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24868283" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -170,7 +194,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Here is a test python file." />
     <MESSAGE value="Here is a test python file. :D" />
-    <option name="LAST_COMMIT_MESSAGE" value="Here is a test python file. :D" />
+    <MESSAGE value="Testing..." />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing..." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/kyle.py" />
