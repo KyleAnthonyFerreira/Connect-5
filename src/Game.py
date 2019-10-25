@@ -12,6 +12,7 @@ class Game:
         """
         self.player1 = player1
         self.player2 = player2
+        self.next = player1
         self.board = board
 
     def is_winner(self, player: Player):
@@ -20,26 +21,43 @@ class Game:
         :param player:
         :return: boolean
         """
-        pass
+        if self.board.has_connect5(player):
+            return True
+        return False
 
     def is_game_over(self):
         """
         Determines whether or not the game is over.
         :return: boolean
         """
-        pass
+        for row in range(self.board.dimension):
+            for column in range(self.board.dimension):
+                if self.board.is_empty(row, column):
+                    return False
+        return True
 
     def who_goes_next(self):
         """
         Determines who goes next.
         :return: self.player1 or self.player2
         """
-        pass
+        if self.next == self.player1:
+            return self.player2
+        else:
+            return self.player1
 
-    def make_move(self):
+    def make_move(self, player: Player, x: int, y: int):
         """
-        Makes a move on the board.
+         Makes a move on the board. Returns whether or not the move was
+         successful.
         (Will call is_game_over)
-        :return: None
+        :param player:
+        :param x:
+        :param y:
+        :return: boolean
         """
-        pass
+        if not self.is_game_over() and self.board.is_empty(x, y):
+            self.board.set_piece(player, x, y)
+            self.next = self.who_goes_next()
+            return True
+        return False
