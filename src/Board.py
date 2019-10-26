@@ -1,18 +1,21 @@
-from Player import Player
-
-DIM = 19
-
-
 class Board:
 
-    def __init__(self, dimension=DIM):
+    def __init__(self, dimension):
         """
-        Initialize a DIMxDIM board.
+        Initialize a dimension x dimension board.
         """
         self.dimension = dimension
+        self.board = []
+
         # make the grid
 
     def get_piece(self, x: int, y: int):
+        """
+        Returns player_name at coordinate(x, y)
+        :param x:
+        :param y:
+        :return: String
+        """
         pass
 
     def set_piece(self, player: Player, x: int, y: int):
@@ -38,6 +41,7 @@ class Board:
     def has_connect5(self, player: Player):
         """
         Checks if player has 5 pieces in a row.
+        Will most likely need helper functions.
         :param player:
         :return: boolean
         """

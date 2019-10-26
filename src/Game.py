@@ -51,13 +51,12 @@ class Game:
          Makes a move on the board. Returns whether or not the move was
          successful.
         (Will call is_game_over)
-        :param player:
         :param x:
         :param y:
         :return: boolean
         """
         if not self.is_game_over() and self.board.is_empty(x, y):
-            self.board.set_piece(player, x, y)
+            self.next.make_a_move(x, y)
             self.next = self.who_goes_next()
             return True
         return False
