@@ -4,6 +4,7 @@ class Board:
         """
         Initialize a dimension x dimension board.
 
+        Note:
         [] indicates that the coordinate is empty
         [*] indicates that the coordinate is occupied by a piece from player one
         [.] indicates that the coordinate is occupied by a piece from player two
@@ -11,7 +12,13 @@ class Board:
         self.dimension = dimension
         self.board = []
 
-        # make the grid
+        # create the grid
+        for y_coord in range(dimension):
+            self.board.append([])
+            for x_coord in range(dimension):
+                self.board[y_coord].append([])
+
+        pass
 
     def get_piece(self, x: int, y: int):
         """
