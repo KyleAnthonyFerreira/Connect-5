@@ -1,3 +1,6 @@
+from Player import Player
+from Game import Game
+
 class Board:
 
     def __init__(self, dimension: int):
@@ -13,12 +16,10 @@ class Board:
         self.board = []
 
         # create the grid
-        for y_coord in range(dimension):
+        for y_coord in range(self.dimension):
             self.board.append([])
-            for x_coord in range(dimension):
+            for x_coord in range(self.dimension):
                 self.board[y_coord].append([])
-
-        pass
 
     def get_piece(self, x: int, y: int):
         """
@@ -27,7 +28,15 @@ class Board:
         :param y:
         :return: String
         """
-        pass
+
+        for y_value in range(self.dimension):
+            for x_coord in range(self.dimension):
+                if self.board[y][x] != "":
+                    return "That spot is empty."
+                if self.board[y][x] == "*":
+                    return "That spot is occupied by one of" + str(player1) + "'s pieces."
+                if self.board[y][x] == ".":
+                    return "That spot is occupied by one of" + str(player2) + "'s pieces."
 
     def set_piece(self, player: Player, x: int, y: int):
         """
@@ -38,21 +47,34 @@ class Board:
         :param y:
         :return: None
         """
-        pass
+
+        for y_value in range(self.dimension):
+            for x_value in range(self.dimension):
+                if is_empty(x, y) == False:
+                    return "Uh-oh. Move not applicable. Try another spot."
+                if self.board[y][x] == "":
+                    if player == self.player1:
+                        self.board[y][x] = "*"
+                    if player == self.player2:
+                        self.board[y][x] = "."
+        return str(player) + "has placed down their piece at coordinate (" + str(x) + "," + str(y) + ")!"
 
     def is_empty(self, x: int, y: int):
         """
-        Checks if space at (x,y) is empty.
-        :param x:
-        :param y:
-        :return: boolean
+        Return True iff coordinate (x,y) is unoccupied by a game piece.
         """
-        pass
+        for y_value in range(self.dimension):
+            for x_value in range(self.dimension):
+                if self.board[y][x] == "":
+                    return True
+
 
     def has_connect5(self, player: Player):
         """
-        Checks if player has 5 pieces in a row.
-        Will most likely need helper functions.
+        Return True iff there are 5 of the same game pieces in a row.
+
+        Note: This can happen horizontally, vertically, and diagonally.
+
         :param player:
         :return: boolean
         """
