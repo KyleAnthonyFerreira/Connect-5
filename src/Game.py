@@ -46,7 +46,7 @@ class Game:
         else:
             return self.player1
 
-    def make_move(self, player: Player, x: int, y: int):
+    def make_move(self, x: int, y: int):
         """
          Makes a move on the board. Returns whether or not the move was
          successful.
