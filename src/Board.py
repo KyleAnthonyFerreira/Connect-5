@@ -41,7 +41,7 @@ class Board:
         if self.is_empty(x, y):
             return ""
         else:
-            return self.board[x][y][0]
+            return self.board[y][x][0]
 
     def set_piece(self, player, x: int, y: int) -> None:
         """
@@ -54,7 +54,7 @@ class Board:
         """
 
         if self.is_empty(x, y):
-            self.board[x][y] = [player.name]
+            self.board[y][x] = [player.name]
 
 
     def is_empty(self, x: int, y: int) -> bool:
