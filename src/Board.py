@@ -22,9 +22,9 @@ class Board:
         :return: bool
         """
 
-        if (x < 0) or (x > self.dimension - 1):
+        if (x < 0) or (y > self.dimension - 1):
             return False
-        if (y < 0) or (y > self.dimension - 1):
+        if (y < 0) or (x > self.dimension - 1):
             return False
 
         return True
