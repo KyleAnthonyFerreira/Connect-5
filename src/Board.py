@@ -1,8 +1,12 @@
 class Board:
 
-    def __init__(self, dimension):
+    def __init__(self, dimension: int):
         """
         Initialize a dimension x dimension board.
+
+        [] indicates that the coordinate is empty
+        [*] indicates that the coordinate is occupied by a piece from player one
+        [.] indicates that the coordinate is occupied by a piece from player two
         """
         self.dimension = dimension
         self.board = []
