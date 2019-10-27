@@ -1,4 +1,4 @@
-from Player import Player
+from Player import Player #Neither of the import lines are working properly for some odd reason
 from Game import Game
 
 class Board:
@@ -8,9 +8,9 @@ class Board:
         Initialize a dimension x dimension board.
 
         Note:
-        [] indicates that the coordinate is empty
-        [*] indicates that the coordinate is occupied by a piece from player one
-        [.] indicates that the coordinate is occupied by a piece from player two
+        "" indicates that the coordinate is empty
+        "*" indicates that the coordinate is occupied by a piece from player1
+        "." indicates that the coordinate is occupied by a piece from player2
         """
         self.dimension = dimension
         self.board = []
@@ -20,6 +20,22 @@ class Board:
             self.board.append([])
             for x_coord in range(self.dimension):
                 self.board[y_coord].append([])
+
+    def is_valid(self, x, y) -> Bool:
+        """
+        Return True iff the (x,y) coordinate is within the dimensions of the grid.
+
+        :param x:
+        :param y:
+        :return:
+        """
+
+        if (x < 0) or (x > self.dimension - 1):
+            return False
+        if (y < 0) or (y > self.dimension - 1):
+            return False
+
+        return True
 
     def get_piece(self, x: int, y: int):
         """
@@ -31,12 +47,12 @@ class Board:
 
         for y_value in range(self.dimension):
             for x_coord in range(self.dimension):
-                if self.board[y][x] != "":
+                if self.board[y][x] == "":
                     return "That spot is empty."
                 if self.board[y][x] == "*":
-                    return "That spot is occupied by one of" + str(player1) + "'s pieces."
+                    return "That spot is occupied by" + player1.name
                 if self.board[y][x] == ".":
-                    return "That spot is occupied by one of" + str(player2) + "'s pieces."
+                    return "That spot is occupied by" + player2.name
 
     def set_piece(self, player: Player, x: int, y: int):
         """
@@ -63,10 +79,11 @@ class Board:
         """
         Return True iff coordinate (x,y) is unoccupied by a game piece.
         """
-        for y_value in range(self.dimension):
-            for x_value in range(self.dimension):
-                if self.board[y][x] == "":
-                    return True
+
+        if self.board[y][x] == "":
+            return True
+
+        return False
 
 
     def has_connect5(self, player: Player):
