@@ -1,4 +1,4 @@
-from Player import Player #Neither of the import lines are working properly for some odd reason
+from Player import Player
 from Game import Game
 
 class Board:

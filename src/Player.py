@@ -1,4 +1,4 @@
-from Board import Board
+from src import Board
 
 
 class Player:

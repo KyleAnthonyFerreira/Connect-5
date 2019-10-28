@@ -1,5 +1,4 @@
-from Player import Player
-from Board import Board
+from src import Player, Board
 
 
 class Game:
