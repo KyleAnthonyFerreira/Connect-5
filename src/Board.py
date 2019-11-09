@@ -142,68 +142,68 @@ class Board:
 
 
     def has_connect4(self, player) -> bool:
-    """
-    Return True iff there are exactly 4 of the same pieces in a linear line.
-    Note: This can happen horizontally, vertically, and diagonally.
-    :param: player
-    :return: boolean
-    """
-    #We may need this function for the intermediate level AI
+        """
+        Return True iff there are exactly 4 of the same pieces in a linear line.
+        Note: This can happen horizontally, vertically, and diagonally.
+        :param: player
+        :return: boolean
+        """
+        #We may need this function for the intermediate level AI
 
 
-    line_counter = 0
+        line_counter = 0
 
-    for y_coord in range(len(self.board)):
-        for x_coord in range(len(self.board[y_coord])):
-            if self.board[y_coord][x_coord] == [player.name]:
-                line_counter += 1
-
-                # checks if there is connect5 horizontally
-                if self.board[y_coord][x_coord + 1] == [player.name]:
+        for y_coord in range(len(self.board)):
+            for x_coord in range(len(self.board[y_coord])):
+                if self.board[y_coord][x_coord] == [player.name]:
                     line_counter += 1
-                    if self.board[y_coord][x_coord + 2] == [player.name]:
-                        line_counter += 1
-                        if self.board[y_coord][x_coord + 3] == [player.name]:
-                            line_counter += 1
-                if line_counter == 4:
-                    return True
-                else:
-                    line_counter = 1
 
-                # checks if there is connect5 vertically
-                if self.board[y_coord + 1][x_coord] == [player.name]:
-                    line_counter += 1
-                    if self.board[y_coord + 2][x_coord] == [player.name]:
+                    # checks if there is connect5 horizontally
+                    if self.board[y_coord][x_coord + 1] == [player.name]:
                         line_counter += 1
-                        if self.board[y_coord + 3][x_coord] == [player.name]:
+                        if self.board[y_coord][x_coord + 2] == [player.name]:
                             line_counter += 1
-                if line_counter == 4:
-                    return True
-                else:
-                    line_counter = 1
+                            if self.board[y_coord][x_coord + 3] == [player.name]:
+                                line_counter += 1
+                    if line_counter == 4:
+                        return True
+                    else:
+                        line_counter = 1
 
-                # checks if there is connect5 diagonally upwards
-                if self.board[y_coord + 1][x_coord - 1] == [player.name]:
-                    line_counter += 1
-                    if self.board[y_coord + 2][x_coord - 2] == [player.name]:
+                    # checks if there is connect5 vertically
+                    if self.board[y_coord + 1][x_coord] == [player.name]:
                         line_counter += 1
-                        if self.board[y_coord + 3][x_coord - 3] == [player.name]:
+                        if self.board[y_coord + 2][x_coord] == [player.name]:
                             line_counter += 1
-                if line_counter == 4:
-                    return True
-                else:
-                    line_counter = 1
+                            if self.board[y_coord + 3][x_coord] == [player.name]:
+                                line_counter += 1
+                    if line_counter == 4:
+                        return True
+                    else:
+                        line_counter = 1
 
-                # checks if there is connect5 diagonally downwards
-                if self.board[y_coord + 1][x_coord + 1] == [player.name]:
-                    line_counter += 1
-                    if self.board[y_coord + 2][x_coord + 2] == [player.name]:
+                    # checks if there is connect5 diagonally upwards
+                    if self.board[y_coord + 1][x_coord - 1] == [player.name]:
                         line_counter += 1
-                        if self.board[y_coord + 3][x_coord + 3] == [player.name]:
+                        if self.board[y_coord + 2][x_coord - 2] == [player.name]:
                             line_counter += 1
-                if line_counter == 4:
-                    return True
-                else:
-                    line_counter = 1
+                            if self.board[y_coord + 3][x_coord - 3] == [player.name]:
+                                line_counter += 1
+                    if line_counter == 4:
+                        return True
+                    else:
+                        line_counter = 1
 
-    return False
+                    # checks if there is connect5 diagonally downwards
+                    if self.board[y_coord + 1][x_coord + 1] == [player.name]:
+                        line_counter += 1
+                        if self.board[y_coord + 2][x_coord + 2] == [player.name]:
+                            line_counter += 1
+                            if self.board[y_coord + 3][x_coord + 3] == [player.name]:
+                                line_counter += 1
+                    if line_counter == 4:
+                        return True
+                    else:
+                        line_counter = 1
+
+        return False
