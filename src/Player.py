@@ -66,23 +66,15 @@ class HardAI(Player):
                     for a in range(3):
                         for b in range(3):
                             c = 0
-                            temp_self_eval = 0
-                            temp_opponent_eval = 0
+                            temp_eval = 0
                             stop = False
+                            key = self.board.get_piece(i, j)
                             while not stop:
                                 piece_at_tile = self.board.get_piece(i + (a - 1)*c, j + (b - 1)*c)
 
-                                # This is wrong, should be if ... == player, not sure how this AI is represented
-
-                                if not self.board.is_valid(i, j):
+                                if not self.board.is_valid(i, j) or key != piece_at_tile:
                                     stop = True
-                                elif piece_at_tile == "AI":
-                                    c += 1
-                                    temp_self_eval += 1
-                                elif piece_at_tile == "HUMAN":
-                                    c += 1
-                                    temp_opponent_eval += 1
-                                elif self.board.is_empty(i + (a - 1)*c, j + (b - 1)*c):
+                                elif self.board.is_empty(i + (a - 1) * c, j + (b - 1) * c):
                                     # Can make a move at (i+(a-1)*c, j+(b-1)*c)
 
                                     # Will check to see if the (i+(a-1)*c+1, j+(b-1)*c+1) tile is occupied by the AI
@@ -91,13 +83,18 @@ class HardAI(Player):
 
                                     # Already will check if (i+(a-1)*c+1, j+(b-1)*c+1) is occupied by self, may add
                                     # more cases to increase IQ
-                                    self_eval[(i+(a-1)*c, j+(b-1)*c)] += temp_self_eval
-                                    opponent_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_opponent_eval
+                                    if key == "AI":
+                                        self_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_eval
+                                    else:
+                                        opponent_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_eval
                                     stop = True
+                                else:
+                                    c+=1
+                                    temp_eval+=1
 
         # Sort through the data and make a move
         self_score = -1
-        self_position = (-1, -1)
+        self_position = (int(self.dimension - 1)/2, int(self.dimension - 1)/2)
         for position, value in self_eval.items():
             if value > self_score:
                 self_score = value
