@@ -9,11 +9,23 @@ information from other files to run in the __main__ function.
 """
 import sys
 import pygame
+from src import Player, Human, Board, Game
 
 WIDTH = 800
 HEIGHT = 450
 game_state = 0  # indicates menu state
 pygame.init()
+
+
+def set_up_game()->Game:
+    """
+    This function sets up the logic and data structures for the game by
+    initializing relevant classes
+    """
+    game_board = Board.Board(19)
+    player1 = Human.Human("Player 1", game_board)
+    player2 = Human.Human("Player 2", game_board)
+    return Game.Game(player1, player2, game_board)
 
 
 def draw_menu()->None:
@@ -105,7 +117,36 @@ def draw_game()->None:
     It is currently unimplemented
     :return: None
     """
-    pass
+    # fill menu background colour
+    screen.fill((255, 160, 0))
+
+    # create a rectangle on the screen
+    pygame.draw.rect(screen, (255, 255, 0),
+                     (WIDTH // 4, (HEIGHT - (WIDTH // 2)) // 2,
+                      WIDTH // 2, WIDTH // 2))
+
+    # draw board boundaries
+    for a in range(20):
+        pygame.draw.line(screen, (0, 0, 0),
+                         ((WIDTH // 4) +
+                          a * (WIDTH / 38) // 1,
+                          (HEIGHT - (WIDTH // 2)) // 2),
+                         ((WIDTH // 4) +
+                          a * (WIDTH / 38) // 1,
+                          HEIGHT - (HEIGHT - (WIDTH // 2)) // 2),
+                         2)
+    for b in range(20):
+        pygame.draw.line(screen, (0, 0, 0),
+                         (WIDTH // 4,
+                          ((HEIGHT - (WIDTH // 2)) // 2) +
+                          b * (WIDTH / 38) // 1),
+                         (3 * WIDTH // 4,
+                          ((HEIGHT - (WIDTH // 2)) // 2) +
+                          b * (WIDTH / 38) // 1),
+                         2)
+
+    # update screen
+    pygame.display.update()
 
 
 def start_game()->None:
@@ -114,6 +155,8 @@ def start_game()->None:
     waits for user input via listening for mouse clicks
     :return:
     """
+    new_game = set_up_game()
+    draw_game()
     while game_state == 1:
         # check for mouse clicks
         for event in pygame.event.get():
