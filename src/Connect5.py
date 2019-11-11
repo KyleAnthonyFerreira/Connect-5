@@ -109,7 +109,7 @@ def start_menu()->None:
                 game_state = 1
 
 
-def draw_game()->None:
+def draw_game(game_board: Board.Board)->None:
     """
     This function draws the game board on the screen using pygame. This function
     can be called repeatedly to update visuals of the pieces on the board as
@@ -156,7 +156,7 @@ def start_game()->None:
     :return:
     """
     new_game = set_up_game()
-    draw_game()
+    draw_game(new_game.board)
     while game_state == 1:
         # check for mouse clicks
         for event in pygame.event.get():
