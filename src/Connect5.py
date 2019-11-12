@@ -145,6 +145,23 @@ def draw_game(game_board: Board.Board, player1: Player, player2: Player)->None:
                           b * (WIDTH / 38) // 1),
                          2)
 
+    # tie colour to players
+    player1_colour = (255, 255, 255)
+    player2_colour = (0, 0, 0)
+    # draw tiles to board
+    for a in range(18):
+        for b in range(18):
+            if game_board.board[a][b] == player1.name:
+                pygame.draw.circle(screen, player1_colour, (
+                    (int((WIDTH // 4) + a * (WIDTH / 38) + (WIDTH / 70))), int(
+                        ((HEIGHT - (WIDTH // 2)) // 2) + b * (WIDTH / 38) + (
+                                WIDTH / 70))), int(WIDTH/80), 0)
+            elif game_board.board[a][b] == player2.name:
+                pygame.draw.circle(screen, player2_colour, (
+                    (int((WIDTH // 4) + a * (WIDTH / 38) + (WIDTH / 70))), int(
+                        ((HEIGHT - (WIDTH // 2)) // 2) + b * (WIDTH / 38) + (
+                                WIDTH / 70))), int(WIDTH/80), 0)
+
     # update screen
     pygame.display.update()
 
