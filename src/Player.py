@@ -7,6 +7,7 @@ class Player:
     def __init__(self, name: str, board: Board):
         self.name = name
         self.board = board
+        self.colour = (0, 0, 0)
 
     def make_a_move(self, x, y):
         """
@@ -30,12 +31,14 @@ class Human(Player):
 
     def __init__(self, name: str, board: Board):
         Player.__init__(self, name, board)
+        self.colour = (65, 255, 65)
 
 
 class EasyAI(Player):
 
     def __init__(self, name: str, board: Board):
         Player.__init__(self, name, board)
+        self.colour = (65, 65, 255)
 
     def get_move(self):
         while True:
@@ -49,9 +52,7 @@ class HardAI(Player):
 
     def __init__(self, name: str, board: Board) -> None:
         Player.__init__(self, name, board)
-
-    def set_colour(self, colour) -> None:
-        self._colour = colour
+        self.colour = (255, 65, 65)
 
     def get_move(self) -> int:
         pass
@@ -89,8 +90,8 @@ class HardAI(Player):
                                         opponent_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_eval
                                     stop = True
                                 else:
-                                    c+=1
-                                    temp_eval+=1
+                                    c += 1
+                                    temp_eval += 1
 
         # Sort through the data and make a move
         self_score = -1
@@ -103,7 +104,7 @@ class HardAI(Player):
         opponent_position = (-1, -1)
         for position, value in opponent_eval.items():
             if value > self_score:
-                opponent_score_score = value
+                opponent_score = value
                 opponent_position = position
 
         # logic to return a good move
