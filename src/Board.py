@@ -11,7 +11,7 @@ class Board:
         for y_coord in range(self.dimension):
             self.board.append([])
             for x_coord in range(self.dimension):
-                self.board[y_coord].append([])
+                self.board[y_coord].append("")
 
     def is_valid(self, x, y) -> bool:
         """
@@ -39,7 +39,7 @@ class Board:
         if self.is_empty(x, y):
             return ""
         else:
-            return self.board[y][x][0]
+            return self.board[y][x]
 
     def set_piece(self, player, x: int, y: int) -> None:
         """
