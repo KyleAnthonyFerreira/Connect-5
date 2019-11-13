@@ -15,7 +15,8 @@ class Board:
 
     def is_valid(self, x, y) -> bool:
         """
-        Return True iff the (x,y) coordinate is within the dimensions of the grid.
+        Return True iff the (x,y) coordinate is within the dimensions of the
+        grid.
         :param x:
         :param y:
         :return: bool
@@ -30,7 +31,8 @@ class Board:
 
     def get_piece(self, x: int, y: int) -> str:
         """
-        Returns player.name at coordinate(x, y) if the coordinate isn't empty. Else return "".
+        Returns player.name at coordinate(x, y) if the coordinate isn't empty.
+        Else return "".
         :param x:
         :param y:
         :return: String
@@ -61,7 +63,7 @@ class Board:
         :return: bool
         """
 
-        if self.is_valid(x ,y):
+        if self.is_valid(x, y):
             if self.board[y][x] == "":
                 return True
 
@@ -69,7 +71,8 @@ class Board:
 
     def has_connect5(self, player) -> bool:
         """
-        Return True iff there are exactly 5 of the same game pieces in a linear line.
+        Return True iff there are exactly 5 of the same game pieces in a linear
+        line.
         Note: This can happen horizontally, vertically, and diagonally.
         :param: player
         :return: boolean
@@ -82,56 +85,62 @@ class Board:
                 if self.board[y_coord][x_coord] == player.name:
                     line_counter += 1
 
-                    #checks if there is connect5 horizontally
+                    # checks if there is connect5 horizontally
                     if self.board[y_coord][x_coord + 1] == player.name:
                         line_counter += 1
                         if self.board[y_coord][x_coord + 2] == player.name:
                             line_counter += 1
                             if self.board[y_coord][x_coord + 3] == player.name:
                                 line_counter += 1
-                                if self.board[y_coord][x_coord + 4] == player.name:
+                                if self.board[y_coord][
+                                        x_coord + 4] == player.name:
                                     line_counter += 1
                     if line_counter == 5:
                         return True
                     else:
                         line_counter = 1
 
-                    #checks if there is connect5 vertically
+                    # checks if there is connect5 vertically
                     if self.board[y_coord + 1][x_coord] == player.name:
                         line_counter += 1
                         if self.board[y_coord + 2][x_coord] == player.name:
                             line_counter += 1
                             if self.board[y_coord + 3][x_coord] == player.name:
                                 line_counter += 1
-                                if self.board[y_coord + 4][x_coord] == player.name:
+                                if self.board[y_coord + 4][
+                                        x_coord] == player.name:
                                     line_counter += 1
                     if line_counter == 5:
                         return True
                     else:
                         line_counter = 1
 
-                    #checks if there is connect5 diagonally upwards
+                    # checks if there is connect5 diagonally upwards
                     if self.board[y_coord + 1][x_coord - 1] == player.name:
                         line_counter += 1
                         if self.board[y_coord + 2][x_coord - 2] == player.name:
                             line_counter += 1
-                            if self.board[y_coord + 3][x_coord - 3] == player.name:
+                            if self.board[y_coord + 3][
+                                    x_coord - 3] == player.name:
                                 line_counter += 1
-                                if self.board[y_coord + 4][x_coord - 4] == player.name:
+                                if self.board[y_coord + 4][
+                                        x_coord - 4] == player.name:
                                     line_counter += 1
                     if line_counter == 5:
                         return True
                     else:
                         line_counter = 1
 
-                    #checks if there is connect5 diagonally downwards
+                    # checks if there is connect5 diagonally downwards
                     if self.board[y_coord + 1][x_coord + 1] == player.name:
                         line_counter += 1
                         if self.board[y_coord + 2][x_coord + 2] == player.name:
                             line_counter += 1
-                            if self.board[y_coord + 3][x_coord + 3] == player.name:
+                            if self.board[y_coord + 3][
+                                    x_coord + 3] == player.name:
                                 line_counter += 1
-                                if self.board[y_coord + 4][x_coord + 4] == player.name:
+                                if self.board[y_coord + 4][
+                                        x_coord + 4] == player.name:
                                     line_counter += 1
                     if line_counter == 5:
                         return True
@@ -140,7 +149,6 @@ class Board:
 
         return False
 
-
     def has_connect4(self, player) -> bool:
         """
         Return True iff there are exactly 4 of the same pieces in a linear line.
@@ -148,8 +156,7 @@ class Board:
         :param: player
         :return: boolean
         """
-        #We may need this function for the intermediate level AI
-
+        # We may need this function for the intermediate level AI
 
         line_counter = 0
 
@@ -187,7 +194,8 @@ class Board:
                         line_counter += 1
                         if self.board[y_coord + 2][x_coord - 2] == player.name:
                             line_counter += 1
-                            if self.board[y_coord + 3][x_coord - 3] == player.name:
+                            if self.board[y_coord + 3][
+                                    x_coord - 3] == player.name:
                                 line_counter += 1
                     if line_counter == 4:
                         return True
@@ -199,7 +207,8 @@ class Board:
                         line_counter += 1
                         if self.board[y_coord + 2][x_coord + 2] == player.name:
                             line_counter += 1
-                            if self.board[y_coord + 3][x_coord + 3] == player.name:
+                            if self.board[y_coord + 3][
+                                    x_coord + 3] == player.name:
                                 line_counter += 1
                     if line_counter == 4:
                         return True
