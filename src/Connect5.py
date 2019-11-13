@@ -136,7 +136,6 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->None:
     # tie colour to players
     player1_colour = (255, 255, 255)
     player2_colour = (0, 0, 0)
-    print(game_board.board)
     # draw tiles to board
 
     for a in range(game_board.dimension):
@@ -168,10 +167,15 @@ def start_game()->None:
                 mouse_position = pygame.mouse.get_pos()
                 for i in RECTANGLES:
                     if RECTANGLES[i].collidepoint(mouse_position):
-                        new_game.make_move(i[0], i[1])
-                draw_game(new_game.board, new_game.player1, new_game.player2)
+                        if not new_game.is_game_over():
+                            new_game.make_move(i[0], i[1])
+                            draw_game(new_game.board, new_game.player1,
+                                      new_game.player2)
+                            if new_game.is_winner():
+                                print("WINNER")
             elif type(new_game.whose_turn()) != type(Human):
-                print("I am a robot")
+                pass
+                #print("I am a robot")
 
 
 if __name__ == "__main__":

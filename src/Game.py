@@ -1,4 +1,6 @@
-from src import Player, Board
+# from src import Player, Board
+from Board import Board
+from Player import Player, Human
 
 
 class Game:
@@ -36,7 +38,7 @@ class Game:
         :param player:
         :return: boolean
         """
-        if self.board.has_connect5(self.whose_turn()):
+        if self.board.has_connect5(self.who_goes_next()):
             return True
         return False
 
@@ -68,3 +70,14 @@ class Game:
             self.next = self.who_goes_next()
             return True
         return False
+
+
+if __name__ == "__main__":
+    b = Board(5)
+    p1 = Human("p1", b)
+    p2 = Human("p2", b)
+    game = Game(p1, p2, b)
+    print(b.board)
+    game.make_move(0, 0)
+    print(b.board)
+    print(game.is_winner())
