@@ -53,7 +53,7 @@ class Board:
         """
 
         if self.is_empty(x, y):
-            self.board[y][x] = [player.name]
+            self.board[y][x] = player.name
 
     def is_empty(self, x: int, y: int) -> bool:
         """
