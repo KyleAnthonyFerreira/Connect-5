@@ -26,7 +26,7 @@ class Player:
     def get_move(self):
         pass
 
-    def set_colour(self, colour: tuple[int, int, int]):
+    def set_colour(self, colour):
         self.colour = colour
 
 
