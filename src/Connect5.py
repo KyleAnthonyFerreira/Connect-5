@@ -9,10 +9,14 @@ information from other files to run in the __main__ function.
 """
 import sys
 import pygame
-from src import Player, Human, Board, Game
+from Board import Board
+from Player import Player, Human
+from Game import Game
 
 WIDTH = 800
 HEIGHT = 450
+DIMENSION = 19
+RECTANGLES = {}
 game_state = 0  # indicates menu state
 pygame.init()
 
@@ -22,10 +26,10 @@ def set_up_game()->Game:
     This function sets up the logic and data structures for the game by
     initializing relevant classes
     """
-    game_board = Board.Board(19)
-    player1 = Human.Human("Player 1", game_board)
-    player2 = Human.Human("Player 2", game_board)
-    return Game.Game(player1, player2, game_board)
+    game_board = Board(DIMENSION)
+    player1 = Human("Player 1", game_board)
+    player2 = Human("Player 2", game_board)
+    return Game(player1, player2, game_board)
 
 
 def draw_menu()->None:
@@ -64,7 +68,6 @@ def draw_menu()->None:
     exit_game_surface.center = (screen.get_width() // 2,
                                 4 * screen.get_height() // 6)
     screen.blit(exit_game, exit_game_surface)
-    # pygame.draw.rect(screen, (255, 160, 0), (0, 0, WIDTH, HEIGHT))
 
     # update screen
     pygame.display.update()
@@ -109,7 +112,7 @@ def start_menu()->None:
                 game_state = 1
 
 
-def draw_game(game_board: Board.Board, player1: Player, player2: Player)->None:
+def draw_game(game_board: Board, player1: Player, player2: Player)->None:
     """
     This function draws the game board on the screen using pygame. This function
     can be called repeatedly to update visuals of the pieces on the board as
@@ -121,46 +124,27 @@ def draw_game(game_board: Board.Board, player1: Player, player2: Player)->None:
     screen.fill((255, 160, 0))
 
     # create a rectangle on the screen
-    pygame.draw.rect(screen, (255, 255, 0),
-                     (WIDTH // 4, (HEIGHT - (WIDTH // 2)) // 2,
-                      WIDTH // 2, WIDTH // 2))
+    pygame.draw.rect(screen, (0, 0, 0),
+                     ((WIDTH // 4) - 1, ((HEIGHT - (WIDTH // 2)) // 2) - 1,
+                      (WIDTH // 2) + 1, (WIDTH // 2) + 1))
 
-    # draw board boundaries
-    for a in range(20):
-        pygame.draw.line(screen, (0, 0, 0),
-                         ((WIDTH // 4) +
-                          a * (WIDTH / 38) // 1,
-                          (HEIGHT - (WIDTH // 2)) // 2),
-                         ((WIDTH // 4) +
-                          a * (WIDTH / 38) // 1,
-                          HEIGHT - (HEIGHT - (WIDTH // 2)) // 2),
-                         2)
-    for b in range(20):
-        pygame.draw.line(screen, (0, 0, 0),
-                         (WIDTH // 4,
-                          ((HEIGHT - (WIDTH // 2)) // 2) +
-                          b * (WIDTH / 38) // 1),
-                         (3 * WIDTH // 4,
-                          ((HEIGHT - (WIDTH // 2)) // 2) +
-                          b * (WIDTH / 38) // 1),
-                         2)
+    # draw and store board boundaries
+    for x in range(game_board.dimension):
+        for y in range(game_board.dimension):
+            RECTANGLES[(x, y)] = pygame.draw.rect(screen, (135, 206, 235), (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
 
     # tie colour to players
     player1_colour = (255, 255, 255)
     player2_colour = (0, 0, 0)
+    print(game_board.board)
     # draw tiles to board
-    for a in range(18):
-        for b in range(18):
-            if game_board.board[a][b] == player1.name:
-                pygame.draw.circle(screen, player1_colour, (
-                    (int((WIDTH // 4) + a * (WIDTH / 38) + (WIDTH / 70))), int(
-                        ((HEIGHT - (WIDTH // 2)) // 2) + b * (WIDTH / 38) + (
-                                WIDTH / 70))), int(WIDTH/80), 0)
-            elif game_board.board[a][b] == player2.name:
-                pygame.draw.circle(screen, player2_colour, (
-                    (int((WIDTH // 4) + a * (WIDTH / 38) + (WIDTH / 70))), int(
-                        ((HEIGHT - (WIDTH // 2)) // 2) + b * (WIDTH / 38) + (
-                                WIDTH / 70))), int(WIDTH/80), 0)
+
+    for a in range(game_board.dimension):
+        for b in range(game_board.dimension):
+            if game_board.get_piece(a, b) == player1.name:
+                pygame.draw.circle(screen, player1_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 3)
+            elif game_board.get_piece(a, b) == player2.name:
+                pygame.draw.circle(screen, player2_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 3)
 
     # update screen
     pygame.display.update()
@@ -180,6 +164,14 @@ def start_game()->None:
             # user exits via builtin close button
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif pygame.mouse.get_pressed()[0]:
+                mouse_position = pygame.mouse.get_pos()
+                for i in RECTANGLES:
+                    if RECTANGLES[i].collidepoint(mouse_position):
+                        new_game.make_move(i[0], i[1])
+                draw_game(new_game.board, new_game.player1, new_game.player2)
+            elif type(new_game.whose_turn()) != type(Human):
+                print("I am a robot")
 
 
 if __name__ == "__main__":
