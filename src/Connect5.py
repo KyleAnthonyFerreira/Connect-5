@@ -13,12 +13,12 @@ from Board import Board
 from Player import Player, Human, EasyAI, MediumAI
 from Game import Game
 
-WIDTH = 800
-HEIGHT = 450
+pygame.init()
+WIDTH = int(pygame.display.Info().current_w / 1.2)
+HEIGHT = int(pygame.display.Info().current_h / 1.2)
 DIMENSION = 19
 RECTANGLES = {}
 game_state = 0  # indicates menu state
-pygame.init()
 
 
 def set_up_game()->Game:
@@ -141,9 +141,9 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->None:
     for a in range(game_board.dimension):
         for b in range(game_board.dimension):
             if game_board.get_piece(a, b) == player1.name:
-                pygame.draw.circle(screen, player1_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 3)
+                pygame.draw.circle(screen, player1_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 2)
             elif game_board.get_piece(a, b) == player2.name:
-                pygame.draw.circle(screen, player2_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 3)
+                pygame.draw.circle(screen, player2_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 2)
 
     # update screen
     pygame.display.update()
