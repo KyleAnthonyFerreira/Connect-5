@@ -10,7 +10,7 @@ information from other files to run in the __main__ function.
 import sys
 import pygame
 from Board import Board
-from Player import Player, Human
+from Player import Player, Human, EasyAI, MediumAI
 from Game import Game
 
 WIDTH = 800
@@ -28,7 +28,7 @@ def set_up_game()->Game:
     """
     game_board = Board(DIMENSION)
     player1 = Human("Player 1", game_board)
-    player2 = Human("Player 2", game_board)
+    player2 = MediumAI("Player 2", game_board)
     return Game(player1, player2, game_board)
 
 
@@ -163,19 +163,29 @@ def start_game()->None:
             # user exits via builtin close button
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif pygame.mouse.get_pressed()[0]:
-                mouse_position = pygame.mouse.get_pos()
-                for i in RECTANGLES:
-                    if RECTANGLES[i].collidepoint(mouse_position):
-                        if not new_game.is_game_over():
-                            new_game.make_move(i[0], i[1])
-                            draw_game(new_game.board, new_game.player1,
-                                      new_game.player2)
-                            if new_game.is_winner():
-                                print("WINNER")
-            elif type(new_game.whose_turn()) != type(Human):
-                pass
-                #print("I am a robot")
+            if not new_game.is_game_over():
+                # Human's Turn
+                if pygame.mouse.get_pressed()[0] and \
+                        isinstance(new_game.whose_turn(), Human):
+                    mouse_position = pygame.mouse.get_pos()
+                    for i in RECTANGLES:
+                        if RECTANGLES[i].collidepoint(mouse_position):
+                            if not new_game.is_game_over():
+                                new_game.make_move(i[0], i[1])
+                                draw_game(new_game.board, new_game.player1,
+                                          new_game.player2)
+                                if new_game.is_winner():
+                                    print("WINNER")
+                # AI's Turn
+                elif new_game.whose_turn() == new_game.player2 and \
+                        not isinstance(new_game.player2, Human):
+                    if not new_game.is_game_over():
+                        x, y = new_game.player2.get_move()
+                        new_game.make_move(x, y)
+                        draw_game(new_game.board, new_game.player1,
+                                  new_game.player2)
+                    if new_game.is_winner():
+                        print("WINNER")
 
 
 if __name__ == "__main__":

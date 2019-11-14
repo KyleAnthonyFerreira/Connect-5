@@ -1,3 +1,6 @@
+import random
+
+
 class Board:
 
     def __init__(self, dimension: object) -> object:
@@ -6,6 +9,7 @@ class Board:
         """
         self.dimension = dimension
         self.board = []
+        self.last_move = (0, 0)
 
         # create the grid
         for y_coord in range(self.dimension):
@@ -54,6 +58,7 @@ class Board:
 
         if self.is_empty(x, y):
             self.board[y][x] = player.name
+            self.last_move = (x, y)
 
     def is_empty(self, x: int, y: int) -> bool:
         """
@@ -68,6 +73,24 @@ class Board:
                 return True
 
             return False
+
+    def all_around(self):
+        """
+        Returns a random move around the last move made.
+        :return: (int, int)
+        """
+        moves = []
+        x = self.last_move[0]
+        y = self.last_move[1]
+        for x_direction in range(-1, 2):
+            for y_direction in range(-1, 2):
+                if self.is_valid(x + x_direction, y + y_direction):
+                    if self.get_piece(x + x_direction, y + y_direction) == "":
+                        moves.append((x + x_direction, y + y_direction))
+        if len(moves):
+            return random.choice(moves)
+        else:
+            return -1, -1
 
     def has_connect5(self, player) -> bool:
         """

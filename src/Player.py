@@ -51,14 +51,32 @@ class EasyAI(Player):
                 return x, y
 
 
+class MediumAI(Player):
+
+    def __init__(self, name: str, board: Board):
+        Player.__init__(self, name, board)
+        self.colour = (65, 65, 255)
+
+    def get_move(self):
+        move = self.board.all_around()
+        if self.board.is_valid(move[0], move[1]) and move[0] != -1:
+            return move[0], move[1]
+        else:
+            while True:
+                x = random.randint(0, self.board.dimension)
+                y = random.randint(0, self.board.dimension)
+                if self.board.is_empty(x, y):
+                    return x, y
+
+
 class HardAI(Player):
 
     def __init__(self, name: str, board: Board) -> None:
         Player.__init__(self, name, board)
         self.colour = (255, 65, 65)
 
-    def get_move(self) -> int:
-        pass
+    def get_move(self):
+        return self.eval()
 
     def eval(self) -> (int, int):
         self_eval = {}
@@ -87,7 +105,7 @@ class HardAI(Player):
 
                                     # Already will check if (i+(a-1)*c+1, j+(b-1)*c+1) is occupied by self, may add
                                     # more cases to increase IQ
-                                    if key == "AI":
+                                    if key == self.name:
                                         self_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_eval
                                     else:
                                         opponent_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_eval
