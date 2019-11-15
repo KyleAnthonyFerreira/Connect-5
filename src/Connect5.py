@@ -14,11 +14,12 @@ from Player import Player, Human, EasyAI, MediumAI
 from Game import Game
 
 pygame.init()
-WIDTH = int(pygame.display.Info().current_w / 1.2)
-HEIGHT = int(pygame.display.Info().current_h / 1.2)
+WIDTH = int(pygame.display.Info().current_w // 1.5)
+HEIGHT = int(pygame.display.Info().current_h // 1.5)
 DIMENSION = 19
 RECTANGLES = {}
 game_state = 0  # indicates menu state
+game_mode = 0
 
 
 def set_up_game()->Game:
@@ -59,15 +60,33 @@ def draw_menu()->None:
     play_game = game_font.render("Play Game", True, (0, 0, 255), None)
     play_game_surface = play_game.get_rect()
     play_game_surface.center = (screen.get_width() // 2,
-                                3 * screen.get_height() // 6)
+                                2 * screen.get_height() // 6)
     screen.blit(play_game, play_game_surface)
 
     # menu exit game text
     exit_game = game_font.render("Exit Game", True, (0, 0, 255), None)
     exit_game_surface = exit_game.get_rect()
     exit_game_surface.center = (screen.get_width() // 2,
-                                4 * screen.get_height() // 6)
+                                3 * screen.get_height() // 6)
     screen.blit(exit_game, exit_game_surface)
+
+    # game mode text
+    if game_mode == 0:
+        game_mode_text = game_font.render("Player vs Player", True,
+                                          (0, 0, 255), None)
+    elif game_mode == 1:
+        game_mode_text = game_font.render("Player vs AI(Easy)", True,
+                                          (0, 0, 255), None)
+    elif game_mode == 2:
+        game_mode_text = game_font.render("Player vs AI(Medium)", True,
+                                          (0, 0, 255), None)
+    else:
+        game_mode_text = game_font.render("Player vs AI(Hard)", True,
+                                          (0, 0, 255), None)
+    game_mode_surface_text = game_mode_text.get_rect()
+    game_mode_surface_text.center = (screen.get_width() // 2,
+                                     4 * screen.get_height() // 6)
+    screen.blit(game_mode_text, game_mode_surface_text)
 
     # update screen
     pygame.display.update()
@@ -83,6 +102,7 @@ def start_menu()->None:
     draw_menu()
     # check for mouse clicks
     global game_state
+    global game_mode
     while game_state == 0:
         for event in pygame.event.get():
             # user exits via builtin close button
@@ -95,9 +115,9 @@ def start_menu()->None:
                     pygame.mouse.get_pos()[0] < \
                     (4 * screen.get_width() // 7) \
                     and \
-                    (15 * screen.get_height() // 24) < \
+                    (11 * screen.get_height() // 24) < \
                     pygame.mouse.get_pos()[1] < \
-                    (17 * screen.get_height() // 24):
+                    (13 * screen.get_height() // 24):
                 sys.exit()
             # user selects to start the game
             elif pygame.mouse.get_pressed()[0] \
@@ -106,10 +126,26 @@ def start_menu()->None:
                     pygame.mouse.get_pos()[0] < \
                     (4 * screen.get_width() // 7) \
                     and \
-                    (11 * screen.get_height() // 24) < \
+                    (7 * screen.get_height() // 24) < \
                     pygame.mouse.get_pos()[1] < \
-                    (13 * screen.get_height() // 24):
+                    (9 * screen.get_height() // 24):
                 game_state = 1
+            # user clicks to change game mode
+            elif pygame.mouse.get_pressed()[0] \
+                    and \
+                    (3 * screen.get_width() // 7) < \
+                    pygame.mouse.get_pos()[0] < \
+                    (4 * screen.get_width() // 7) \
+                    and \
+                    (15 * screen.get_height() // 24) < \
+                    pygame.mouse.get_pos()[1] < \
+                    (17 * screen.get_height() // 24):
+                if game_mode < 3:
+                    game_mode += 1
+                    draw_menu()
+                else:
+                    game_mode = 0
+                    draw_menu()
 
 
 def draw_game(game_board: Board, player1: Player, player2: Player)->None:
