@@ -31,22 +31,22 @@ def set_up_game()->Game:
     game_board = Board(DIMENSION)
     player1 = Human("Player 1", game_board)
     if game_mode == 0:
-        player2 = Human("Player 2", game_board)
+        return Game(player1, Human("Player 2", game_board), game_board)
     elif game_mode == 1:
-        player2 = EasyAI("Player 2", game_board)
+        return Game(player1, EasyAI("Player 2", game_board), game_board)
     elif game_mode == 2:
-        player2 = MediumAI("Player 2", game_board)
-    else:
-        player2 = MediumAI("Player 2", game_board)  # will be changed to hardAI
-    return Game(player1, player2, game_board)
+        return Game(player1, MediumAI("Player 2", game_board), game_board)
+    elif game_mode == 3:
+        return Game(player1, MediumAI("Player 2", game_board), game_board)
 
 
-def draw_menu()->None:
+def draw_menu()->dict:
     """
     This function draws the game menu. It fills the background colour, sets
     the fonts, and writes the text on the screen.
     :return: None
     """
+    click_able = {}
 
     # fill menu background colour
     screen.fill((255, 160, 0))
@@ -70,6 +70,7 @@ def draw_menu()->None:
     play_game_surface.center = (screen.get_width() // 2,
                                 2 * screen.get_height() // 6)
     screen.blit(play_game, play_game_surface)
+    click_able["play"] = play_game_surface
 
     # menu exit game text
     exit_game = game_font.render("Exit Game", True, (0, 0, 255), None)
@@ -77,6 +78,7 @@ def draw_menu()->None:
     exit_game_surface.center = (screen.get_width() // 2,
                                 3 * screen.get_height() // 6)
     screen.blit(exit_game, exit_game_surface)
+    click_able["exit"] = exit_game_surface
 
     # game mode text
     if game_mode == 0:
@@ -95,9 +97,13 @@ def draw_menu()->None:
     game_mode_surface_text.center = (screen.get_width() // 2,
                                      4 * screen.get_height() // 6)
     screen.blit(game_mode_text, game_mode_surface_text)
+    click_able["mode"] = game_mode_surface_text
 
     # update screen
     pygame.display.update()
+
+    # return all click-able text
+    return click_able
 
 
 def start_menu()->None:
@@ -107,53 +113,29 @@ def start_menu()->None:
     :return: None
     """
     # update screen
-    draw_menu()
+    click_able = draw_menu()
     # check for mouse clicks
     global game_state
     global game_mode
     while game_state == 0:
+        mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
             # user exits via builtin close button
             if event.type == pygame.QUIT:
                 sys.exit()
             # user exits via clicking in the area described by exit game
-            elif pygame.mouse.get_pressed()[0] \
-                    and \
-                    (3 * screen.get_width() // 7) < \
-                    pygame.mouse.get_pos()[0] < \
-                    (4 * screen.get_width() // 7) \
-                    and \
-                    (11 * screen.get_height() // 24) < \
-                    pygame.mouse.get_pos()[1] < \
-                    (13 * screen.get_height() // 24):
-                sys.exit()
-            # user selects to start the game
-            elif pygame.mouse.get_pressed()[0] \
-                    and \
-                    (3 * screen.get_width() // 7) < \
-                    pygame.mouse.get_pos()[0] < \
-                    (4 * screen.get_width() // 7) \
-                    and \
-                    (7 * screen.get_height() // 24) < \
-                    pygame.mouse.get_pos()[1] < \
-                    (9 * screen.get_height() // 24):
-                game_state = 1
-            # user clicks to change game mode
-            elif pygame.mouse.get_pressed()[0] \
-                    and \
-                    (3 * screen.get_width() // 7) < \
-                    pygame.mouse.get_pos()[0] < \
-                    (4 * screen.get_width() // 7) \
-                    and \
-                    (15 * screen.get_height() // 24) < \
-                    pygame.mouse.get_pos()[1] < \
-                    (17 * screen.get_height() // 24):
-                if game_mode < 3:
-                    game_mode += 1
-                    draw_menu()
-                else:
-                    game_mode = 0
-                    draw_menu()
+            elif pygame.mouse.get_pressed()[0]:
+                if click_able["exit"].collidepoint(mouse):
+                    sys.exit()
+                elif click_able["play"].collidepoint(mouse):
+                    game_state = 1
+                elif click_able["mode"].collidepoint(mouse):
+                    if game_mode < 3:
+                        game_mode += 1
+                        click_able = draw_menu()
+                    else:
+                        game_mode = 0
+                        click_able = draw_menu()
 
 
 def draw_game(game_board: Board, player1: Player, player2: Player)->None:
@@ -175,7 +157,8 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->None:
     # draw and store board boundaries
     for x in range(game_board.dimension):
         for y in range(game_board.dimension):
-            RECTANGLES[(x, y)] = pygame.draw.rect(screen, (135, 206, 235), (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
+            RECTANGLES[(x, y)] = \
+                pygame.draw.rect(screen, (135, 206, 235), (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
 
     # tie colour to players
     player1_colour = (255, 255, 255)
@@ -185,9 +168,13 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->None:
     for a in range(game_board.dimension):
         for b in range(game_board.dimension):
             if game_board.get_piece(a, b) == player1.name:
-                pygame.draw.circle(screen, player1_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 2)
+                pygame.draw.circle(screen, player1_colour,
+                                   RECTANGLES[(a, b)].center,
+                                   RECTANGLES[(a, b)].width // 2)
             elif game_board.get_piece(a, b) == player2.name:
-                pygame.draw.circle(screen, player2_colour, RECTANGLES[(a, b)].center, RECTANGLES[(a, b)].width // 2)
+                pygame.draw.circle(screen, player2_colour,
+                                   RECTANGLES[(a, b)].center,
+                                   RECTANGLES[(a, b)].width // 2)
 
     # update screen
     pygame.display.update()
@@ -209,88 +196,61 @@ def start_game()->None:
             if event.type == pygame.QUIT:
                 sys.exit()
             if not new_game.is_game_over():
-                if game_mode == 0:
-                    if pygame.mouse.get_pressed()[0] and \
-                            isinstance(new_game.whose_turn(), Human):
-                        mouse_position = pygame.mouse.get_pos()
-                        for i in RECTANGLES:
-                            if RECTANGLES[i].collidepoint(mouse_position):
-                                if not new_game.is_game_over():
-                                    new_game.make_move(i[0], i[1])
-                                    draw_game(new_game.board, new_game.player1,
-                                              new_game.player2)
-                                    if new_game.is_winner():
-                                        print("WINNER")
-                elif game_mode == 1:
-                    # Human's Turn
-                    if pygame.mouse.get_pressed()[0] and \
-                            isinstance(new_game.whose_turn(), Human):
-                        mouse_position = pygame.mouse.get_pos()
-                        for i in RECTANGLES:
-                            if RECTANGLES[i].collidepoint(mouse_position):
-                                if not new_game.is_game_over():
-                                    new_game.make_move(i[0], i[1])
-                                    draw_game(new_game.board, new_game.player1,
-                                              new_game.player2)
-                                    if new_game.is_winner():
-                                        print("WINNER")
-                    # AI's Turn
-                    elif new_game.whose_turn() == new_game.player2 and \
-                            not isinstance(new_game.player2, Human):
-                        if not new_game.is_game_over():
-                            x, y = new_game.player2.get_move()
-                            new_game.make_move(x, y)
-                            draw_game(new_game.board, new_game.player1,
-                                      new_game.player2)
-                        if new_game.is_winner():
-                            print("WINNER")
-                elif game_mode == 2:
-                    # Human's Turn
-                    if pygame.mouse.get_pressed()[0] and \
-                            isinstance(new_game.whose_turn(), Human):
-                        mouse_position = pygame.mouse.get_pos()
-                        for i in RECTANGLES:
-                            if RECTANGLES[i].collidepoint(mouse_position):
-                                if not new_game.is_game_over():
-                                    new_game.make_move(i[0], i[1])
-                                    draw_game(new_game.board, new_game.player1,
-                                              new_game.player2)
-                                    if new_game.is_winner():
-                                        print("WINNER")
-                    # AI's Turn
-                    elif new_game.whose_turn() == new_game.player2 and \
-                            not isinstance(new_game.player2, Human):
-                        if not new_game.is_game_over():
-                            x, y = new_game.player2.get_move()
-                            new_game.make_move(x, y)
-                            draw_game(new_game.board, new_game.player1,
-                                      new_game.player2)
-                        if new_game.is_winner():
-                            print("WINNER")
-                else:
-                    # will change to HardAI later
-                    # Human's Turn
-                    if pygame.mouse.get_pressed()[0] and \
-                            isinstance(new_game.whose_turn(), Human):
-                        mouse_position = pygame.mouse.get_pos()
-                        for i in RECTANGLES:
-                            if RECTANGLES[i].collidepoint(mouse_position):
-                                if not new_game.is_game_over():
-                                    new_game.make_move(i[0], i[1])
-                                    draw_game(new_game.board, new_game.player1,
-                                              new_game.player2)
-                                    if new_game.is_winner():
-                                        print("WINNER")
-                    # AI's Turn
-                    elif new_game.whose_turn() == new_game.player2 and \
-                            not isinstance(new_game.player2, Human):
-                        if not new_game.is_game_over():
-                            x, y = new_game.player2.get_move()
-                            new_game.make_move(x, y)
-                            draw_game(new_game.board, new_game.player1,
-                                      new_game.player2)
-                        if new_game.is_winner():
-                            print("WINNER")
+                if pygame.mouse.get_pressed()[0] and \
+                        isinstance(new_game.whose_turn(), Human):
+                    mouse_position = pygame.mouse.get_pos()
+                    for i in RECTANGLES:
+                        if RECTANGLES[i].collidepoint(mouse_position):
+                            if not new_game.is_game_over():
+                                new_game.make_move(i[0], i[1])
+                                draw_game(new_game.board, new_game.player1,
+                                          new_game.player2)
+                # AI's Turn
+                elif new_game.whose_turn() == new_game.player2 and \
+                        not isinstance(new_game.player2, Human):
+                    if not new_game.is_game_over():
+                        x, y = new_game.player2.get_move()
+                        new_game.make_move(x, y)
+                        draw_game(new_game.board, new_game.player1,
+                                  new_game.player2)
+                if new_game.is_game_over():
+                    game_end(new_game.who_goes_next())
+
+
+def game_end(player: Player):
+    game_over_font = pygame.font.SysFont("Arial",
+                                         int(screen.get_width() / 20),
+                                         True, False)
+    instruction_font = pygame.font.SysFont("Arial",
+                                           int(screen.get_width() / 40),
+                                           True, False)
+    # game over text
+    game_over = game_over_font.render(player.name + " won!", True,
+                                      (0, 0, 255), None)
+    game_over_surface = game_over.get_rect()
+    game_over_surface.center = (screen.get_width() // 2,
+                                screen.get_height() // 2)
+    screen.blit(game_over, game_over_surface)
+
+    # Instructions
+    instruction = instruction_font.render('"R" = Restart',
+                                          True, (0, 0, 255), None)
+    instruction_surface = instruction.get_rect()
+    instruction_surface.center = (screen.get_width() // 2,
+                                  3 * screen.get_height() // 4)
+    screen.blit(instruction, instruction_surface)
+
+    # update screen
+    pygame.display.update()
+
+    global game_state
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    start_game()
 
 
 if __name__ == "__main__":
