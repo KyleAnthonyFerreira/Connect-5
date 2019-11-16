@@ -10,7 +10,7 @@ information from other files to run in the __main__ function.
 import sys
 import pygame
 from Board import Board
-from Player import Player, Human, EasyAI, MediumAI
+from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
 
 pygame.init()
@@ -37,7 +37,7 @@ def set_up_game()->Game:
     elif game_mode == 2:
         return Game(player1, MediumAI("Player 2", game_board), game_board)
     elif game_mode == 3:
-        return Game(player1, MediumAI("Player 2", game_board), game_board)
+        return Game(player1, HardAI("Player 2", game_board), game_board)
 
 
 def draw_menu()->dict:

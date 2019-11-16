@@ -93,31 +93,50 @@ class Board:
             return -1, -1
 
     def has_connect5(self, player) -> bool:
+        if self._connectN(player) >= 5:
+            return True
+        return False
+
+    def _connectN(self, player) -> bool:
         """
-        @TODO Make Look Nice :)
         :param player:
         :return: bool
         """
+        max_value = 0
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if self.get_piece(i, j) == player.name:
-                    for a in range(-1, 2):
-                        c = 1
+                    temp = self.connectX(player, i, j)
+                    if temp >= max_value:
+                        max_value = temp
+        return max_value
+
+    def connectX(self, player, i, j) -> bool:
+        """
+                @TODO Make Look Nice :)
+                :param player:
+                :param i:
+                :param j:
+                :return: bool
+                """
+        max_value = 0
+        for a in range(-1, 2):
+            c = 1
+            sum = 1
+            b = -1
+            while b < 2:
+                if self.is_valid(i + (a * c), j + (b * c)):
+                    if self.get_piece(i + (a * c), j + (b * c)) == player.name and not (a == 0 and b == 0):
+                        sum += 1
+                    else:
+                        c = 0
                         sum = 1
-                        b = -1
-                        while b < 2:
-                            if self.is_valid(i + (a * c), j + (b * c)):
-                                if self.get_piece(i + (a * c), j + (b * c)) == player.name and not (a == 0 and b == 0):
-                                    sum += 1
-                                else:
-                                    c = 0
-                                    sum = 1
-                                    b += 1
-                            else:
-                                c = 0
-                                sum = 1
-                                b += 1
-                            c += 1
-                            if sum >= 5:
-                                return True
-        return False
+                        b += 1
+                else:
+                    c = 0
+                    sum = 1
+                    b += 1
+                c += 1
+                if sum >= max_value:
+                    max_value = sum
+        return max_value
