@@ -18,7 +18,7 @@ from Game import Game
 pygame.init()
 WIDTH = int(pygame.display.Info().current_w // 1.5)
 HEIGHT = int(pygame.display.Info().current_h // 1.5)
-DIMENSION = 19
+DIMENSION = 5
 RECTANGLES = {}
 game_state = 0  # indicates menu state
 game_mode = 0
@@ -274,22 +274,19 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     for a in range(game_board.dimension):
         for b in range(game_board.dimension):
             if game_board.get_piece(a, b) == player1.name:
-                #pygame.draw.circle(screen, player1_colour,
-                #                   RECTANGLES[(a, b)].center,
-                #                   RECTANGLES[(a, b)].width // 2)
                 pygame.gfxdraw.aacircle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], 15,
+                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
                                         player1_colour)
                 pygame.gfxdraw.filled_circle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], 15,
+                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
                                         player1_colour)
                 
             elif game_board.get_piece(a, b) == player2.name:
                 pygame.gfxdraw.aacircle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], 15,
+                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
                                         player2_colour)
                 pygame.gfxdraw.filled_circle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], 15,
+                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
                                         player2_colour)
 
                 
