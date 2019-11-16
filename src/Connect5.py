@@ -10,6 +10,7 @@ information from other files to run in the __main__ function.
 import sys
 import pygame
 import pickle
+from pygame import gfxdraw
 from Board import Board
 from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
@@ -110,7 +111,7 @@ def draw_menu()->dict:
                                 5 * screen.get_height() // 6)
     screen.blit(settings_game, settings_game_surface)
     click_able["settings"] = settings_game_surface
-    
+        
     # update screen
     pygame.display.update()
 
@@ -194,15 +195,16 @@ def draw_settings() -> dict:
     screen.blit(a, b_surface)
     click_able["b"] = b_surface
 
-    pygame.draw.circle(screen, p1_colour,
-                                   (screen.get_width() // 3,
-                                    4 * screen.get_height() // 6),
-                                                           16)
 
-    pygame.draw.circle(screen, p2_colour,
-                                   (screen.get_width() // 3,
-                                    5 * screen.get_height() // 6),
-                                                           16)
+    pygame.gfxdraw.aacircle(screen, screen.get_width() // 3,
+                                    4 * screen.get_height() // 6, 15, p1_colour)
+    pygame.gfxdraw.filled_circle(screen, screen.get_width() // 3,
+                                    4 * screen.get_height() // 6, 15, p1_colour)
+
+    pygame.gfxdraw.aacircle(screen, screen.get_width() // 3,
+                                    5 * screen.get_height() // 6, 15, p2_colour)
+    pygame.gfxdraw.filled_circle(screen, screen.get_width() // 3,
+                                    5 * screen.get_height() // 6, 15, p2_colour)
     
     pygame.display.update()
 
@@ -272,13 +274,24 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     for a in range(game_board.dimension):
         for b in range(game_board.dimension):
             if game_board.get_piece(a, b) == player1.name:
-                pygame.draw.circle(screen, player1_colour,
-                                   RECTANGLES[(a, b)].center,
-                                   RECTANGLES[(a, b)].width // 2)
+                #pygame.draw.circle(screen, player1_colour,
+                #                   RECTANGLES[(a, b)].center,
+                #                   RECTANGLES[(a, b)].width // 2)
+                pygame.gfxdraw.aacircle(screen, RECTANGLES[(a, b)].center[0],
+                                        RECTANGLES[(a, b)].center[1], 15,
+                                        player1_colour)
+                pygame.gfxdraw.filled_circle(screen, RECTANGLES[(a, b)].center[0],
+                                        RECTANGLES[(a, b)].center[1], 15,
+                                        player1_colour)
+                
             elif game_board.get_piece(a, b) == player2.name:
-                pygame.draw.circle(screen, player2_colour,
-                                   RECTANGLES[(a, b)].center,
-                                   RECTANGLES[(a, b)].width // 2)
+                pygame.gfxdraw.aacircle(screen, RECTANGLES[(a, b)].center[0],
+                                        RECTANGLES[(a, b)].center[1], 15,
+                                        player2_colour)
+                pygame.gfxdraw.filled_circle(screen, RECTANGLES[(a, b)].center[0],
+                                        RECTANGLES[(a, b)].center[1], 15,
+                                        player2_colour)
+
                 
     save_game = game_font.render("Save Game", True, (0, 0, 255), None)
     save_game_surface = save_game.get_rect()
