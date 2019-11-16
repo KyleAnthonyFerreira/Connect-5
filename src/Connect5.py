@@ -18,12 +18,14 @@ from Game import Game
 pygame.init()
 WIDTH = int(pygame.display.Info().current_w // 1.5)
 HEIGHT = int(pygame.display.Info().current_h // 1.5)
-DIMENSION = 5
+DIMENSION = 19
 RECTANGLES = {}
+settings_grid = {}
 game_state = 0  # indicates menu state
 game_mode = 0
 p1_colour = (255, 255, 255)
 p2_colour = (0, 0, 0)
+board_colour = (135, 200, 235)
 
 a = pygame.image.load("colour line.png")
 
@@ -62,6 +64,7 @@ def draw_menu()->dict:
     game_font = pygame.font.SysFont("Arial",
                                     int(screen.get_width() / 30),
                                     True, False)
+    
     # menu title text
     title = title_font.render("Connect 5", True, (0, 0, 255), None)
     title_surface = title.get_rect()
@@ -183,6 +186,12 @@ def draw_settings() -> dict:
                            5 * screen.get_height() // 6)
     screen.blit(p2, p2_surface)
 
+    board = game_font.render("pick the board's colour!", True, (0, 0, 255), None)
+    board_surface = board.get_rect()
+    board_surface.center = (4.1 * screen.get_width() // 6,
+                           4 * screen.get_height() // 6)
+    screen.blit(board, board_surface)
+
     a_surface = a.get_rect()
     a_surface.center = (screen.get_width() // 4,
                            4.5 * screen.get_height() // 6)
@@ -195,6 +204,16 @@ def draw_settings() -> dict:
     screen.blit(a, b_surface)
     click_able["b"] = b_surface
 
+    c_surface = a.get_rect()
+    c_surface.center = (3 * screen.get_width() // 4,
+                           4.5 * screen.get_height() // 6)
+    screen.blit(a, c_surface)
+    click_able["c"] = c_surface
+
+    for x in range(5):
+        for y in range(5):
+            settings_grid[(x, y)] = \
+                pygame.draw.rect(screen, board_colour, (int((2.5 * WIDTH) / 4) + x * int(WIDTH / (32)), int(HEIGHT / 3.5) + y * int(WIDTH / (32)), int(WIDTH / (32)) - 1, int(WIDTH / (32)) - 1))
 
     pygame.gfxdraw.aacircle(screen, screen.get_width() // 3,
                                     4 * screen.get_height() // 6, 15, p1_colour)
@@ -218,6 +237,7 @@ def start_settings() -> None:
     global game_mode
     global p1_colour
     global p2_colour
+    global board_colour
     while game_state == 2:
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -232,6 +252,9 @@ def start_settings() -> None:
                     draw_settings()
                 elif click_able["b"].collidepoint(mouse):
                     p2_colour = a.get_at((mouse[0] - 42, mouse[1] - 652))
+                    draw_settings()
+                elif click_able["c"].collidepoint(mouse):
+                    board_colour = a.get_at((mouse[0] - 682, mouse[1] - 532))
                     draw_settings()
                 elif click_able["back"].collidepoint(mouse):
                     game_state = 0
@@ -264,7 +287,7 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     for x in range(game_board.dimension):
         for y in range(game_board.dimension):
             RECTANGLES[(x, y)] = \
-                pygame.draw.rect(screen, (135, 206, 235), (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
+                pygame.draw.rect(screen, board_colour, (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
 
     # tie colour to players
     player1_colour = player1.colour
