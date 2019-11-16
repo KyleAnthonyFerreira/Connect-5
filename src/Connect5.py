@@ -9,6 +9,7 @@ information from other files to run in the __main__ function.
 """
 import sys
 import pygame
+import pickle
 from Board import Board
 from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
@@ -20,7 +21,10 @@ DIMENSION = 19
 RECTANGLES = {}
 game_state = 0  # indicates menu state
 game_mode = 0
+p1_colour = (255, 255, 255)
+p2_colour = (0, 0, 0)
 
+a = pygame.image.load("colour line.png")
 
 def set_up_game()->Game:
     """
@@ -99,6 +103,14 @@ def draw_menu()->dict:
     screen.blit(game_mode_text, game_mode_surface_text)
     click_able["mode"] = game_mode_surface_text
 
+    #settings text
+    settings_game = game_font.render("Settings", True, (0, 0, 255), None)
+    settings_game_surface = settings_game.get_rect()
+    settings_game_surface.center = (screen.get_width() // 2,
+                                5 * screen.get_height() // 6)
+    screen.blit(settings_game, settings_game_surface)
+    click_able["settings"] = settings_game_surface
+    
     # update screen
     pygame.display.update()
 
@@ -122,10 +134,12 @@ def start_menu()->None:
         for event in pygame.event.get():
             # user exits via builtin close button
             if event.type == pygame.QUIT:
+                pygame.display.quit()
                 sys.exit()
             # user exits via clicking in the area described by exit game
             elif pygame.mouse.get_pressed()[0]:
                 if click_able["exit"].collidepoint(mouse):
+                    pygame.display.quit()
                     sys.exit()
                 elif click_able["play"].collidepoint(mouse):
                     game_state = 1
@@ -136,9 +150,94 @@ def start_menu()->None:
                     else:
                         game_mode = 0
                         click_able = draw_menu()
+                elif click_able["settings"].collidepoint(mouse):
+                    game_state = 2
+
+def draw_settings() -> dict:
+    click_able = {}
+    
+    screen.fill((255, 160, 0))
+
+    game_font = pygame.font.SysFont("Arial",
+                                    int(screen.get_width() / 30),
+                                    True, False)
+
+    back = game_font.render("Back to main menu", True, (0, 0, 255), None)
+    back_surface = back.get_rect()
+    back_surface.center = (screen.get_width() // 6,
+                           screen.get_height() // 6)
+    screen.blit(back, back_surface)
+    click_able["back"] = back_surface
+    
+    p1 = game_font.render("pick player1's colour!", True, (0, 0, 255), None)
+    p1_surface = p1.get_rect()
+    p1_surface.center = (screen.get_width() // 6,
+                           4 * screen.get_height() // 6)
+    screen.blit(p1, p1_surface)
+    
+
+    p2 = game_font.render("pick player2's colour!", True, (0, 0, 255), None)
+    p2_surface = p2.get_rect()
+    p2_surface.center = (screen.get_width() // 6,
+                           5 * screen.get_height() // 6)
+    screen.blit(p2, p2_surface)
+
+    a_surface = a.get_rect()
+    a_surface.center = (screen.get_width() // 4,
+                           4.5 * screen.get_height() // 6)
+    screen.blit(a, a_surface)
+    click_able["a"] = a_surface
+    
+    b_surface = a.get_rect()
+    b_surface.center = (screen.get_width() // 4,
+                           5.5 * screen.get_height() // 6)
+    screen.blit(a, b_surface)
+    click_able["b"] = b_surface
+
+    pygame.draw.circle(screen, p1_colour,
+                                   (screen.get_width() // 3,
+                                    4 * screen.get_height() // 6),
+                                                           16)
+
+    pygame.draw.circle(screen, p2_colour,
+                                   (screen.get_width() // 3,
+                                    5 * screen.get_height() // 6),
+                                                           16)
+    
+    pygame.display.update()
+
+    return click_able
+
+def start_settings() -> None:
+    # update screen
+    click_able = draw_settings()
+    # check for mouse clicks
+    global game_state
+    global game_mode
+    global p1_colour
+    global p2_colour
+    while game_state == 2:
+        mouse = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            # user exits via builtin close button
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                sys.exit()
+            # user exits via clicking in the area described by exit game
+            elif pygame.mouse.get_pressed()[0]:
+                if click_able["a"].collidepoint(mouse):
+                    p1_colour = a.get_at((mouse[0] - 42, mouse[1] - 532))
+                    draw_settings()
+                elif click_able["b"].collidepoint(mouse):
+                    p2_colour = a.get_at((mouse[0] - 42, mouse[1] - 652))
+                    draw_settings()
+                elif click_able["back"].collidepoint(mouse):
+                    game_state = 0
+
+                    
 
 
-def draw_game(game_board: Board, player1: Player, player2: Player)->None:
+def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     """
     This function draws the game board on the screen using pygame. This function
     can be called repeatedly to update visuals of the pieces on the board as
@@ -146,8 +245,13 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->None:
     It is currently unimplemented
     :return: None
     """
+    click_able = {}
     # fill menu background colour
     screen.fill((255, 160, 0))
+
+    game_font = pygame.font.SysFont("Arial",
+                                    int(screen.get_width() / 30),
+                                    True, False)
 
     # create a rectangle on the screen
     pygame.draw.rect(screen, (0, 0, 0),
@@ -161,8 +265,8 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->None:
                 pygame.draw.rect(screen, (135, 206, 235), (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
 
     # tie colour to players
-    player1_colour = (255, 255, 255)
-    player2_colour = (0, 0, 0)
+    player1_colour = player1.colour
+    player2_colour = player2.colour
     # draw tiles to board
 
     for a in range(game_board.dimension):
@@ -175,9 +279,27 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->None:
                 pygame.draw.circle(screen, player2_colour,
                                    RECTANGLES[(a, b)].center,
                                    RECTANGLES[(a, b)].width // 2)
+                
+    save_game = game_font.render("Save Game", True, (0, 0, 255), None)
+    save_game_surface = save_game.get_rect()
+    save_game_surface.center = (5.25 * screen.get_width() // 6,
+                                2.5 * screen.get_height() // 6)
 
+    screen.blit(save_game, save_game_surface)
+    click_able["Save Game"] = save_game_surface
+
+    load_game = game_font.render("Load Game", True, (0, 0, 255), None)
+    load_game_surface = load_game.get_rect()
+    load_game_surface.center = (5.25 * screen.get_width() // 6,
+                                3.5 * screen.get_height() // 6)
+
+    screen.blit(load_game, load_game_surface)
+    click_able["Load Game"] = load_game_surface
+    
     # update screen
     pygame.display.update()
+
+    return click_able
 
 
 def start_game()->None:
@@ -188,12 +310,15 @@ def start_game()->None:
     """
     global game_mode
     new_game = set_up_game()
-    draw_game(new_game.board, new_game.player1, new_game.player2)
+    new_game.player1.set_colour(p1_colour)
+    new_game.player2.set_colour(p2_colour)
+    click_able = draw_game(new_game.board, new_game.player1, new_game.player2)
     while game_state == 1:
         # check for mouse clicks
         for event in pygame.event.get():
             # user exits via builtin close button
             if event.type == pygame.QUIT:
+                pygame.display.quit()
                 sys.exit()
             if not new_game.is_game_over():
                 if pygame.mouse.get_pressed()[0] and \
@@ -205,6 +330,14 @@ def start_game()->None:
                                 new_game.make_move(i[0], i[1])
                                 draw_game(new_game.board, new_game.player1,
                                           new_game.player2)
+                    if click_able["Save Game"].collidepoint(mouse_position):
+                        with open('objs.pickle', 'wb') as f:
+                            pickle.dump([new_game.board, new_game.player1,new_game.player2], f)
+                            f.close()
+                    elif click_able["Load Game"].collidepoint(mouse_position):
+                        with open('objs.pickle', 'rb') as f:
+                            new_game.board, new_game.player1, new_game.player2 = pickle.load(f)
+                        draw_game(new_game.board, new_game.player1, new_game.player2)
                 # AI's Turn
                 elif new_game.whose_turn() == new_game.player2 and \
                         not isinstance(new_game.player2, Human):
@@ -247,6 +380,7 @@ def game_end(player: Player):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.display.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
@@ -265,3 +399,6 @@ if __name__ == "__main__":
         # game state
         elif game_state == 1:
             start_game()
+        # settings state
+        elif game_state == 2:
+            start_settings()
