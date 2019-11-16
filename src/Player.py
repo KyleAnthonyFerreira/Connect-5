@@ -84,11 +84,10 @@ class HardAI(Player):
         opponent_eval = {}
         for i in range(self.board.dimension):
             for j in range(self.board.dimension):
-                if not self.board.is_empty(i, j):
-                    if self.board.get_piece(i, j) == self.name:
-                        self_eval[i, j] = self.board.connectX(self,i,j)
-                    else:
-                        opponent_eval[i, j] = self.board.connectX(self,i,j)
+                if self.board.is_empty(i, j):
+                    self_eval[i, j] = self.board.connectX(self,i,j)
+                    opponent_eval[i, j] = self.board.inverted_connectX(self,i,j)
+
         self_val = -1
         opp_val = -1
 
