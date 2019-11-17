@@ -23,9 +23,10 @@ RECTANGLES = {}
 settings_grid = {}
 game_state = 0  # indicates menu state
 game_mode = 0
-p1_colour = (255, 255, 255)
-p2_colour = (0, 0, 0)
-board_colour = (135, 200, 235)
+p1_colour = (255, 255, 0)
+p2_colour = (242, 17, 231)
+board_colour = (0, 0, 0)
+board_lines_colour = (0, 0, 255)
 
 a = pygame.image.load("colour line.png")
 
@@ -56,7 +57,7 @@ def draw_menu()->dict:
     click_able = {}
 
     # fill menu background colour
-    screen.fill((255, 160, 0))
+    screen.fill((0, 0, 0))
     # create fonts for game use
     title_font = pygame.font.SysFont("Arial",
                                      int(screen.get_width() / 10),
@@ -160,7 +161,7 @@ def start_menu()->None:
 def draw_settings() -> dict:
     click_able = {}
     
-    screen.fill((255, 160, 0))
+    screen.fill((0, 0, 0))
 
     game_font = pygame.font.SysFont("Arial",
                                     int(screen.get_width() / 30),
@@ -192,6 +193,12 @@ def draw_settings() -> dict:
                            4 * screen.get_height() // 6)
     screen.blit(board, board_surface)
 
+    board = game_font.render("pick the board line's colour!", True, (0, 0, 255), None)
+    board_surface = board.get_rect()
+    board_surface.center = (4.25 * screen.get_width() // 6,
+                           5 * screen.get_height() // 6)
+    screen.blit(board, board_surface)
+
     a_surface = a.get_rect()
     a_surface.center = (screen.get_width() // 4,
                            4.5 * screen.get_height() // 6)
@@ -209,6 +216,14 @@ def draw_settings() -> dict:
                            4.5 * screen.get_height() // 6)
     screen.blit(a, c_surface)
     click_able["c"] = c_surface
+
+    d_surface = a.get_rect()
+    d_surface.center = (3 * screen.get_width() // 4,
+                           5.5 * screen.get_height() // 6)
+    screen.blit(a, d_surface)
+    click_able["d"] = d_surface
+
+    pygame.draw.rect(screen, board_lines_colour, (int((2.5 * WIDTH) / 4) - 1, int(HEIGHT / 3.5) - 1, 5 * int(WIDTH / (32)) + 1, 5 * int(WIDTH / (32)) + 1))
 
     for x in range(5):
         for y in range(5):
@@ -238,6 +253,7 @@ def start_settings() -> None:
     global p1_colour
     global p2_colour
     global board_colour
+    global board_lines_colour
     while game_state == 2:
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -256,6 +272,9 @@ def start_settings() -> None:
                 elif click_able["c"].collidepoint(mouse):
                     board_colour = a.get_at((mouse[0] - 682, mouse[1] - 532))
                     draw_settings()
+                elif click_able["d"].collidepoint(mouse):
+                    board_lines_colour = a.get_at((mouse[0] - 682, mouse[1] - 652))
+                    draw_settings()                    
                 elif click_able["back"].collidepoint(mouse):
                     game_state = 0
 
@@ -272,20 +291,20 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     """
     click_able = {}
     # fill menu background colour
-    screen.fill((255, 160, 0))
+    screen.fill((0, 0, 0))
 
     game_font = pygame.font.SysFont("Arial",
                                     int(screen.get_width() / 30),
                                     True, False)
 
     # create a rectangle on the screen
-    pygame.draw.rect(screen, (0, 0, 0),
-                     ((WIDTH // 4) - 1, ((HEIGHT - (WIDTH // 2)) // 2) - 1,
-                      (WIDTH // 2) + 1, (WIDTH // 2) + 1))
-
+    pygame.draw.rect(screen, board_lines_colour,
+                     ((WIDTH // 4) - 10, ((HEIGHT - (WIDTH // 2)) // 2) - 10,
+                      (WIDTH // 2) + 20, (WIDTH // 2) + 20))
+    abc = game_board.dimension
     # draw and store board boundaries
-    for x in range(game_board.dimension):
-        for y in range(game_board.dimension):
+    for x in range(abc):
+        for y in range(abc):
             RECTANGLES[(x, y)] = \
                 pygame.draw.rect(screen, board_colour, (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
 
@@ -328,6 +347,20 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
 
     screen.blit(load_game, load_game_surface)
     click_able["Load Game"] = load_game_surface
+
+    restart = game_font.render("Restart", True, (0, 0, 255), None)
+    restart_surface = load_game.get_rect()
+    restart_surface.center = (5.25 * screen.get_width() // 6,
+                                5.5 * screen.get_height() // 6)
+
+    screen.blit(restart, restart_surface)
+    click_able["Restart"] = restart_surface
+
+    winner = game_font.render("Winner:", True, (0, 0, 255), None)
+    winner_surface = load_game.get_rect()
+    winner_surface.center = (5.25 * screen.get_width() // 6,
+                                4.5 * screen.get_height() // 6)
+    screen.blit(winner, winner_surface)
     
     # update screen
     pygame.display.update()
@@ -365,10 +398,14 @@ def start_game()->None:
                                           new_game.player2)
                     if click_able["Save Game"].collidepoint(mouse_position):
                         with open('objs.pickle', 'wb') as f:
-                            pickle.dump([new_game.board, new_game.player1,new_game.player2], f)
+                            pickle.dump([new_game.board, new_game.player1, new_game.player2], f)
                             f.close()
                     elif click_able["Load Game"].collidepoint(mouse_position):
                         with open('objs.pickle', 'rb') as f:
+                            new_game.board, new_game.player1, new_game.player2 = pickle.load(f)
+                        draw_game(new_game.board, new_game.player1, new_game.player2)
+                    elif click_able["Restart"].collidepoint(mouse_position):
+                        with open('restart.pickle', 'rb') as f:
                             new_game.board, new_game.player1, new_game.player2 = pickle.load(f)
                         draw_game(new_game.board, new_game.player1, new_game.player2)
                 # AI's Turn
