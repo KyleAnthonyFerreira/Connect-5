@@ -80,49 +80,85 @@ class HardAI(Player):
         return temp[0], temp[1]
 
     def eval(self) -> (int, int):
+        # print(self.name) == Player 2
+        number_of_pieces = 0
         self_eval = {}
         opponent_eval = {}
         for i in range(self.board.dimension):
             for j in range(self.board.dimension):
-                if self.board.is_empty(i, j):
-                    self_eval[i, j] = self.board.connectX(self,i,j)
-                    opponent_eval[i, j] = self.board.inverted_connectX(self,i,j)
+                if not self.board.is_empty(i, j):
+                    if self.board.get_piece(i, j) == self.name:
+                        number_of_pieces += 1
+                        for a in range(-1, 2):
+                            for b in range(-1, 2):
+                                # - self eval
+                                temp = self.board.sum_in_line(self.name, i, j, a, b)
+                                if temp[0] != -1:
+                                    if len(self_eval) > 0:
+                                        exists = False
+                                        for x in self_eval:
+                                            if x == (temp[0], temp[1]):
+                                                exists = True
+                                                break
+                                        if exists:
+                                            self_eval[(temp[0]), (temp[1])] += temp[2]
 
-        self_val = -1
-        opp_val = -1
+                                        else:
+                                            self_eval[(temp[0]), (temp[1])] = temp[2]
+                                    else:
+                                        self_eval[(temp[0]), (temp[1])] = temp[2]
+                                # - end of self eval
 
-        for x in self_eval:
-            if self_eval[x] >= self_val:
-                self_val = self_eval[x]
-
-        for y in opponent_eval:
-            if opponent_eval[y] >= opp_val:
-                opp_val = opponent_eval[y]
-
-        if self_val >= 4:
+                                # - opp eval
+                                temp = self.board.inverted_sum_in_line(self.name, i, j, a, b)
+                                if temp[0] != -1:
+                                    if len(opponent_eval) > 0:
+                                        exists = False
+                                        for x in opponent_eval:
+                                            if x == (temp[0], temp[1]):
+                                                exists = True
+                                                break
+                                        if exists:
+                                            opponent_eval[(temp[0]), (temp[1])] += temp[2]
+                                        else:
+                                            opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                                    else:
+                                        opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                                # - end of opp eval
+        # Handles 1st move by AI
+        if number_of_pieces < 1:
+            while True:
+                x = random.randint(int(self.board.dimension / 2) - 1, int(self.board.dimension / 2) + 1)
+                y = random.randint(int(self.board.dimension / 2) - 1, int(self.board.dimension / 2) + 1)
+                temp = (x, y)
+                if self.board.is_empty(x, y):
+                    print("MOVE")
+                    print(temp)
+                    return temp
+        else:
+            max = 0
+            temp_move = -1, -1
             for x in self_eval:
-                if self_eval[x] >= 4:
-                    return x
-        if opp_val >= 4:
-            for y in opponent_eval:
-                if opponent_eval[y] >=4:
-                    return y
-        if self_val >= opp_val:
-            for x in self_eval:
-                if self_eval[x] == self_val:
-                    return x
-        if opp_val > self_val and opp_val > 1:
-            for y in opponent_eval:
-                if opponent_eval[y] == opp_val:
-                    return y
-        while True:
-            x = random.randint(0, self.board.dimension)
-            y = random.randint(0, self.board.dimension)
-            temp = (x,y)
-            if self.board.is_empty(x, y):
-                return temp
+                if self_eval[x] >= max:
+                    max = self_eval[x]
+                    temp_move = x
 
+            if max >= 4:
+                return temp_move
+            else:
+                max_op = 0
+                temp_move_op = -1, -1
+                for x in opponent_eval:
+                    if opponent_eval[x] >= max_op:
+                        max_op = opponent_eval[x]
+                        temp_move_op = x
 
+            if max >= max_op:
+                return temp_move
+            else:
+                return temp_move_op
+
+            return temp_move
 
 
 

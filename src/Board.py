@@ -114,6 +114,46 @@ class Board:
                         max_value = temp
         return max_value
 
+    def sum_in_line(self, player, i, j, a, b) -> (int, int,int):
+        x = 0
+        y = 0
+        sum = 0
+
+        if a == 0 and b == 0:
+            return -1, -1, -1
+
+        while True:
+            if self.is_valid(i+x, j+y):
+                if self.get_piece(i+x, j+y) == player:
+                    sum += 1
+                elif self.is_empty(i+x, j+y):
+                    return int(i+x), int(j+y), int(sum)
+            else:
+                return -1,-1,-1
+            x = x + a
+            y = y + b
+        return -1,-1,-1
+
+    def inverted_sum_in_line(self, player, i, j, a, b) -> (int, int,int):
+        x = 0
+        y = 0
+        sum = 0
+
+        if a == 0 and b == 0:
+            return -1, -1, -1
+
+        while True:
+            if self.is_valid(i+x, j+y):
+                if self.is_empty(i+x, j+y):
+                    return int(i+x), int(j+y), int(sum)
+                elif self.get_piece(i+x, j+y) != player:
+                    sum += 1
+            else:
+                return -1,-1,-1
+            x = x + a
+            y = y + b
+        return -1,-1,-1
+
     def connectX(self, player, i, j) -> int:
         """
                 @TODO Make Look Nice :)
