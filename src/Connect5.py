@@ -26,7 +26,7 @@ game_mode = 0
 p1_colour = (255, 255, 255)
 p2_colour = (0, 0, 0)
 board_colour = (121, 122, 125)
-board_lines_colour = (0, 0, 0)
+board_lines_colour = (255, 255, 255)
 rect_size = int(WIDTH // DIMENSION * 0.5)
 r_d = {}
 border = 5
@@ -267,16 +267,16 @@ def start_settings() -> None:
             # user exits via clicking in the area described by exit game
             elif pygame.mouse.get_pressed()[0]:
                 if click_able["a"].collidepoint(mouse):
-                    p1_colour = a.get_at((mouse[0] - 42, mouse[1] - 532))
+                    p1_colour = a.get_at((mouse[0] - int((WIDTH // 4) - 278), mouse[1] - int(4.5 * (HEIGHT // 6) - 8)))
                     draw_settings()
                 elif click_able["b"].collidepoint(mouse):
-                    p2_colour = a.get_at((mouse[0] - 42, mouse[1] - 652))
+                    p2_colour = a.get_at((mouse[0] - int((WIDTH // 4) - 278), mouse[1] - int(5.5 * (HEIGHT // 6) - 8)))
                     draw_settings()
                 elif click_able["c"].collidepoint(mouse):
-                    board_colour = a.get_at((mouse[0] - 682, mouse[1] - 532))
+                    board_colour = a.get_at((mouse[0] - int((3 * WIDTH // 4) - 278), mouse[1] - int(4.5 * (HEIGHT // 6) - 8)))
                     draw_settings()
                 elif click_able["d"].collidepoint(mouse):
-                    board_lines_colour = a.get_at((mouse[0] - 682, mouse[1] - 652))
+                    board_lines_colour = a.get_at((mouse[0] - int((3 * WIDTH // 4) - 278), mouse[1] - int(5.5 * (HEIGHT // 6) - 8)))
                     draw_settings()
                 elif click_able["back"].collidepoint(mouse):
                     game_state = 0
@@ -308,6 +308,7 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     counter = 0
     global r_d
 
+    #pygame.draw.rect(screen, board_lines_colour, (x - 15, y - 15,rect_size * DIMENSION + DIMENSION * 5 + 30,rect_size * DIMENSION + DIMENSION * 5 + 30))
     # Creates a default visual board
     for row in range(game_board.dimension):
         for column in range(game_board.dimension):
