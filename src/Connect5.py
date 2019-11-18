@@ -16,17 +16,20 @@ from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
 
 pygame.init()
-WIDTH = int(pygame.display.Info().current_w // 1.5)
-HEIGHT = int(pygame.display.Info().current_h // 1.5)
+WIDTH = int(pygame.display.Info().current_w)
+HEIGHT = int(pygame.display.Info().current_h)
 DIMENSION = 19
 RECTANGLES = {}
 settings_grid = {}
 game_state = 0  # indicates menu state
 game_mode = 0
-p1_colour = (255, 255, 0)
-p2_colour = (242, 17, 231)
-board_colour = (0, 0, 0)
-board_lines_colour = (0, 0, 255)
+p1_colour = (255, 255, 255)
+p2_colour = (0, 0, 0)
+board_colour = (121, 122, 125)
+board_lines_colour = (0, 0, 0)
+rect_size = int(WIDTH // DIMENSION * 0.5)
+r_d = {}
+border = 5
 
 a = pygame.image.load("colour line.png")
 
@@ -57,24 +60,24 @@ def draw_menu()->dict:
     click_able = {}
 
     # fill menu background colour
-    screen.fill((0, 0, 0))
+    screen.fill((15, 82, 87))
     # create fonts for game use
-    title_font = pygame.font.SysFont("Arial",
+    title_font = pygame.font.SysFont("Agency FB",
                                      int(screen.get_width() / 10),
                                      True, False)
-    game_font = pygame.font.SysFont("Arial",
+    game_font = pygame.font.SysFont("Agency FB",
                                     int(screen.get_width() / 30),
-                                    True, False)
-    
+                                    False, False)
+
     # menu title text
-    title = title_font.render("Connect 5", True, (0, 0, 255), None)
+    title = title_font.render("Connect 5", True, (255, 7, 58), None)
     title_surface = title.get_rect()
     title_surface.center = (screen.get_width() // 2,
                             screen.get_height() // 6)
     screen.blit(title, title_surface)
 
     # menu play game text
-    play_game = game_font.render("Play Game", True, (0, 0, 255), None)
+    play_game = game_font.render("Play Game", True, (107, 133, 255), None)
     play_game_surface = play_game.get_rect()
     play_game_surface.center = (screen.get_width() // 2,
                                 2 * screen.get_height() // 6)
@@ -82,7 +85,7 @@ def draw_menu()->dict:
     click_able["play"] = play_game_surface
 
     # menu exit game text
-    exit_game = game_font.render("Exit Game", True, (0, 0, 255), None)
+    exit_game = game_font.render("Exit Game", True, (107, 133, 255), None)
     exit_game_surface = exit_game.get_rect()
     exit_game_surface.center = (screen.get_width() // 2,
                                 3 * screen.get_height() // 6)
@@ -92,16 +95,16 @@ def draw_menu()->dict:
     # game mode text
     if game_mode == 0:
         game_mode_text = game_font.render("Player vs Player", True,
-                                          (0, 0, 255), None)
+                                          (107, 133, 255), None)
     elif game_mode == 1:
         game_mode_text = game_font.render("Player vs AI(Easy)", True,
-                                          (0, 0, 255), None)
+                                          (107, 133, 255), None)
     elif game_mode == 2:
         game_mode_text = game_font.render("Player vs AI(Medium)", True,
-                                          (0, 0, 255), None)
+                                          (107, 133, 255), None)
     else:
         game_mode_text = game_font.render("Player vs AI(Hard)", True,
-                                          (0, 0, 255), None)
+                                          (107, 133, 255), None)
     game_mode_surface_text = game_mode_text.get_rect()
     game_mode_surface_text.center = (screen.get_width() // 2,
                                      4 * screen.get_height() // 6)
@@ -109,13 +112,13 @@ def draw_menu()->dict:
     click_able["mode"] = game_mode_surface_text
 
     #settings text
-    settings_game = game_font.render("Settings", True, (0, 0, 255), None)
+    settings_game = game_font.render("Settings", True, (107, 133, 255), None)
     settings_game_surface = settings_game.get_rect()
     settings_game_surface.center = (screen.get_width() // 2,
                                 5 * screen.get_height() // 6)
     screen.blit(settings_game, settings_game_surface)
     click_able["settings"] = settings_game_surface
-        
+
     # update screen
     pygame.display.update()
 
@@ -158,42 +161,42 @@ def start_menu()->None:
                 elif click_able["settings"].collidepoint(mouse):
                     game_state = 2
 
+
 def draw_settings() -> dict:
     click_able = {}
-    
-    screen.fill((0, 0, 0))
 
-    game_font = pygame.font.SysFont("Arial",
+    screen.fill((15, 82, 87))
+
+    game_font = pygame.font.SysFont("Agency FB",
                                     int(screen.get_width() / 30),
-                                    True, False)
+                                    False, False)
 
-    back = game_font.render("Back to main menu", True, (0, 0, 255), None)
+    back = game_font.render("Back to main menu", True, (107, 133, 255), None)
     back_surface = back.get_rect()
     back_surface.center = (screen.get_width() // 6,
                            screen.get_height() // 6)
     screen.blit(back, back_surface)
     click_able["back"] = back_surface
-    
-    p1 = game_font.render("pick player1's colour!", True, (0, 0, 255), None)
+
+    p1 = game_font.render("Pick player1's colour!", True, (107, 133, 255), None)
     p1_surface = p1.get_rect()
     p1_surface.center = (screen.get_width() // 6,
                            4 * screen.get_height() // 6)
     screen.blit(p1, p1_surface)
-    
 
-    p2 = game_font.render("pick player2's colour!", True, (0, 0, 255), None)
+    p2 = game_font.render("Pick player2's colour!", True, (107, 133, 255), None)
     p2_surface = p2.get_rect()
     p2_surface.center = (screen.get_width() // 6,
                            5 * screen.get_height() // 6)
     screen.blit(p2, p2_surface)
 
-    board = game_font.render("pick the board's colour!", True, (0, 0, 255), None)
+    board = game_font.render("Pick the board's colour!", True, (107, 133, 255), None)
     board_surface = board.get_rect()
     board_surface.center = (4.1 * screen.get_width() // 6,
                            4 * screen.get_height() // 6)
     screen.blit(board, board_surface)
 
-    board = game_font.render("pick the board line's colour!", True, (0, 0, 255), None)
+    board = game_font.render("Pick the board line's colour!", True, (107, 133, 255), None)
     board_surface = board.get_rect()
     board_surface.center = (4.25 * screen.get_width() // 6,
                            5 * screen.get_height() // 6)
@@ -204,7 +207,7 @@ def draw_settings() -> dict:
                            4.5 * screen.get_height() // 6)
     screen.blit(a, a_surface)
     click_able["a"] = a_surface
-    
+
     b_surface = a.get_rect()
     b_surface.center = (screen.get_width() // 4,
                            5.5 * screen.get_height() // 6)
@@ -239,7 +242,7 @@ def draw_settings() -> dict:
                                     5 * screen.get_height() // 6, 15, p2_colour)
     pygame.gfxdraw.filled_circle(screen, screen.get_width() // 3,
                                     5 * screen.get_height() // 6, 15, p2_colour)
-    
+
     pygame.display.update()
 
     return click_able
@@ -274,11 +277,9 @@ def start_settings() -> None:
                     draw_settings()
                 elif click_able["d"].collidepoint(mouse):
                     board_lines_colour = a.get_at((mouse[0] - 682, mouse[1] - 652))
-                    draw_settings()                    
+                    draw_settings()
                 elif click_able["back"].collidepoint(mouse):
                     game_state = 0
-
-                    
 
 
 def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
@@ -291,48 +292,33 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     """
     click_able = {}
     # fill menu background colour
-    screen.fill((0, 0, 0))
+    screen.fill((15, 82, 87))
 
-    game_font = pygame.font.SysFont("Arial",
+    game_font = pygame.font.SysFont("Agency FB",
                                     int(screen.get_width() / 30),
-                                    True, False)
+                                    False, False)
 
-    # create a rectangle on the screen
-    pygame.draw.rect(screen, board_lines_colour,
-                     ((WIDTH // 4) - 10, ((HEIGHT - (WIDTH // 2)) // 2) - 10,
-                      (WIDTH // 2) + 20, (WIDTH // 2) + 20))
-    abc = game_board.dimension
-    # draw and store board boundaries
-    for x in range(abc):
-        for y in range(abc):
-            RECTANGLES[(x, y)] = \
-                pygame.draw.rect(screen, board_colour, (int((WIDTH / 4) + x * (WIDTH / (2 * DIMENSION))), int(((HEIGHT - (WIDTH / 2)) / 2) + y * (WIDTH / (2 * DIMENSION))), int((WIDTH / (2 * DIMENSION)) - 1), int((WIDTH / (2 * DIMENSION)) - 1)))
+    inst_font = pygame.font.SysFont("Agency FB",
+                                    int(screen.get_width() / 45),
+                                    False, False)
 
-    # tie colour to players
-    player1_colour = player1.colour
-    player2_colour = player2.colour
-    # draw tiles to board
+    # Variables needed for default board
+    x = (WIDTH // 2) - ((rect_size//2+(border//2)) * DIMENSION)
+    y = (HEIGHT // 2) - ((rect_size//2+(border//2)) * DIMENSION)
+    counter = 0
+    global r_d
 
-    for a in range(game_board.dimension):
-        for b in range(game_board.dimension):
-            if game_board.get_piece(a, b) == player1.name:
-                pygame.gfxdraw.aacircle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
-                                        player1_colour)
-                pygame.gfxdraw.filled_circle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
-                                        player1_colour)
-                
-            elif game_board.get_piece(a, b) == player2.name:
-                pygame.gfxdraw.aacircle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
-                                        player2_colour)
-                pygame.gfxdraw.filled_circle(screen, RECTANGLES[(a, b)].center[0],
-                                        RECTANGLES[(a, b)].center[1], int((WIDTH / (2 * DIMENSION)) - 1) // 2,
-                                        player2_colour)
+    # Creates a default visual board
+    for row in range(game_board.dimension):
+        for column in range(game_board.dimension):
+            rect = pygame.draw.rect(screen, board_colour, (x, y, rect_size, rect_size))
+            r_d[(row, column)] = rect
+            counter += 1
+            x += rect_size + border
+        y += rect_size + border
+        x = (WIDTH // 2) - ((rect_size//2+(border//2)) * DIMENSION)
 
-                
-    save_game = game_font.render("Save Game", True, (0, 0, 255), None)
+    save_game = game_font.render("Save Game", True, (107, 133, 255), None)
     save_game_surface = save_game.get_rect()
     save_game_surface.center = (5.25 * screen.get_width() // 6,
                                 2.5 * screen.get_height() // 6)
@@ -340,7 +326,7 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     screen.blit(save_game, save_game_surface)
     click_able["Save Game"] = save_game_surface
 
-    load_game = game_font.render("Load Game", True, (0, 0, 255), None)
+    load_game = game_font.render("Load Game", True, (107, 133, 255), None)
     load_game_surface = load_game.get_rect()
     load_game_surface.center = (5.25 * screen.get_width() // 6,
                                 3.5 * screen.get_height() // 6)
@@ -348,24 +334,40 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     screen.blit(load_game, load_game_surface)
     click_able["Load Game"] = load_game_surface
 
-    restart = game_font.render("Restart", True, (0, 0, 255), None)
-    restart_surface = load_game.get_rect()
-    restart_surface.center = (5.25 * screen.get_width() // 6,
-                                5.5 * screen.get_height() // 6)
+    game_over = game_font.render("Winner: ", True,
+                                      (107, 133, 255), None)
+    game_over_surface = game_over.get_rect()
+    game_over_surface.center = (0.4 * screen.get_width() // 6,
+                                2.5 * screen.get_height() // 6)
+    screen.blit(game_over, game_over_surface)
 
-    screen.blit(restart, restart_surface)
-    click_able["Restart"] = restart_surface
+    instructions = inst_font.render('"M" = Menu | "R" = Reset', True,
+                                 (107, 133, 255), None)
+    instructions_surface = instructions.get_rect()
+    instructions_surface.center = (0.68 * screen.get_width() // 6,
+                                3.5 * screen.get_height() // 6)
+    screen.blit(instructions, instructions_surface)
 
-    winner = game_font.render("Winner:", True, (0, 0, 255), None)
-    winner_surface = load_game.get_rect()
-    winner_surface.center = (5.25 * screen.get_width() // 6,
-                                4.5 * screen.get_height() // 6)
-    screen.blit(winner, winner_surface)
-    
     # update screen
     pygame.display.update()
 
     return click_able
+
+
+def update(row, col, game, player):
+    rect = r_d[(row, col)]
+    if player == game.player1:
+        pygame.gfxdraw.aacircle(screen, rect.center[0], rect.center[1],
+                                rect_size // 2, p1_colour)
+        pygame.gfxdraw.filled_circle(screen, rect.center[0], rect.center[1],
+                                     rect_size // 2, p1_colour)
+    elif player == game.player2:
+        pygame.gfxdraw.aacircle(screen, rect.center[0], rect.center[1],
+                                rect_size // 2, p2_colour)
+        pygame.gfxdraw.filled_circle(screen, rect.center[0], rect.center[1],
+                                     rect_size // 2, p2_colour)
+
+    pygame.display.update()
 
 
 def start_game()->None:
@@ -375,6 +377,7 @@ def start_game()->None:
     :return:
     """
     global game_mode
+    global game_state
     new_game = set_up_game()
     new_game.player1.set_colour(p1_colour)
     new_game.player2.set_colour(p2_colour)
@@ -382,20 +385,24 @@ def start_game()->None:
     while game_state == 1:
         # check for mouse clicks
         for event in pygame.event.get():
-            # user exits via builtin close button
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    start_game()
+                if event.key == pygame.K_m:
+                    game_state = 0
             if not new_game.is_game_over():
                 if pygame.mouse.get_pressed()[0] and \
                         isinstance(new_game.whose_turn(), Human):
                     mouse_position = pygame.mouse.get_pos()
-                    for i in RECTANGLES:
-                        if RECTANGLES[i].collidepoint(mouse_position):
-                            if not new_game.is_game_over():
+                    for i in r_d:
+                        if r_d[i].collidepoint(mouse_position):
+                            if not new_game.is_game_over() and \
+                                    new_game.board.is_empty(i[0], i[1]):
                                 new_game.make_move(i[0], i[1])
-                                draw_game(new_game.board, new_game.player1,
-                                          new_game.player2)
+                                update(i[0], i[1], new_game, new_game.whose_turn())
                     if click_able["Save Game"].collidepoint(mouse_position):
                         with open('objs.pickle', 'wb') as f:
                             pickle.dump([new_game.board, new_game.player1, new_game.player2], f)
@@ -404,63 +411,31 @@ def start_game()->None:
                         with open('objs.pickle', 'rb') as f:
                             new_game.board, new_game.player1, new_game.player2 = pickle.load(f)
                         draw_game(new_game.board, new_game.player1, new_game.player2)
-                    elif click_able["Restart"].collidepoint(mouse_position):
-                        with open('restart.pickle', 'rb') as f:
-                            new_game.board, new_game.player1, new_game.player2 = pickle.load(f)
-                        draw_game(new_game.board, new_game.player1, new_game.player2)
                 # AI's Turn
                 elif new_game.whose_turn() == new_game.player2 and \
                         not isinstance(new_game.player2, Human):
                     if not new_game.is_game_over():
                         x, y = new_game.player2.get_move()
                         new_game.make_move(x, y)
-                        draw_game(new_game.board, new_game.player1,
-                                  new_game.player2)
-                if new_game.is_game_over():
-                    game_end(new_game.who_goes_next())
+                        update(x, y, new_game, new_game.whose_turn())
+            else:
+                game_font = pygame.font.SysFont("Agency FB",
+                                                int(screen.get_width() / 30),
+                                                False, False)
+                game_over = game_font.render(new_game.who_goes_next().name, True,
+                                             (57, 255, 20), None)
+                game_over_surface = game_over.get_rect()
+                game_over_surface.center = (screen.get_width() // 6,
+                                            2.5 * screen.get_height() // 6)
+                screen.blit(game_over, game_over_surface)
 
-
-def game_end(player: Player):
-    game_over_font = pygame.font.SysFont("Arial",
-                                         int(screen.get_width() / 20),
-                                         True, False)
-    instruction_font = pygame.font.SysFont("Arial",
-                                           int(screen.get_width() / 40),
-                                           True, False)
-    # game over text
-    game_over = game_over_font.render(player.name + " won!", True,
-                                      (0, 0, 255), None)
-    game_over_surface = game_over.get_rect()
-    game_over_surface.center = (screen.get_width() // 2,
-                                screen.get_height() // 2)
-    screen.blit(game_over, game_over_surface)
-
-    # Instructions
-    instruction = instruction_font.render('"R" = Restart',
-                                          True, (0, 0, 255), None)
-    instruction_surface = instruction.get_rect()
-    instruction_surface.center = (screen.get_width() // 2,
-                                  3 * screen.get_height() // 4)
-    screen.blit(instruction, instruction_surface)
-
-    # update screen
-    pygame.display.update()
-
-    global game_state
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.display.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    start_game()
+                pygame.display.update()
 
 
 if __name__ == "__main__":
     # import python_ta
     # python_ta.check_all()
-    screen = pygame.display.set_mode([WIDTH, HEIGHT])
+    screen = pygame.display.set_mode([WIDTH, HEIGHT], pygame.FULLSCREEN)
     pygame.display.set_caption("Connect 5")
     while 1:
         # menu state
