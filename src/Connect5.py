@@ -70,14 +70,14 @@ def draw_menu()->dict:
                                     False, False)
 
     # menu title text
-    title = title_font.render("Connect 5", True, (255, 7, 58), None)
+    title = title_font.render("Connect 5", True, (252, 17, 17), None)
     title_surface = title.get_rect()
     title_surface.center = (screen.get_width() // 2,
                             screen.get_height() // 6)
     screen.blit(title, title_surface)
 
     # menu play game text
-    play_game = game_font.render("Play Game", True, (107, 133, 255), None)
+    play_game = game_font.render("Play Game", True, (121, 247, 241), None)
     play_game_surface = play_game.get_rect()
     play_game_surface.center = (screen.get_width() // 2,
                                 2 * screen.get_height() // 6)
@@ -85,7 +85,7 @@ def draw_menu()->dict:
     click_able["play"] = play_game_surface
 
     # menu exit game text
-    exit_game = game_font.render("Exit Game", True, (107, 133, 255), None)
+    exit_game = game_font.render("Exit Game", True, (121, 247, 241), None)
     exit_game_surface = exit_game.get_rect()
     exit_game_surface.center = (screen.get_width() // 2,
                                 3 * screen.get_height() // 6)
@@ -95,16 +95,16 @@ def draw_menu()->dict:
     # game mode text
     if game_mode == 0:
         game_mode_text = game_font.render("Player vs Player", True,
-                                          (107, 133, 255), None)
+                                          (121, 247, 241), None)
     elif game_mode == 1:
         game_mode_text = game_font.render("Player vs AI(Easy)", True,
-                                          (107, 133, 255), None)
+                                          (121, 247, 241), None)
     elif game_mode == 2:
         game_mode_text = game_font.render("Player vs AI(Medium)", True,
-                                          (107, 133, 255), None)
+                                          (121, 247, 241), None)
     else:
         game_mode_text = game_font.render("Player vs AI(Hard)", True,
-                                          (107, 133, 255), None)
+                                          (121, 247, 241), None)
     game_mode_surface_text = game_mode_text.get_rect()
     game_mode_surface_text.center = (screen.get_width() // 2,
                                      4 * screen.get_height() // 6)
@@ -112,7 +112,7 @@ def draw_menu()->dict:
     click_able["mode"] = game_mode_surface_text
 
     #settings text
-    settings_game = game_font.render("Settings", True, (107, 133, 255), None)
+    settings_game = game_font.render("Settings", True, (121, 247, 241), None)
     settings_game_surface = settings_game.get_rect()
     settings_game_surface.center = (screen.get_width() // 2,
                                 5 * screen.get_height() // 6)
@@ -171,32 +171,32 @@ def draw_settings() -> dict:
                                     int(screen.get_width() / 30),
                                     False, False)
 
-    back = game_font.render("Back to main menu", True, (107, 133, 255), None)
+    back = game_font.render("Back to main menu", True, (121, 247, 241), None)
     back_surface = back.get_rect()
     back_surface.center = (screen.get_width() // 6,
                            screen.get_height() // 6)
     screen.blit(back, back_surface)
     click_able["back"] = back_surface
 
-    p1 = game_font.render("Pick player1's colour!", True, (107, 133, 255), None)
+    p1 = game_font.render("Pick player1's colour!", True, (121, 247, 241), None)
     p1_surface = p1.get_rect()
     p1_surface.center = (screen.get_width() // 6,
                            4 * screen.get_height() // 6)
     screen.blit(p1, p1_surface)
 
-    p2 = game_font.render("Pick player2's colour!", True, (107, 133, 255), None)
+    p2 = game_font.render("Pick player2's colour!", True, (121, 247, 241), None)
     p2_surface = p2.get_rect()
     p2_surface.center = (screen.get_width() // 6,
                            5 * screen.get_height() // 6)
     screen.blit(p2, p2_surface)
 
-    board = game_font.render("Pick the board's colour!", True, (107, 133, 255), None)
+    board = game_font.render("Pick the board's colour!", True, (121, 247, 241), None)
     board_surface = board.get_rect()
     board_surface.center = (4.1 * screen.get_width() // 6,
                            4 * screen.get_height() // 6)
     screen.blit(board, board_surface)
 
-    board = game_font.render("Pick the board line's colour!", True, (107, 133, 255), None)
+    board = game_font.render("Pick the board line's colour!", True, (121, 247, 241), None)
     board_surface = board.get_rect()
     board_surface.center = (4.25 * screen.get_width() // 6,
                            5 * screen.get_height() // 6)
@@ -368,7 +368,7 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
         y += rect_size + border
         x = (WIDTH // 2) - ((rect_size//2+(border//2)) * DIMENSION)
 
-    save_game = game_font.render("Save Game", True, (107, 133, 255), None)
+    save_game = game_font.render("Save Game", True, (121, 247, 241), None)
     save_game_surface = save_game.get_rect()
     save_game_surface.center = (5.25 * screen.get_width() // 6,
                                 2.5 * screen.get_height() // 6)
@@ -376,7 +376,7 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     screen.blit(save_game, save_game_surface)
     click_able["Save Game"] = save_game_surface
 
-    load_game = game_font.render("Load Game", True, (107, 133, 255), None)
+    load_game = game_font.render("Load Game", True, (121, 247, 241), None)
     load_game_surface = load_game.get_rect()
     load_game_surface.center = (5.25 * screen.get_width() // 6,
                                 3.5 * screen.get_height() // 6)
@@ -385,14 +385,14 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     click_able["Load Game"] = load_game_surface
 
     game_over = game_font.render("Winner: ", True,
-                                      (107, 133, 255), None)
+                                      (121, 247, 241), None)
     game_over_surface = game_over.get_rect()
     game_over_surface.center = (0.4 * screen.get_width() // 6,
                                 2.5 * screen.get_height() // 6)
     screen.blit(game_over, game_over_surface)
 
     instructions = inst_font.render('"M" = Menu | "R" = Reset', True,
-                                 (107, 133, 255), None)
+                                 (121, 247, 241), None)
     instructions_surface = instructions.get_rect()
     instructions_surface.center = (0.68 * screen.get_width() // 6,
                                 3.5 * screen.get_height() // 6)
@@ -468,7 +468,7 @@ def start_game()->None:
                         x, y = new_game.player2.get_move()
                         new_game.make_move(x, y)
                         update(x, y, new_game, new_game.whose_turn())
-            else:
+            if new_game.is_game_over():
                 game_font = pygame.font.SysFont("Agency FB",
                                                 int(screen.get_width() / 30),
                                                 False, False)
@@ -480,7 +480,6 @@ def start_game()->None:
                 screen.blit(game_over, game_over_surface)
 
                 pygame.display.update()
-
 
 if __name__ == "__main__":
     # import python_ta
