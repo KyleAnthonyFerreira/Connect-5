@@ -1,4 +1,4 @@
-from src.Board import Board
+from Board import Board
 import random
 
 
@@ -76,68 +76,89 @@ class HardAI(Player):
         self.colour = (255, 65, 65)
 
     def get_move(self):
-        return self.eval()
+        temp = self.eval()
+        return temp[0], temp[1]
 
     def eval(self) -> (int, int):
+        # print(self.name) == Player 2
+        number_of_pieces = 0
         self_eval = {}
         opponent_eval = {}
-
         for i in range(self.board.dimension):
             for j in range(self.board.dimension):
                 if not self.board.is_empty(i, j):
-                    for a in range(3):
-                        for b in range(3):
-                            c = 0
-                            temp_eval = 0
-                            stop = False
-                            key = self.board.get_piece(i, j)
-                            while not stop:
-                                piece_at_tile = self.board.get_piece(i + (a - 1)*c, j + (b - 1)*c)
+                    if self.board.get_piece(i, j) == self.name:
+                        number_of_pieces += 1
+                        for a in range(-1, 2):
+                            for b in range(-1, 2):
+                                # - self eval
+                                temp = self.board.sum_in_line(self.name, i, j, a, b)
+                                if temp[0] != -1:
+                                    if len(self_eval) > 0:
+                                        exists = False
+                                        for x in self_eval:
+                                            if x == (temp[0], temp[1]):
+                                                exists = True
+                                                break
+                                        if exists:
+                                            self_eval[(temp[0]), (temp[1])] += temp[2]
 
-                                if not self.board.is_valid(i, j) or key != piece_at_tile:
-                                    stop = True
-                                elif self.board.is_empty(i + (a - 1) * c, j + (b - 1) * c):
-                                    # Can make a move at (i+(a-1)*c, j+(b-1)*c)
-
-                                    # Will check to see if the (i+(a-1)*c+1, j+(b-1)*c+1) tile is occupied by the AI
-                                    # or the player, if it's occupied by the AI, then the eval will raise,
-                                    # if it's occupied by the player, the eval becomes more tricky
-
-                                    # Already will check if (i+(a-1)*c+1, j+(b-1)*c+1) is occupied by self, may add
-                                    # more cases to increase IQ
-                                    if key == self.name:
-                                        self_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_eval
+                                        else:
+                                            self_eval[(temp[0]), (temp[1])] = temp[2]
                                     else:
-                                        opponent_eval[(i + (a - 1) * c, j + (b - 1) * c)] += temp_eval
-                                    stop = True
-                                else:
-                                    c += 1
-                                    temp_eval += 1
+                                        self_eval[(temp[0]), (temp[1])] = temp[2]
+                                # - end of self eval
 
-        # Sort through the data and make a move
-        self_score = -1
-        self_position = (int(self.dimension - 1)/2, int(self.dimension - 1)/2)
-        for position, value in self_eval.items():
-            if value > self_score:
-                self_score = value
-                self_position = position
-        opponent_score = -1
-        opponent_position = (-1, -1)
-        for position, value in opponent_eval.items():
-            if value > self_score:
-                opponent_score = value
-                opponent_position = position
+                                # - opp eval
+                                temp = self.board.inverted_sum_in_line(self.name, i, j, a, b)
+                                if temp[0] != -1:
+                                    if len(opponent_eval) > 0:
+                                        exists = False
+                                        for x in opponent_eval:
+                                            if x == (temp[0], temp[1]):
+                                                exists = True
+                                                break
+                                        if exists:
+                                            opponent_eval[(temp[0]), (temp[1])] += temp[2]
+                                        else:
+                                            opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                                    else:
+                                        opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                                # - end of opp eval
+        # Handles 1st move by AI
+        if number_of_pieces < 1:
+            while True:
+                x = random.randint(int(self.board.dimension / 2) - 1, int(self.board.dimension / 2) + 1)
+                y = random.randint(int(self.board.dimension / 2) - 1, int(self.board.dimension / 2) + 1)
+                temp = (x, y)
+                if self.board.is_empty(x, y):
+                    print("MOVE")
+                    print(temp)
+                    return temp
+        else:
+            max = 0
+            temp_move = -1, -1
+            for x in self_eval:
+                if self_eval[x] >= max:
+                    max = self_eval[x]
+                    temp_move = x
 
-        # logic to return a good move
-        if self_score >= 4:
-            return self_position
-        if opponent_score >= 4:
-            return opponent_position
-        if opponent_score > self_score:
-            return opponent_position
-        return self_position
+            if max >= 4:
+                return temp_move
+            else:
+                max_op = 0
+                temp_move_op = -1, -1
+                for x in opponent_eval:
+                    if opponent_eval[x] >= max_op:
+                        max_op = opponent_eval[x]
+                        temp_move_op = x
 
+            if max >= max_op:
+                return temp_move
+            else:
+                return temp_move_op
 
+            return temp_move
 
 
 
