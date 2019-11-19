@@ -16,8 +16,8 @@ from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
 
 pygame.init()
-WIDTH = int(pygame.display.Info().current_w)
-HEIGHT = int(pygame.display.Info().current_h)
+WIDTH = int(pygame.display.Info().current_w // 1.5)
+HEIGHT = int(pygame.display.Info().current_h // 1.5)
 DIMENSION = 19
 RECTANGLES = {}
 settings_grid = {}
@@ -202,6 +202,29 @@ def draw_settings() -> dict:
                            5 * screen.get_height() // 6)
     screen.blit(board, board_surface)
 
+    windowed = game_font.render("Windowed", True, (107, 133, 255), None)
+    windowed_surface = windowed.get_rect()
+    screen.blit(windowed, windowed_surface)
+    click_able["windowed"] = windowed_surface
+
+    fullscreen = game_font.render("Fullscreen", True, (107, 133, 255), None)
+    fullscreen_surface = fullscreen.get_rect()
+    fullscreen_surface.center = (screen.get_width() // 6,
+                           30)
+    screen.blit(fullscreen, fullscreen_surface)
+    click_able["fullscreen"] = fullscreen_surface
+
+    default = game_font.render("Default", True, (107, 133, 255), None)
+    default_surface = default.get_rect()
+    default_surface.center = (screen.get_width() // 2,
+                           screen.get_height() // 2)
+    screen.blit(default, default_surface)
+    click_able["default"] = default_surface
+
+
+
+    
+
     a_surface = a.get_rect()
     a_surface.center = (screen.get_width() // 4,
                            4.5 * screen.get_height() // 6)
@@ -280,7 +303,33 @@ def start_settings() -> None:
                     draw_settings()
                 elif click_able["back"].collidepoint(mouse):
                     game_state = 0
-
+                elif click_able["default"].collidepoint(mouse):
+                    p1_colour = (255, 255, 255)
+                    p2_colour = (0, 0, 0)
+                    board_colour = (121, 122, 125)
+                    draw_settings()
+                elif click_able["windowed"].collidepoint(mouse):
+                    screen = pygame.display.set_mode([WIDTH, HEIGHT])
+                    # menu state
+                    if game_state == 0:
+                        start_menu()
+                    # game state
+                    elif game_state == 1:
+                        start_game()
+                    # settings state
+                    elif game_state == 2:
+                        start_settings()
+                elif click_able["fullscreen"].collidepoint(mouse):
+                    screen = pygame.display.set_mode([WIDTH, HEIGHT], pygame.FULLSCREEN)
+                    # menu state
+                    if game_state == 0:
+                        start_menu()
+                    # game state
+                    elif game_state == 1:
+                        start_game()
+                    # settings state
+                    elif game_state == 2:
+                        start_settings()
 
 def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     """
