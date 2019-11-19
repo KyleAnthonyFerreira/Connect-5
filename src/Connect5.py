@@ -16,8 +16,8 @@ from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
 
 pygame.init()
-WIDTH = int(pygame.display.Info().current_w // 1.5)
-HEIGHT = int(pygame.display.Info().current_h // 1.5)
+WIDTH = int(pygame.display.Info().current_w)
+HEIGHT = int(pygame.display.Info().current_h)
 DIMENSION = 19
 RECTANGLES = {}
 settings_grid = {}
@@ -196,34 +196,12 @@ def draw_settings() -> dict:
                            4 * screen.get_height() // 6)
     screen.blit(board, board_surface)
 
-    board = game_font.render("Pick the board line's colour!", True, (121, 247, 241), None)
-    board_surface = board.get_rect()
-    board_surface.center = (4.25 * screen.get_width() // 6,
-                           5 * screen.get_height() // 6)
-    screen.blit(board, board_surface)
-
-    windowed = game_font.render("Windowed", True, (107, 133, 255), None)
-    windowed_surface = windowed.get_rect()
-    screen.blit(windowed, windowed_surface)
-    click_able["windowed"] = windowed_surface
-
-    fullscreen = game_font.render("Fullscreen", True, (107, 133, 255), None)
-    fullscreen_surface = fullscreen.get_rect()
-    fullscreen_surface.center = (screen.get_width() // 6,
-                           30)
-    screen.blit(fullscreen, fullscreen_surface)
-    click_able["fullscreen"] = fullscreen_surface
-
-    default = game_font.render("Default", True, (107, 133, 255), None)
+    default = game_font.render("Default Settings", True, (121, 247, 241), None)
     default_surface = default.get_rect()
-    default_surface.center = (screen.get_width() // 2,
-                           screen.get_height() // 2)
+    default_surface.center = (3.85 * screen.get_width() // 6,
+                           5 * screen.get_height() // 6)
     screen.blit(default, default_surface)
     click_able["default"] = default_surface
-
-
-
-    
 
     a_surface = a.get_rect()
     a_surface.center = (screen.get_width() // 4,
@@ -242,12 +220,6 @@ def draw_settings() -> dict:
                            4.5 * screen.get_height() // 6)
     screen.blit(a, c_surface)
     click_able["c"] = c_surface
-
-    d_surface = a.get_rect()
-    d_surface.center = (3 * screen.get_width() // 4,
-                           5.5 * screen.get_height() // 6)
-    screen.blit(a, d_surface)
-    click_able["d"] = d_surface
 
     pygame.draw.rect(screen, board_lines_colour, (int((2.5 * WIDTH) / 4) - 1, int(HEIGHT / 3.5) - 1, 5 * int(WIDTH / (32)) + 1, 5 * int(WIDTH / (32)) + 1))
 
@@ -269,6 +241,7 @@ def draw_settings() -> dict:
     pygame.display.update()
 
     return click_able
+
 
 def start_settings() -> None:
     # update screen
@@ -298,9 +271,6 @@ def start_settings() -> None:
                 elif click_able["c"].collidepoint(mouse):
                     board_colour = a.get_at((mouse[0] - int((3 * WIDTH // 4) - 278), mouse[1] - int(4.5 * (HEIGHT // 6) - 8)))
                     draw_settings()
-                elif click_able["d"].collidepoint(mouse):
-                    board_lines_colour = a.get_at((mouse[0] - int((3 * WIDTH // 4) - 278), mouse[1] - int(5.5 * (HEIGHT // 6) - 8)))
-                    draw_settings()
                 elif click_able["back"].collidepoint(mouse):
                     game_state = 0
                 elif click_able["default"].collidepoint(mouse):
@@ -308,28 +278,7 @@ def start_settings() -> None:
                     p2_colour = (0, 0, 0)
                     board_colour = (121, 122, 125)
                     draw_settings()
-                elif click_able["windowed"].collidepoint(mouse):
-                    screen = pygame.display.set_mode([WIDTH, HEIGHT])
-                    # menu state
-                    if game_state == 0:
-                        start_menu()
-                    # game state
-                    elif game_state == 1:
-                        start_game()
-                    # settings state
-                    elif game_state == 2:
-                        start_settings()
-                elif click_able["fullscreen"].collidepoint(mouse):
-                    screen = pygame.display.set_mode([WIDTH, HEIGHT], pygame.FULLSCREEN)
-                    # menu state
-                    if game_state == 0:
-                        start_menu()
-                    # game state
-                    elif game_state == 1:
-                        start_game()
-                    # settings state
-                    elif game_state == 2:
-                        start_settings()
+
 
 def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     """
@@ -357,7 +306,6 @@ def draw_game(game_board: Board, player1: Player, player2: Player)->dict:
     counter = 0
     global r_d
 
-    #pygame.draw.rect(screen, board_lines_colour, (x - 15, y - 15,rect_size * DIMENSION + DIMENSION * 5 + 30,rect_size * DIMENSION + DIMENSION * 5 + 30))
     # Creates a default visual board
     for row in range(game_board.dimension):
         for column in range(game_board.dimension):
@@ -480,6 +428,7 @@ def start_game()->None:
                 screen.blit(game_over, game_over_surface)
 
                 pygame.display.update()
+
 
 if __name__ == "__main__":
     # import python_ta
