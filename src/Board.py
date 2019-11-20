@@ -95,10 +95,13 @@ class Board:
         else:
             return -1, -1
 
-    def has_connect5(self, player) -> bool:
-        if self._connectN(player) >= 5:
-            return True
-        return False
+    def has_connect5(self, player1, player2):
+        if self._connectN(player1) >= 5:
+            return player1.name
+        elif self._connectN(player2) >= 5:
+            return player2.name
+        else:
+            return ""
 
     def _connectN(self, player) -> int:
         """
@@ -114,7 +117,7 @@ class Board:
                         max_value = temp
         return max_value
 
-    def sum_in_line(self, player, i, j, a, b) -> (int, int,int):
+    def sum_in_line(self, player, i, j, a, b) -> (int, int, int):
         x = 0
         y = 0
         sum = 0
@@ -123,18 +126,18 @@ class Board:
             return -1, -1, -1
 
         while True:
-            if self.is_valid(i+x, j+y):
-                if self.get_piece(i+x, j+y) == player:
+            if self.is_valid(i + x, j + y):
+                if self.get_piece(i + x, j + y) == player:
                     sum += 1
-                elif self.is_empty(i+x, j+y):
-                    return int(i+x), int(j+y), int(sum)
+                elif self.is_empty(i + x, j + y):
+                    return int(i + x), int(j + y), int(sum)
             else:
-                return -1,-1,-1
+                return -1, -1, -1
             x = x + a
             y = y + b
-        return -1,-1,-1
+        return -1, -1, -1
 
-    def inverted_sum_in_line(self, player, i, j, a, b) -> (int, int,int):
+    def inverted_sum_in_line(self, player, i, j, a, b) -> (int, int, int):
         x = 0
         y = 0
         sum = 0
@@ -143,16 +146,16 @@ class Board:
             return -1, -1, -1
 
         while True:
-            if self.is_valid(i+x, j+y):
-                if self.is_empty(i+x, j+y):
-                    return int(i+x), int(j+y), int(sum)
-                elif self.get_piece(i+x, j+y) != player:
+            if self.is_valid(i + x, j + y):
+                if self.is_empty(i + x, j + y):
+                    return int(i + x), int(j + y), int(sum)
+                elif self.get_piece(i + x, j + y) != player:
                     sum += 1
             else:
-                return -1,-1,-1
+                return -1, -1, -1
             x = x + a
             y = y + b
-        return -1,-1,-1
+        return -1, -1, -1
 
     def connectX(self, player, i, j) -> int:
         """
@@ -169,7 +172,9 @@ class Board:
             b = -1
             while b < 2:
                 if self.is_valid(i + (a * c), j + (b * c)):
-                    if self.get_piece(i + (a * c), j + (b * c)) == player.name and not (a == 0 and b == 0):
+                    if self.get_piece(i + (a * c),
+                                      j + (b * c)) == player.name and not (
+                            a == 0 and b == 0):
                         sum += 1
                     else:
                         c = 0
@@ -199,7 +204,10 @@ class Board:
             b = -1
             while b < 2:
                 if self.is_valid(i + (a * c), j + (b * c)):
-                    if self.get_piece(i + (a * c), j + (b * c)) != player.name and not (a == 0 and b == 0 and self.is_empty(i + (a * c), j + (b * c))):
+                    if self.get_piece(i + (a * c),
+                                      j + (b * c)) != player.name and not (
+                            a == 0 and b == 0 and self.is_empty(i + (a * c),
+                                                                j + (b * c))):
                         sum += 1
                     else:
                         c = 0
