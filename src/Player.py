@@ -80,7 +80,6 @@ class HardAI(Player):
         return temp[0], temp[1]
 
     def eval(self) -> (int, int):
-        # print(self.name) == Player 2
         number_of_pieces = 0
         self_eval = {}
         opponent_eval = {}
@@ -101,14 +100,20 @@ class HardAI(Player):
                                                 exists = True
                                                 break
                                         if exists:
-                                            self_eval[(temp[0]), (temp[1])] += temp[2]
-
+                                            current_val = self_eval[(temp[0]), (temp[1])]
+                                            new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b)) + temp[2]
+                                            if current_val < new_val:
+                                                self_eval[(temp[0]), (temp[1])] = new_val
                                         else:
                                             self_eval[(temp[0]), (temp[1])] = temp[2]
+                                            self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b)
                                     else:
                                         self_eval[(temp[0]), (temp[1])] = temp[2]
+                                        self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b)
                                 # - end of self eval
-
+                    else:
+                        for a in range(-1, 2):
+                            for b in range(-1, 2):
                                 # - opp eval
                                 temp = self.board.inverted_sum_in_line(self.name, i, j, a, b)
                                 if temp[0] != -1:
@@ -119,46 +124,77 @@ class HardAI(Player):
                                                 exists = True
                                                 break
                                         if exists:
-                                            opponent_eval[(temp[0]), (temp[1])] += temp[2]
+                                            current_val = opponent_eval[(temp[0]), (temp[1])]
+                                            new_val = (self.board.inverted_other_direction(self.name, i, j, 1 * a, 1 * b)) + temp[2]
+                                            if current_val < new_val:
+                                                opponent_eval[(temp[0]), (temp[1])] = new_val
                                         else:
                                             opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                                            opponent_eval[(temp[0]), (temp[1])] += self.board.inverted_other_direction(self.name, i, j, 1 * a, 1 * b)
                                     else:
                                         opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                                        opponent_eval[(temp[0]), (temp[1])] += self.board.inverted_other_direction(self.name, i, j, 1 * a, 1 * b)
                                 # - end of opp eval
         # Handles 1st move by AI
         if number_of_pieces < 1:
             while True:
                 x = random.randint(int(self.board.dimension / 2) - 1, int(self.board.dimension / 2) + 1)
                 y = random.randint(int(self.board.dimension / 2) - 1, int(self.board.dimension / 2) + 1)
-                temp = (x, y)
+                move = (x, y)
                 if self.board.is_empty(x, y):
-                    print("MOVE")
-                    print(temp)
-                    return temp
+                    return move
+
         else:
-            max = 0
-            temp_move = -1, -1
+            # check for forced moves
+            # find the max eval for both players in case there aren't any forced moves
+            self_max = 0
+            opponent_max = 0
             for x in self_eval:
-                if self_eval[x] >= max:
-                    max = self_eval[x]
-                    temp_move = x
+                if self_eval[x] > self_max:
+                    self_max = self_eval[x]
+                if self_eval[x] > 4:
+                    return x
+            forced_blocks = {}
+            for y in opponent_eval:
+                if opponent_eval[y] > opponent_max:
+                    opponent_max = opponent_eval[y]
+                if opponent_eval[y] >= 3:
+                    forced_blocks[y] = opponent_eval[y]
+            if len(forced_blocks) > 0:
+                for x in forced_blocks:
+                    if forced_blocks[x] == opponent_max:
+                        return x
+            q = self_eval.copy()
+            w = opponent_eval.copy()
+            for x in q:
+                if q[x] < self_max:
+                    self_eval.pop(x)
+            for y in w:
+                if w[y] < opponent_max:
+                    opponent_eval.pop(y)
 
-            if max >= 4:
-                return temp_move
+        shared_moves = {}
+        for x in self_eval:
+            for y in opponent_eval:
+                if x == y:
+                    shared_moves[x] = self_eval[x], opponent_eval[x]
+        if len(shared_moves) > 0:
+            for x in shared_moves:
+                temp = shared_moves[x]
+                if temp[0] == self_max and temp[1] == opponent_max:
+                    return x
+        else:
+            if self_max > opponent_max:
+                # pick the attacking move that is closest to the centre
+                move = -1, -1
+                move_distance = 999
+                for x in self_eval:
+                    distance = (((x[0] + move[0])*(x[0] + move[0]) + (x[1] + move[1])*(x[1] + move[1]))*0.5)
+                    if move_distance > distance:
+                        move_distance = distance
+                        move = x[0], x[1]
+                return move
             else:
-                max_op = 0
-                temp_move_op = -1, -1
                 for x in opponent_eval:
-                    if opponent_eval[x] >= max_op:
-                        max_op = opponent_eval[x]
-                        temp_move_op = x
-
-            if max >= max_op:
-                return temp_move
-            else:
-                return temp_move_op
-
-            return temp_move
-
-
-
+                    if opponent_eval[x] == opponent_max:
+                        return x

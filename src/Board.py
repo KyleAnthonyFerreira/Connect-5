@@ -131,6 +131,8 @@ class Board:
                     sum += 1
                 elif self.is_empty(i + x, j + y):
                     return int(i + x), int(j + y), int(sum)
+                else:
+                    break
             else:
                 return -1, -1, -1
             x = x + a
@@ -149,8 +151,10 @@ class Board:
             if self.is_valid(i + x, j + y):
                 if self.is_empty(i + x, j + y):
                     return int(i + x), int(j + y), int(sum)
-                elif self.get_piece(i + x, j + y) != player:
+                elif self.get_piece(i + x, j + y) != player and not self.is_empty(i + x, j + y):
                     sum += 1
+                else:
+                    break
             else:
                 return -1, -1, -1
             x = x + a
@@ -221,3 +225,32 @@ class Board:
                 if sum >= max_value:
                     max_value = sum
         return max_value
+
+    def other_direction(self, player, i, j, a, b) -> int:
+        if a == 0 and b == 0:
+            return 0
+        sum = 0
+        c = 1
+        while True:
+            if self.is_valid(i+(a*c), j+(b*c)):
+                if self.get_piece(i+(a*c), j+(b*c)) == player:
+                    sum += 1
+                else:
+                    return sum
+                c += 1
+            return sum
+
+    def inverted_other_direction(self, player, i, j, a, b) -> int:
+        if a == 0 and b == 0:
+            return 0
+        sum = 0
+        c = 1
+        while True:
+            if self.is_valid(i+(a*c), j+(b*c)):
+                if self.get_piece(i+(a*c), j+(b*c)) != player and not self.is_empty(i+(a*c), j+(b*c)):
+                    sum += 1
+                else:
+                    return sum
+                c += 1
+            return sum
+

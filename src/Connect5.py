@@ -1,9 +1,7 @@
 """
 Connect 5 game!
-
 This file is what is run to pay connect 5. It will use data structures and
 information from other files to run in the __main__ function.
-
 @Author: Kyle Ferreira
 @Date: 2019/10/24
 """
