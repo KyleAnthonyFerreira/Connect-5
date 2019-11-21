@@ -37,16 +37,14 @@ class Game:
         :param player:
         :return: boolean
         """
-        if self.board.has_connect5(self.who_goes_next()):
-            return True
-        return False
+        return self.board.has_connect5(self.player1, self.player2)
 
     def is_game_over(self):
         """
         Determines whether or not the game is over.
         :return: boolean
         """
-        if self.is_winner():
+        if not self.is_winner() == "":
             return True
         else:
             for row in range(self.board.dimension):
