@@ -12,6 +12,9 @@ from pygame import gfxdraw
 from Board import Board
 from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
+import ctypes
+
+ctypes.windll.user32.SetProcessDPIAware()
 
 pygame.init()
 WIDTH = int(pygame.display.Info().current_w)
