@@ -45,10 +45,10 @@ TO-DO
 ## <a name="Authors"></a>Authors
 
 -	Shae Simeoni
--	Joshua
--	Kyle
--	Jule
--	Brandon
+-	Joshua Liam Pell Nelson
+-	Kyle Anthony Ferreira
+-	Jule Tran
+-	Brandon Mackel
 
 [Back to top](#top)
 
