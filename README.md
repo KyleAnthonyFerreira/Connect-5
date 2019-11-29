@@ -20,7 +20,13 @@ TO-DO
 
 ## <a name="feature"></a>How to Play
 
-TO-DO
+Connect 5 is a strategic turn based game played between two players. The main objective of this game is to create a linear line of five of your own peices before the other player does. This line can be horizontal, vertical, or diagonal. 
+
+In this game, the 'playing board' is layed down flat, and so, game play pieces can be positioned anywhere on the board as long as it is placed within the dimensions of the board, and if that coordinate is empty. 
+
+At your given turn, you can 'click' on a coordinate where you want to place your game piece. Once you place your piece down, it is the other player's turn to put down a piece. This pattern will continue until someone has won, or there if the board is completely filled. 
+
+Throughout the game, you can change the colour of your pieces, as well as the colour of your opponent's pieces through the colour change option which is located in the settings menu. 
 
 [Back to top](#top)
 
