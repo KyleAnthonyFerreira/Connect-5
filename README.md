@@ -63,3 +63,10 @@ TO-DO
 TO-DO
 
 [Back to top](#top)
+
+## <a name="Authors and Individual Contributions"></a>Authors
+
+-   Jule Tran
+    With respect to the coding aspect of this project, I was assigned to the Board class located within the file Board.py. This class contains the functions get_piece, set_piece, is_empty, has_connect5, and has_connect4, all of which I created and work on. However, when I was working on has_connect5 and has_connect4, both of them fail to work properly. As a result of this struggle, I had to pass on the finalization of these functions to my groupmates, so I cannot take credit for hte current form of those functions. Regarding the README portion of this project, I started and compelted the "How to Play" section.
+
+[Back to top](#top)
