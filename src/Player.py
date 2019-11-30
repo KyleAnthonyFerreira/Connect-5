@@ -91,49 +91,13 @@ class HardAI(Player):
                         for a in range(-1, 2):
                             for b in range(-1, 2):
                                 # - self eval
-                                temp = self.board.sum_in_line(self.name, i, j, a, b, False)
-                                if temp[0] != -1:
-                                    if len(self_eval) > 0:
-                                        exists = False
-                                        for x in self_eval:
-                                            if x == (temp[0], temp[1]):
-                                                exists = True
-                                                break
-                                        if exists:
-                                            current_val = self_eval[(temp[0]), (temp[1])]
-                                            new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)) + temp[2]
-                                            if current_val < new_val:
-                                                self_eval[(temp[0]), (temp[1])] = new_val
-                                        else:
-                                            self_eval[(temp[0]), (temp[1])] = temp[2]
-                                            self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
-                                    else:
-                                        self_eval[(temp[0]), (temp[1])] = temp[2]
-                                        self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
+                                self._self_evaluation(self_eval, i, j, a, b)
                                 # - end of self eval
                     else:
                         for a in range(-1, 2):
                             for b in range(-1, 2):
                                 # - opp eval
-                                temp = self.board.sum_in_line(self.name, i, j, a, b, True)
-                                if temp[0] != -1:
-                                    if len(opponent_eval) > 0:
-                                        exists = False
-                                        for x in opponent_eval:
-                                            if x == (temp[0], temp[1]):
-                                                exists = True
-                                                break
-                                        if exists:
-                                            current_val = opponent_eval[(temp[0]), (temp[1])]
-                                            new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)) + temp[2]
-                                            if current_val < new_val:
-                                                opponent_eval[(temp[0]), (temp[1])] = new_val
-                                        else:
-                                            opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                                            opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
-                                    else:
-                                        opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                                        opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
+                                self._opp_evaluation(opponent_eval, i, j, a, b)
                                 # - end of opp eval
         # Handles 1st move by AI
         if number_of_pieces < 1:
@@ -198,3 +162,49 @@ class HardAI(Player):
                 for x in opponent_eval:
                     if opponent_eval[x] == opponent_max:
                         return x
+
+    def _self_evaluation(self, self_eval,i,j,a,b):
+        # - self eval
+        temp = self.board.sum_in_line(self.name, i, j, a, b, False)
+        if temp[0] != -1:
+            if len(self_eval) > 0:
+                exists = False
+                for x in self_eval:
+                    if x == (temp[0], temp[1]):
+                        exists = True
+                        break
+                if exists:
+                    current_val = self_eval[(temp[0]), (temp[1])]
+                    new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)) + temp[2]
+                    if current_val < new_val:
+                        self_eval[(temp[0]), (temp[1])] = new_val
+                else:
+                    self_eval[(temp[0]), (temp[1])] = temp[2]
+                    self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
+            else:
+                self_eval[(temp[0]), (temp[1])] = temp[2]
+                self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
+        # - end of self eval
+
+    def _opp_evaluation(self, opponent_eval, i, j, a, b):
+        # - opp eval
+        temp = self.board.sum_in_line(self.name, i, j, a, b, True)
+        if temp[0] != -1:
+            if len(opponent_eval) > 0:
+                exists = False
+                for x in opponent_eval:
+                    if x == (temp[0], temp[1]):
+                        exists = True
+                        break
+                if exists:
+                    current_val = opponent_eval[(temp[0]), (temp[1])]
+                    new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)) + temp[2]
+                    if current_val < new_val:
+                        opponent_eval[(temp[0]), (temp[1])] = new_val
+                else:
+                    opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                    opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
+            else:
+                opponent_eval[(temp[0]), (temp[1])] = temp[2]
+                opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
+        # - end of opp eval
