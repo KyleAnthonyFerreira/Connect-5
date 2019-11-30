@@ -16,6 +16,11 @@ class Game:
         self.board = board
 
     def whose_turn(self):
+        """
+        Determines who the current turn belongs to.
+        :return: self.player1 or self.player2
+        """
+
         if self.next == self.player1:
             return self.player1
         else:
