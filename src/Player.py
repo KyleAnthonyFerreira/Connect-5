@@ -91,7 +91,7 @@ class HardAI(Player):
                         for a in range(-1, 2):
                             for b in range(-1, 2):
                                 # - self eval
-                                temp = self.board.sum_in_line(self.name, i, j, a, b)
+                                temp = self.board.sum_in_line(self.name, i, j, a, b, False)
                                 if temp[0] != -1:
                                     if len(self_eval) > 0:
                                         exists = False
@@ -101,21 +101,21 @@ class HardAI(Player):
                                                 break
                                         if exists:
                                             current_val = self_eval[(temp[0]), (temp[1])]
-                                            new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b)) + temp[2]
+                                            new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)) + temp[2]
                                             if current_val < new_val:
                                                 self_eval[(temp[0]), (temp[1])] = new_val
                                         else:
                                             self_eval[(temp[0]), (temp[1])] = temp[2]
-                                            self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b)
+                                            self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
                                     else:
                                         self_eval[(temp[0]), (temp[1])] = temp[2]
-                                        self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b)
+                                        self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
                                 # - end of self eval
                     else:
                         for a in range(-1, 2):
                             for b in range(-1, 2):
                                 # - opp eval
-                                temp = self.board.inverted_sum_in_line(self.name, i, j, a, b)
+                                temp = self.board.sum_in_line(self.name, i, j, a, b, True)
                                 if temp[0] != -1:
                                     if len(opponent_eval) > 0:
                                         exists = False
@@ -125,15 +125,15 @@ class HardAI(Player):
                                                 break
                                         if exists:
                                             current_val = opponent_eval[(temp[0]), (temp[1])]
-                                            new_val = (self.board.inverted_other_direction(self.name, i, j, 1 * a, 1 * b)) + temp[2]
+                                            new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)) + temp[2]
                                             if current_val < new_val:
                                                 opponent_eval[(temp[0]), (temp[1])] = new_val
                                         else:
                                             opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                                            opponent_eval[(temp[0]), (temp[1])] += self.board.inverted_other_direction(self.name, i, j, 1 * a, 1 * b)
+                                            opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
                                     else:
                                         opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                                        opponent_eval[(temp[0]), (temp[1])] += self.board.inverted_other_direction(self.name, i, j, 1 * a, 1 * b)
+                                        opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
                                 # - end of opp eval
         # Handles 1st move by AI
         if number_of_pieces < 1:
