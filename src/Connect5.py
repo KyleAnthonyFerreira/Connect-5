@@ -16,26 +16,26 @@ from Player import Player, Human, EasyAI, MediumAI, HardAI
 from Game import Game
 import ctypes
 
+# pygame and monitor set-up
 ctypes.windll.user32.SetProcessDPIAware()
-
 pygame.init()
+
+# global variables
 WIDTH = int(pygame.display.Info().current_w)
 HEIGHT = int(pygame.display.Info().current_h)
 DIMENSION = 19
 RECTANGLES = {}
-settings_grid = {}
-game_state = 0  # indicates menu state
-game_mode = 0
-p1_colour = (0, 0, 0)
-p2_colour = (255, 255, 255)
-board_colour = (121, 122, 125)
-board_lines_colour = (255, 255, 255)
-rect_size = int(WIDTH // DIMENSION * 0.5)
-border = 5
-
-red_button = pygame.image.load("button red.png")
-blue_button = pygame.image.load("button blue.png")
-colour_wheel = pygame.image.load("colour line.png")
+GAME_STATE = 0  # indicates menu state
+GAME_MODE = 0
+PLAYER1_COLOUR = (0, 0, 0)
+PLAYER2_COLOUR = (255, 255, 255)
+BOARD_COLOUR = (121, 122, 125)
+BOARD_LINES_COLOUR = (255, 255, 255)
+RECTANGLE_SIZE = int(WIDTH // DIMENSION * 0.5)
+BORDER = 5
+RED_BUTTON = pygame.image.load("button red.png")
+BLUE_BUTTON = pygame.image.load("button blue.png")
+COLOUR_WHEEL = pygame.image.load("colour line.png")
 
 
 def set_up_game() -> Game:
@@ -43,16 +43,16 @@ def set_up_game() -> Game:
     This function sets up the logic and data structures for the game by
     initializing relevant classes
     """
-    global game_mode
+    global GAME_MODE
     game_board = Board(DIMENSION)
     player1 = Human("Player 1", game_board)
-    if game_mode == 0:
+    if GAME_MODE == 0:
         return Game(player1, Human("Player 2", game_board), game_board)
-    elif game_mode == 1:
+    elif GAME_MODE == 1:
         return Game(player1, EasyAI("Player 2", game_board), game_board)
-    elif game_mode == 2:
+    elif GAME_MODE == 2:
         return Game(player1, MediumAI("Player 2", game_board), game_board)
-    elif game_mode == 3:
+    elif GAME_MODE == 3:
         return Game(player1, HardAI("Player 2", game_board), game_board)
 
 
@@ -98,13 +98,13 @@ def draw_menu() -> dict:
     click_able["exit"] = exit_game_surface
 
     # game mode text
-    if game_mode == 0:
+    if GAME_MODE == 0:
         game_mode_text = game_font.render("Player vs Player", True,
                                           (121, 247, 241), None)
-    elif game_mode == 1:
+    elif GAME_MODE == 1:
         game_mode_text = game_font.render("Player vs AI(Easy)", True,
                                           (121, 247, 241), None)
-    elif game_mode == 2:
+    elif GAME_MODE == 2:
         game_mode_text = game_font.render("Player vs AI(Medium)", True,
                                           (121, 247, 241), None)
     else:
@@ -140,9 +140,9 @@ def start_menu() -> None:
     # update screen
     click_able = draw_menu()
     # check for mouse clicks
-    global game_state
-    global game_mode
-    while game_state == 0:
+    global GAME_STATE
+    global GAME_MODE
+    while GAME_STATE == 0:
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
             # user exits via builtin close button
@@ -155,16 +155,16 @@ def start_menu() -> None:
                     pygame.display.quit()
                     sys.exit()
                 elif click_able["play"].collidepoint(mouse):
-                    game_state = 1
+                    GAME_STATE = 1
                 elif click_able["mode"].collidepoint(mouse):
-                    if game_mode < 3:
-                        game_mode += 1
+                    if GAME_MODE < 3:
+                        GAME_MODE += 1
                         click_able = draw_menu()
                     else:
-                        game_mode = 0
+                        GAME_MODE = 0
                         click_able = draw_menu()
                 elif click_able["settings"].collidepoint(mouse):
-                    game_state = 2
+                    GAME_STATE = 2
 
 
 def draw_settings() -> dict:
@@ -207,20 +207,23 @@ def draw_settings() -> dict:
     screen.blit(default, default_surface)
     click_able["default"] = default_surface
 
-    a_surface = colour_wheel.get_rect()
-    a_surface.center = (pane.center[0] // 2, pane.top + (pane.top * 0.1))
-    screen.blit(colour_wheel, a_surface)
-    click_able["a"] = a_surface
+    player1_colour_surface = COLOUR_WHEEL.get_rect()
+    player1_colour_surface.center = (pane.center[0] // 2,
+                                     pane.top + (pane.top * 0.1))
+    screen.blit(COLOUR_WHEEL, player1_colour_surface)
+    click_able["player1_colour"] = player1_colour_surface
 
-    b_surface = colour_wheel.get_rect()
-    b_surface.center = (pane.center[0] // 2, pane.top * 1.4 + (pane.top * 0.1))
-    screen.blit(colour_wheel, b_surface)
-    click_able["b"] = b_surface
+    player2_colour_surface = COLOUR_WHEEL.get_rect()
+    player2_colour_surface.center = (pane.center[0] // 2,
+                                     pane.top * 1.4 + (pane.top * 0.1))
+    screen.blit(COLOUR_WHEEL, player2_colour_surface)
+    click_able["player2_colour"] = player2_colour_surface
 
-    c_surface = colour_wheel.get_rect()
-    c_surface.center = (pane.center[0] * 1.5, pane.top + (pane.top * 0.1))
-    screen.blit(colour_wheel, c_surface)
-    click_able["c"] = c_surface
+    board_colour_surface = COLOUR_WHEEL.get_rect()
+    board_colour_surface.center = (pane.center[0] * 1.5,
+                                   pane.top + (pane.top * 0.1))
+    screen.blit(COLOUR_WHEEL, board_colour_surface)
+    click_able["board_colour"] = board_colour_surface
 
     # Variables needed for default board
     x = pane.center[0] - (25 * 5)
@@ -231,26 +234,26 @@ def draw_settings() -> dict:
         for column in range(5):
             pygame.draw.rect(screen, (51, 51, 51),
                              (x + 10, y + 10, 50, 50))
-            pygame.draw.rect(screen, board_colour, (x, y, 50, 50))
+            pygame.draw.rect(screen, BOARD_COLOUR, (x, y, 50, 50))
             x += 50 + 5
         y += 50 + 5
         x = pane.center[0] - (25 * 5)
 
     pygame.gfxdraw.aacircle(screen,
                             pane.center[0] // 2 + int(pane.center[0] * 0.25),
-                            pane.top, 15, p1_colour)
+                            pane.top, 15, PLAYER1_COLOUR)
     pygame.gfxdraw.filled_circle(screen,
                                  pane.center[0] // 2 + int(
                                      pane.center[0] * 0.25),
-                                 pane.top, 15, p1_colour)
+                                 pane.top, 15, PLAYER1_COLOUR)
 
     pygame.gfxdraw.aacircle(screen,
                             pane.center[0] // 2 + int(pane.center[0] * 0.25),
-                            int(pane.top * 1.4), 15, p2_colour)
+                            int(pane.top * 1.4), 15, PLAYER2_COLOUR)
     pygame.gfxdraw.filled_circle(screen,
                                  pane.center[0] // 2 + int(
                                      pane.center[0] * 0.25),
-                                 int(pane.top * 1.4), 15, p2_colour)
+                                 int(pane.top * 1.4), 15, PLAYER2_COLOUR)
 
     pygame.display.update()
 
@@ -261,14 +264,13 @@ def start_settings() -> None:
     # update screen
     click_able = draw_settings()
     # check for mouse clicks
-    global game_state
-    global game_mode
-    global p1_colour
-    global p2_colour
-    global board_colour
-    global a
+    global GAME_STATE
+    global GAME_MODE
+    global PLAYER1_COLOUR
+    global PLAYER2_COLOUR
+    global BOARD_COLOUR
 
-    while game_state == 2:
+    while GAME_STATE == 2:
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
             # user exits via builtin close button
@@ -277,24 +279,27 @@ def start_settings() -> None:
                 sys.exit()
             # user exits via clicking in the area described by exit game
             elif pygame.mouse.get_pressed()[0]:
-                if click_able["a"].collidepoint(mouse):
-                    p1_colour = colour_wheel.get_at((mouse[0] - click_able[
-                        "a"].x, mouse[1] - click_able["a"].y))
+                if click_able["player1_colour"].collidepoint(mouse):
+                    PLAYER1_COLOUR = COLOUR_WHEEL.get_at(
+                        (mouse[0] - click_able["player1_colour"].x,
+                         mouse[1] - click_able["player1_colour"].y))
                     draw_settings()
-                elif click_able["b"].collidepoint(mouse):
-                    p2_colour = colour_wheel.get_at((mouse[0] - click_able[
-                        "b"].x, mouse[1] - click_able["b"].y))
+                elif click_able["player2_colour"].collidepoint(mouse):
+                    PLAYER2_COLOUR = COLOUR_WHEEL.get_at(
+                        (mouse[0] - click_able["player2_colour"].x,
+                         mouse[1] - click_able["player2_colour"].y))
                     draw_settings()
-                elif click_able["c"].collidepoint(mouse):
-                    board_colour = colour_wheel.get_at((mouse[0] - click_able[
-                        "c"].x, mouse[1] - click_able["c"].y))
+                elif click_able["board_colour"].collidepoint(mouse):
+                    BOARD_COLOUR = COLOUR_WHEEL.get_at(
+                        (mouse[0] - click_able["board_colour"].x,
+                         mouse[1] - click_able["board_colour"].y))
                     draw_settings()
                 elif click_able["back"].collidepoint(mouse):
-                    game_state = 0
+                    GAME_STATE = 0
                 elif click_able["default"].collidepoint(mouse):
-                    p1_colour = (0, 0, 0)
-                    p2_colour = (255, 255, 255)
-                    board_colour = (121, 122, 125)
+                    PLAYER1_COLOUR = (0, 0, 0)
+                    PLAYER2_COLOUR = (255, 255, 255)
+                    BOARD_COLOUR = (121, 122, 125)
                     draw_settings()
 
 
@@ -319,21 +324,21 @@ def draw_game(game_board: Board) -> dict:
                                       False, False)
 
     # Variables needed for default board
-    x = (WIDTH // 2) - ((rect_size // 2 + (border // 2)) * DIMENSION)
-    y = (HEIGHT // 2) - ((rect_size // 2 + (border // 2)) * DIMENSION)
+    x = (WIDTH // 2) - ((RECTANGLE_SIZE // 2 + (BORDER // 2)) * DIMENSION)
+    y = (HEIGHT // 2) - ((RECTANGLE_SIZE // 2 + (BORDER // 2)) * DIMENSION)
     global RECTANGLES
 
     # Creates a default visual board
     for row in range(game_board.dimension):
         for column in range(game_board.dimension):
             pygame.draw.rect(screen, (51, 51, 51),
-                             (x + 10, y + 10, rect_size, rect_size))
-            rect = pygame.draw.rect(screen, board_colour,
-                                    (x, y, rect_size, rect_size))
+                             (x + 10, y + 10, RECTANGLE_SIZE, RECTANGLE_SIZE))
+            rect = pygame.draw.rect(screen, BOARD_COLOUR,
+                                    (x, y, RECTANGLE_SIZE, RECTANGLE_SIZE))
             RECTANGLES[(row, column)] = rect
-            x += rect_size + border
-        y += rect_size + border
-        x = (WIDTH // 2) - ((rect_size // 2 + (border // 2)) * DIMENSION)
+            x += RECTANGLE_SIZE + BORDER
+        y += RECTANGLE_SIZE + BORDER
+        x = (WIDTH // 2) - ((RECTANGLE_SIZE // 2 + (BORDER // 2)) * DIMENSION)
 
     save_game = game_font.render("Save Game", True, (121, 247, 241), None)
     save_game_surface = save_game.get_rect()
@@ -375,14 +380,14 @@ def draw_game(game_board: Board) -> dict:
     menu_surface.center = (pane.right - 100, pane.center[1] - 75)
     screen.blit(menu, menu_surface)
 
-    restart_surface = red_button.get_rect()
+    restart_surface = RED_BUTTON.get_rect()
     restart_surface.center = (pane.left + 100, pane.center[1])
-    screen.blit(red_button, restart_surface)
+    screen.blit(RED_BUTTON, restart_surface)
     click_able["restart"] = restart_surface
 
-    menu_surface = blue_button.get_rect()
+    menu_surface = BLUE_BUTTON.get_rect()
     menu_surface.center = (pane.right - 100, pane.center[1])
-    screen.blit(blue_button, menu_surface)
+    screen.blit(BLUE_BUTTON, menu_surface)
     click_able["menu"] = menu_surface
 
     # update screen
@@ -395,20 +400,20 @@ def update(row, col, game, player):
     rect = RECTANGLES[(row, col)]
     if player == game.player1:
         pygame.gfxdraw.aacircle(screen, rect.center[0], rect.center[1],
-                                rect_size // 2, p1_colour)
+                                RECTANGLE_SIZE // 2, PLAYER1_COLOUR)
         pygame.gfxdraw.filled_circle(screen, rect.center[0], rect.center[1],
-                                     rect_size // 2, p1_colour)
+                                     RECTANGLE_SIZE // 2, PLAYER1_COLOUR)
     elif player == game.player2:
         pygame.gfxdraw.aacircle(screen, rect.center[0], rect.center[1],
-                                rect_size // 2, p2_colour)
+                                RECTANGLE_SIZE // 2, PLAYER2_COLOUR)
         pygame.gfxdraw.filled_circle(screen, rect.center[0], rect.center[1],
-                                     rect_size // 2, p2_colour)
+                                     RECTANGLE_SIZE // 2, PLAYER2_COLOUR)
 
     pygame.display.update()
 
 
 def is_clicked(click_able, mouse_position, new_game):
-    global game_state
+    global GAME_STATE
     if click_able["Save Game"].collidepoint(mouse_position):
         with open('objs.pickle', 'wb') as f:
             pickle.dump(new_game.board, f)
@@ -421,7 +426,7 @@ def is_clicked(click_able, mouse_position, new_game):
     elif click_able["restart"].collidepoint(mouse_position):
         start_game()
     elif click_able["menu"].collidepoint(mouse_position):
-        game_state = 0
+        GAME_STATE = 0
 
 
 def start_game() -> None:
@@ -430,13 +435,13 @@ def start_game() -> None:
     waits for user input via listening for mouse clicks
     :return:
     """
-    global game_mode
-    global game_state
+    global GAME_MODE
+    global GAME_STATE
     new_game = set_up_game()
-    new_game.player1.set_colour(p1_colour)
-    new_game.player2.set_colour(p2_colour)
+    new_game.player1.set_colour(PLAYER1_COLOUR)
+    new_game.player2.set_colour(PLAYER2_COLOUR)
     click_able = draw_game(new_game.board)
-    while game_state == 1:
+    while GAME_STATE == 1:
         # check for mouse clicks
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -493,11 +498,11 @@ if __name__ == "__main__":
     pygame.display.set_caption("Connect 5")
     while True:
         # menu state
-        if game_state == 0:
+        if GAME_STATE == 0:
             start_menu()
         # game state
-        elif game_state == 1:
+        elif GAME_STATE == 1:
             start_game()
         # settings state
-        elif game_state == 2:
+        elif GAME_STATE == 2:
             start_settings()
