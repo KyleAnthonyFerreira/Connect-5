@@ -8,6 +8,8 @@ information from other files to run in the __main__ function.
 import sys
 import pygame
 import pickle
+import ctypes
+ctypes.windll.user32.SetProcessDPIAware()
 from pygame import gfxdraw
 from Board import Board
 from Player import Player, Human, EasyAI, MediumAI, HardAI
