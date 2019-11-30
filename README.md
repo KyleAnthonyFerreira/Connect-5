@@ -24,9 +24,15 @@ Connect 5 is a strategic turn based game played between two players. The main ob
 
 In this game, the 'playing board' is layed down flat, and so, game play pieces can be positioned anywhere on the board as long as it is placed within the dimensions of the board, and if that coordinate is empty. 
 
-At your given turn, you can 'click' on a coordinate where you want to place your game piece. Once you place your piece down, it is the other player's turn to put down a piece. This pattern will continue until someone has won, or there if the board is completely filled. 
+When you first 'start up' the game, you will see the main menu which will consist of the following options: Play Game, Player vs Player, Settings, and Exit Game.
 
-Throughout the game, you can change the colour of your pieces, as well as the colour of your opponent's pieces through the colour change option which is located in the settings menu. 
+Before you begin playing, you can choose one of four different modes to play with, Player vs Player, Player vs AI(Easy), Player vs AI(Medium), and Player vs AI(Hard). You can select a mode by clicking on the second row of cyan-coloured text until you the screen is revealing your desired mode. 
+
+Before you start the game, you can select what colour your own pieces will be in the settings menu. In addition to this, you can change the colour of your opponenet's (player2's) pieces as well, plus the colour of the playing board. We do not suggest that you make none of these three elements have the same colour because that can make playing the game confusing. Once you are done selecting the colours, you can leave the settings menu by clicking the "Back to menu option" located at the top left of the screen. 
+
+Once you are ready to begin playing the game, click on "Start Game". 
+
+At your given turn, you can 'click' on a coordinate where you want to place your game piece. Once you place your piece down, it is the other player's turn to put down a piece. This pattern will continue until someone has won, or there if the board is completely filled. 
 
 [Back to top](#top)
 
