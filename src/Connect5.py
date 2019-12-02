@@ -340,6 +340,21 @@ def draw_game(game_board: Board) -> dict:
         y += RECTANGLE_SIZE + BORDER
         x = (WIDTH // 2) - ((RECTANGLE_SIZE // 2 + (BORDER // 2)) * DIMENSION)
 
+    for row in range(game_board.dimension):
+        for col in range(game_board.dimension):
+            rect = RECTANGLES[(row, col)]
+            if game_board.board[col][row] == 'Player 1':
+                pygame.gfxdraw.aacircle(screen, rect.center[0], rect.center[1],
+                                        RECTANGLE_SIZE // 2, PLAYER1_COLOUR)
+                pygame.gfxdraw.filled_circle(screen, rect.center[0], rect.center[1],
+                                             RECTANGLE_SIZE // 2, PLAYER1_COLOUR)
+            elif game_board.board[col][row] == 'Player 2':
+                pygame.gfxdraw.aacircle(screen, rect.center[0], rect.center[1],
+                                        RECTANGLE_SIZE // 2, PLAYER2_COLOUR)
+                pygame.gfxdraw.filled_circle(screen, rect.center[0], rect.center[1],
+                                             RECTANGLE_SIZE // 2, PLAYER2_COLOUR)
+
+
     save_game = game_font.render("Save Game", True, (121, 247, 241), None)
     save_game_surface = save_game.get_rect()
     save_game_surface.center = (5.25 * screen.get_width() // 6,
@@ -421,7 +436,10 @@ def is_clicked(click_able, mouse_position, new_game):
     elif click_able["Load Game"].collidepoint(mouse_position):
         with open('objs.pickle', 'rb') as f:
             old_board = pickle.load(f)
-            # FINISH LOAD FUNCTION
+            draw_game(old_board)
+            for row in range(new_game.board.dimension):
+                for col in range(new_game.board.dimension):
+                    new_game.board.board[row][col] = old_board.board[row][col]
 
     elif click_able["restart"].collidepoint(mouse_position):
         start_game()
