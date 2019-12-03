@@ -10,7 +10,8 @@ Our take on the classic Connect-5 game!
 3. [How to Install Connect-5](#install)
 4. [Documentation](#documen)
 5. [Authors](#Authors)
-6. [License Information](#license)
+6. [Individual Contributions](#Contributions)
+7. [License Information](#license)
 
 ## <a name="intro"></a>Game Description 
 
@@ -38,7 +39,13 @@ TO-DO
 
 ## <a name="install"></a>How to Install Connect-5
 
-TO-DO
+### `Windows`
+
+1.  Install [Pygame.](https://www.pygame.org/download.shtml)
+2.  [Download Connect-5 zip file.](https://github.com/KyleAnthonyFerreira/Connect-5/archive/master.zip)
+3.  Extract from the zip file.
+4.  Open extracted files in IDE of choice.
+5.  Run `Connect-5.py`.
 
 [Back to top](#top)
 
@@ -58,16 +65,16 @@ TO-DO
 
 [Back to top](#top)
 
-## <a name="license"></a>License Information
-
-TO-DO
-
-[Back to top](#top)
-
-## <a name="Authors and Individual Contributions"></a>Authors
+## <a name="Contributions"></a>Individual Contributions
 
 -   Jule Tran
 
 With respect to the coding aspect of this project, I was assigned to the Board class located within the file Board.py. This class contains the functions get_piece, set_piece, is_empty, has_connect5, and has_connect4, all of which I created and work on. However, when I was working on has_connect5 and has_connect4, both of them fail to work properly. As a result of this struggle, I had to pass on the finalization of these functions to my groupmates, so I cannot take credit for hte current form of those functions. Regarding the README portion of this project, I started and compelted the "How to Play" section.
+
+[Back to top](#top)
+
+## <a name="license"></a>License Information
+
+TO-DO
 
 [Back to top](#top)
