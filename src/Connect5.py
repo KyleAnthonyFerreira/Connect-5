@@ -9,12 +9,11 @@ import sys
 import pygame
 import pickle
 import ctypes
-ctypes.windll.user32.SetProcessDPIAware()
+import time
 from pygame import gfxdraw
-from Board import Board
-from Player import Player, Human, EasyAI, MediumAI, HardAI
-from Game import Game
-import ctypes
+from src.Board import Board
+from src.Player import Human, EasyAI, MediumAI, HardAI
+from src.Game import Game
 
 # pygame and monitor set-up
 ctypes.windll.user32.SetProcessDPIAware()
@@ -150,7 +149,7 @@ def start_menu() -> None:
                 pygame.display.quit()
                 sys.exit()
             # user exits via clicking in the area described by exit game
-            elif pygame.mouse.get_pressed()[0]:
+            elif event.type == pygame.MOUSEBUTTONUP:
                 if click_able["exit"].collidepoint(mouse):
                     pygame.display.quit()
                     sys.exit()
@@ -432,14 +431,20 @@ def is_clicked(click_able, mouse_position, new_game):
     if click_able["Save Game"].collidepoint(mouse_position):
         with open('objs.pickle', 'wb') as f:
             pickle.dump(new_game.board, f)
+            pickle.dump(new_game.who_goes_next(), f)
+            pickle.dump(new_game.board.last_move, f)
             f.close()
     elif click_able["Load Game"].collidepoint(mouse_position):
         with open('objs.pickle', 'rb') as f:
             old_board = pickle.load(f)
+            next_player = pickle.load(f)
+            last_move = pickle.load(f)
             draw_game(old_board)
             for row in range(new_game.board.dimension):
                 for col in range(new_game.board.dimension):
                     new_game.board.board[row][col] = old_board.board[row][col]
+                    new_game.next = next_player
+                    new_game.board.last_move = last_move
 
     elif click_able["restart"].collidepoint(mouse_position):
         start_game()
@@ -480,6 +485,7 @@ def start_game() -> None:
                         not isinstance(new_game.player2, Human):
                     x, y = new_game.player2.get_move()
                     new_game.make_move(x, y)
+                    time.sleep(0.5)
                     update(x, y, new_game, new_game.who_goes_next())
             else:
                 game_font = pygame.font.SysFont("Agency FB",

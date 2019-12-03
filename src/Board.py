@@ -96,14 +96,14 @@ class Board:
             return -1, -1
 
     def has_connect5(self, player1, player2):
-        if self._connectN(player1) >= 5:
+        if self._connect_n(player1) >= 5:
             return player1.name
-        elif self._connectN(player2) >= 5:
+        elif self._connect_n(player2) >= 5:
             return player2.name
         else:
             return ""
 
-    def _connectN(self, player) -> int:
+    def _connect_n(self, player) -> int:
         """
         :param player:
         :return: bool
@@ -112,7 +112,7 @@ class Board:
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if self.get_piece(i, j) == player.name:
-                    temp = self.connectX(player, i, j)
+                    temp = self.connect_x(player, i, j)
                     if temp >= max_value:
                         max_value = temp
         return max_value
@@ -152,7 +152,7 @@ class Board:
                 y = y + b
         return -1, -1, -1
 
-    def connectX(self, player, i, j) -> int:
+    def connect_x(self, player, i, j) -> int:
         """
                 @TODO Make Look Nice :)
                 :param player:
