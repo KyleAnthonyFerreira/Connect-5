@@ -96,14 +96,14 @@ class Board:
             return -1, -1
 
     def has_connect5(self, player1, player2):
-        if self._connectN(player1) >= 5:
+        if self._connect_n(player1) >= 5:
             return player1.name
-        elif self._connectN(player2) >= 5:
+        elif self._connect_n(player2) >= 5:
             return player2.name
         else:
             return ""
 
-    def _connectN(self, player) -> int:
+    def _connect_n(self, player) -> int:
         """
         :param player:
         :return: bool
@@ -112,12 +112,12 @@ class Board:
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if self.get_piece(i, j) == player.name:
-                    temp = self.connectX(player, i, j)
+                    temp = self.connect_x(player, i, j)
                     if temp >= max_value:
                         max_value = temp
         return max_value
 
-    def sum_in_line(self, player, i, j, a, b) -> (int, int, int):
+    def sum_in_line(self, player, i, j, a, b, is_inverted) -> (int, int, int):
         x = 0
         y = 0
         sum = 0
@@ -126,42 +126,33 @@ class Board:
             return -1, -1, -1
 
         while True:
-            if self.is_valid(i + x, j + y):
-                if self.get_piece(i + x, j + y) == player:
-                    sum += 1
-                elif self.is_empty(i + x, j + y):
-                    return int(i + x), int(j + y), int(sum)
+            if not is_inverted:
+                if self.is_valid(i + x, j + y):
+                    if self.get_piece(i + x, j + y) == player:
+                        sum += 1
+                    elif self.is_empty(i + x, j + y):
+                        return int(i + x), int(j + y), int(sum)
+                    else:
+                        break
                 else:
-                    break
+                    return -1, -1, -1
+                x = x + a
+                y = y + b
             else:
-                return -1, -1, -1
-            x = x + a
-            y = y + b
+                if self.is_valid(i + x, j + y):
+                    if self.is_empty(i + x, j + y):
+                        return int(i + x), int(j + y), int(sum)
+                    elif self.get_piece(i + x, j + y) != player and not self.is_empty(i + x, j + y):
+                        sum += 1
+                    else:
+                        break
+                else:
+                    return -1, -1, -1
+                x = x + a
+                y = y + b
         return -1, -1, -1
 
-    def inverted_sum_in_line(self, player, i, j, a, b) -> (int, int, int):
-        x = 0
-        y = 0
-        sum = 0
-
-        if a == 0 and b == 0:
-            return -1, -1, -1
-
-        while True:
-            if self.is_valid(i + x, j + y):
-                if self.is_empty(i + x, j + y):
-                    return int(i + x), int(j + y), int(sum)
-                elif self.get_piece(i + x, j + y) != player and not self.is_empty(i + x, j + y):
-                    sum += 1
-                else:
-                    break
-            else:
-                return -1, -1, -1
-            x = x + a
-            y = y + b
-        return -1, -1, -1
-
-    def connectX(self, player, i, j) -> int:
+    def connect_x(self, player, i, j) -> int:
         """
                 @TODO Make Look Nice :)
                 :param player:
@@ -193,64 +184,23 @@ class Board:
                     max_value = sum
         return max_value
 
-    def inverted_connectX(self, player, i, j) -> int:
-        """
-                    @TODO Make Look Nice :)
-                    :param player:
-                    :param i:
-                    :param j:
-                    :return: bool
-                    """
-        max_value = 0
-        for a in range(-1, 2):
-            c = 1
-            sum = 1
-            b = -1
-            while b < 2:
-                if self.is_valid(i + (a * c), j + (b * c)):
-                    if self.get_piece(i + (a * c),
-                                      j + (b * c)) != player.name and not (
-                            a == 0 and b == 0 and self.is_empty(i + (a * c),
-                                                                j + (b * c))):
+    def other_direction(self, player, i, j, a, b, is_inverted) -> int:
+        if a == 0 and b == 0:
+            return 0
+        sum = 0
+        c = 1
+        while True:
+            if self.is_valid(i+(a*c), j+(b*c)):
+                if not is_inverted:
+                    if self.get_piece(i+(a*c), j+(b*c)) == player:
                         sum += 1
                     else:
-                        c = 0
-                        sum = 1
-                        b += 1
+                        return sum
+                    c += 1
                 else:
-                    c = 0
-                    sum = 1
-                    b += 1
-                c += 1
-                if sum >= max_value:
-                    max_value = sum
-        return max_value
-
-    def other_direction(self, player, i, j, a, b) -> int:
-        if a == 0 and b == 0:
-            return 0
-        sum = 0
-        c = 1
-        while True:
-            if self.is_valid(i+(a*c), j+(b*c)):
-                if self.get_piece(i+(a*c), j+(b*c)) == player:
-                    sum += 1
-                else:
-                    return sum
-                c += 1
+                    if self.get_piece(i+(a*c), j+(b*c)) != player and not self.is_empty(i+(a*c), j+(b*c)):
+                        sum += 1
+                    else:
+                        return sum
+                    c += 1
             return sum
-
-    def inverted_other_direction(self, player, i, j, a, b) -> int:
-        if a == 0 and b == 0:
-            return 0
-        sum = 0
-        c = 1
-        while True:
-            if self.is_valid(i+(a*c), j+(b*c)):
-                if self.get_piece(i+(a*c), j+(b*c)) != player and not self.is_empty(i+(a*c), j+(b*c)):
-                    sum += 1
-                else:
-                    return sum
-                c += 1
-            return sum
-
