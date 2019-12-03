@@ -44,11 +44,15 @@ class EasyAI(Player):
         self.colour = (65, 65, 255)
 
     def get_move(self):
-        while True:
-            x = random.randint(0, self.board.dimension)
-            y = random.randint(0, self.board.dimension)
-            if self.board.is_empty(x, y):
-                return x, y
+        move = self.board.all_around()
+        if self.board.is_valid(move[0], move[1]) and move[0] != -1:
+            return move[0], move[1]
+        else:
+            while True:
+                x = random.randint(0, self.board.dimension)
+                y = random.randint(0, self.board.dimension)
+                if self.board.is_empty(x, y):
+                    return x, y
 
 
 class MediumAI(Player):
