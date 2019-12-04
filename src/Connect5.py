@@ -59,7 +59,7 @@ def draw_menu() -> dict:
     """
     This function draws the game menu. It fills the background colour, sets
     the fonts, and writes the text on the screen.
-    :return: None
+    :return: dictionary
     """
     click_able = {}
 
@@ -353,7 +353,6 @@ def draw_game(game_board: Board) -> dict:
                 pygame.gfxdraw.filled_circle(screen, rect.center[0], rect.center[1],
                                              RECTANGLE_SIZE // 2, PLAYER2_COLOUR)
 
-
     save_game = game_font.render("Save Game", True, (121, 247, 241), None)
     save_game_surface = save_game.get_rect()
     save_game_surface.center = (5.25 * screen.get_width() // 6,
@@ -410,7 +409,16 @@ def draw_game(game_board: Board) -> dict:
     return click_able
 
 
-def update(row, col, game, player):
+def update(row, col, game, player) -> None:
+    """
+    This function draws a circle inside the empty square
+    with coordinates (row, col) for player.
+    :param row:
+    :param col: 
+    :param game: 
+    :param player: 
+    :return: None
+    """
     rect = RECTANGLES[(row, col)]
     if player == game.player1:
         pygame.gfxdraw.aacircle(screen, rect.center[0], rect.center[1],
@@ -426,7 +434,15 @@ def update(row, col, game, player):
     pygame.display.update()
 
 
-def is_clicked(click_able, mouse_position, new_game):
+def is_clicked(click_able, mouse_position, new_game) -> None:
+    """
+    This function determines if a button has been pressed,
+    if one has, it performs the necessary action.
+    :param click_able:
+    :param mouse_position:
+    :param new_game:
+    :return: None
+    """
     global GAME_STATE
     if click_able["Save Game"].collidepoint(mouse_position):
         with open('objs.pickle', 'wb') as f:

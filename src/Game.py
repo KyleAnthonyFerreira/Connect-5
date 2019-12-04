@@ -15,7 +15,7 @@ class Game:
         self.next = player1
         self.board = board
 
-    def whose_turn(self):
+    def whose_turn(self) -> Player:
         """
         Determines who the current turn belongs to.
         :return: self.player1 or self.player2
@@ -25,7 +25,7 @@ class Game:
         else:
             return self.player2
 
-    def who_goes_next(self):
+    def who_goes_next(self) -> Player:
         """
         Determines who goes next.
         :return: self.player1 or self.player2
@@ -35,7 +35,7 @@ class Game:
         else:
             return self.player1
 
-    def is_winner(self):
+    def is_winner(self) -> bool:
         """
         Determines if player won the game or not.
         :param player:
@@ -43,7 +43,7 @@ class Game:
         """
         return self.board.has_connect5(self.player1, self.player2)
 
-    def is_game_over(self):
+    def is_game_over(self) -> bool:
         """
         Determines whether or not the game is over.
         :return: boolean
@@ -57,7 +57,7 @@ class Game:
                         return False
             return True
 
-    def make_move(self, x: int, y: int):
+    def make_move(self, x: int, y: int) -> bool:
         """
          Makes a move on the board. Returns whether or not the move was
          successful.
