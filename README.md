@@ -39,7 +39,7 @@ At your given turn, you can 'click' on a coordinate where you want to place your
 
 ## <a name="screen"></a>Screenshots
 
-TO-DO
+![Main Menu](/images/mainmenu_connect5.png)
 
 [Back to top](#top)
 
