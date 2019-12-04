@@ -67,9 +67,21 @@ TO-DO
 
 ## <a name="Contributions"></a>Individual Contributions
 
--   Jule Tran
+**Jule Tran**
 
 With respect to the coding aspect of this project, I was assigned to the Board class located within the file Board.py. This class contains the functions get_piece, set_piece, is_empty, has_connect5, and has_connect4, all of which I created and work on. However, when I was working on has_connect5 and has_connect4, both of them fail to work properly. As a result of this struggle, I had to pass on the finalization of these functions to my groupmates, so I cannot take credit for hte current form of those functions. Regarding the README portion of this project, I started and compelted the "How to Play" section.
+
+**Shae Simeoni**
+
+- I wrote out a rough skeleton of all classes and their respective functions to make the starter tasks easier for my group. 
+- The entirety of the Game class was written and documented by me.
+- I helped out Kyle with the Connect5 class as it turned out to be twice the workload as any other class.
+    -   GUI theme & button alignment
+    -   Representing a move on the board with an update() function
+    -   Simplifying and removing unecessary code
+- I wrote the algorithm for the EasyAI.
+- I wrote a rough outline for the README file and completed the installation tab.
+- Finally I also aided with any Git related issues that came with using PyCharm.
 
 [Back to top](#top)
 
