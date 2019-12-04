@@ -73,15 +73,15 @@ With respect to the coding aspect of this project, I was assigned to the Board c
 
 **Shae Simeoni**
 
-- I wrote out a rough skeleton of all classes and their respective functions to make the starter tasks easier for my group. 
+- Created a rough skeleton of all classes and their respective functions to make the starter tasks easier for my group. 
 - The entirety of the Game class was written and documented by me.
-- I helped out Kyle with the Connect5 class as it turned out to be twice the workload as any other class.
+- Helped out Kyle with the Connect5 class as it turned out to be twice the workload as any other class.
     -   GUI theme & button alignment
     -   Representing a move on the board with an update() function
     -   Simplifying and removing unecessary code
-- I wrote the algorithm for the EasyAI.
-- I wrote a rough outline for the README file and completed the installation tab.
-- Finally I also aided with any Git related issues that came with using PyCharm.
+- Created the algorithm for the EasyAI.
+- Wrote a rough outline for the README file and completed the installation tab.
+- Aided with any Git related issues that came with using PyCharm.
 
 [Back to top](#top)
 
