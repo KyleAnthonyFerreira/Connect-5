@@ -56,17 +56,31 @@ class EasyAI(Player):
 
 
 class MediumAI(Player):
+    """
+    The MediumAI Class, responsible for returning moves to be played
+    :param Player
+    """
 
     def __init__(self, name: str, board: Board) -> None:
         Player.__init__(self, name, board)
         self.colour = (255, 65, 65)
 
-    def get_move(self):
+    def get_move(self) -> (int, int):
+        """
+        Will return a strong move, in the form  (row, col)
+        :return: (int row, int col)
+        """
         # Calls the self.eval function and returns the given move
         temp = self.eval()
         return temp[0], temp[1]
 
     def eval(self) -> (int, int):
+        """
+        Will calculate strong moves that can be made by itself and the opther player. The AI will determine the best
+        move it should play, and will return that move
+        :return: (int row, int col)
+        """
+
         # Calculates a strong move to make, return the x,y position of that move
         number_of_pieces = 0
         # An evaluation dictionary of moves that the AI can make and that moves estimated strength
