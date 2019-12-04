@@ -104,6 +104,6 @@ During the start of the work on Connect 5, I was responsible for making a rough 
 
 ## <a name="license"></a>License Information
 
-TO-DO
+The license we chose for our project repository is the GNU General Public License v3.0. This license allows for anyone to download and modify our code. This is important to us, as we invite anyone who plays our game to also extend the game in a way that they feel improves the overall playing experience. This license also allows for the distribution of our game. We would like for as many people to play our game as possible.
 
 [Back to top](#top)
