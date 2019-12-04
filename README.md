@@ -15,7 +15,19 @@ Our take on the classic Connect-5 game!
 
 ## <a name="intro"></a>Game Description 
 
-TO-DO
+Connect 5 is a simple yet challenging strategical game that will put one’s critical thinking and analytical skills to the test.
+
+The game has a main menu, settings menu, and a playing board. The main menu will be the first thing shown to the user. The main menu acts as a hub to all the other modes this game has. From the menu, the player can choose to enter the settings menu, play a game, or close the application.
+
+If the player launches a game, a new Connect 5 game will begin. It should be noted that the type of opponent you will face is predetermined before the game launches. The default opponent is another Local Human Player. This can be changed by clicking on the opponent to cycle through the possible options. This current build contains a Human Opponent as well as an Easy, Medium, and Hard AI.
+
+To win this game, a player must get 5 of their pieces in a line in any possible direction. You (the player) can make a move with a mouse. A left-click on an empty tile on the board will place your piece there, assuming it is your turn to move. If the opponent is another player, then this player can also make moves with a mouse. However, if the opponent is the computer, the computer will generate a move based on its difficulty setting which is predetermined by the user before the game begins.
+
+While in a game, the game can be reset via the RESTART button. This action will reset the game. Your opponent, piece color, and board color will remain the same. Pressing the MENU button will exit the game and will return you to the main menu. If you don’t want to lose your progress, you can save the current game by pressing the SAVE button on the right-hand side of the screen. This action will save the game for further use. This action also overrides all previous saves, so be careful when using it. The saved game can be loaded by pressing the LOAD button located under the SAVE button.
+
+The settings menu can be assessed from the main menu. While in the settings menu, the user can modify the color of the board and the color of every player's pieces. This can be reset via the USE DEFAULT SETTINGS button located within the settings menu.
+
+This application is designed to mimic the experience of playing Connect 5 over a real board. As such we have employed a variety of settings and features to make the most enjoyable playing experience. This application build has different computer opponents to simulate playing people at different strengths, a customization option to allow for a more personalized experience, and a saving feature to allow for users to return back to a game in progress.
 
 [Back to top](#top)
 
