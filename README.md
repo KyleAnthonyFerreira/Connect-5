@@ -39,7 +39,10 @@ At your given turn, you can 'click' on a coordinate where you want to place your
 
 ## <a name="screen"></a>Screenshots
 
-![Main Menu](/images/mainmenu_connect5.png)
+![Main Menu](https://i.imgur.com/3TRc59Y.png)
+![Settings](https://i.imgur.com/osn6TOb.png)
+![Playing State](https://i.imgur.com/8ivsWAL.png)
+
 
 [Back to top](#top)
 
