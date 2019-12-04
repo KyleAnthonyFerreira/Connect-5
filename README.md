@@ -78,15 +78,7 @@ TO-DO
 
 **Shae Simeoni**
 
-- Created a rough skeleton of all classes and their respective functions to make the starter tasks easier for my group. 
-- The entirety of the Game class was written and documented by me.
-- Helped out Kyle with the Connect5 class as it turned out to be twice the workload as any other class.
-    -   GUI theme & button alignment
-    -   Representing a move on the board with an update() function
-    -   Simplifying and removing unecessary code
-- Created the algorithm for the EasyAI.
-- Wrote a rough outline for the README file and completed the installation tab.
-- Aided with any Git related issues that came with using PyCharm.
+I took it upon myself to organize the group early on in hopes of alleviating stress. To do so, I initially created a rough skeleton of all classes and their respective functions. I was personally responsible for completing and documenting the Game class. As everyone worked on their designated classes, it became clear that Kyle's Connect5 class was the longest class to write. Since I finished the Game class quite early on, I focused my efforts on assisting Kyle. I restructured the GUI (theme & button alignment), wrote the update() function which visually updates the board and simplified/removed unecessary code. With regards to the Player class, I designed and coded the EasyAI algorithm. For the README file, I wrote the rough outline and "How to Install Connect-5". Lastely I aided anyone who had any Git related issues. 
 
 **Jule Tran**
 
