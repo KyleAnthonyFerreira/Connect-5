@@ -62,30 +62,34 @@ class MediumAI(Player):
         self.colour = (255, 65, 65)
 
     def get_move(self):
+        # Calls the self.eval function and returns the given move
         temp = self.eval()
         return temp[0], temp[1]
 
     def eval(self) -> (int, int):
+        # Calculates a strong move to make, return the x,y position of that move
         number_of_pieces = 0
+        # An evaluation dictionary of moves that the AI can make and that moves estimated strength
         self_eval = {}
+        # An evaluation dictionary of moves that the Human Player can make and that moves estimated strength
         opponent_eval = {}
-        for i in range(self.board.dimension):
-            for j in range(self.board.dimension):
-                if not self.board.is_empty(i, j):
-                    if self.board.get_piece(i, j) == self.name:
+        for row in range(self.board.dimension):
+            for col in range(self.board.dimension):
+                if not self.board.is_empty(row, col):
+                    if self.board.get_piece(row, col) == self.name:
                         number_of_pieces += 1
-                        for a in range(-1, 2):
-                            for b in range(-1, 2):
-                                # - self eval
-                                self._self_evaluation(self_eval, i, j, a, b)
-                                # - end of self eval
+                        for d1 in range(-1, 2):
+                            for d2 in range(-1, 2):
+                                # Modifies the self_eval dictionary
+                                self._self_evaluation(self_eval, row, col, d1, d2)
+
                     else:
-                        for a in range(-1, 2):
-                            for b in range(-1, 2):
-                                # - opp eval
-                                self._opp_evaluation(opponent_eval, i, j, a, b)
-                                # - end of opp eval
-        # Handles 1st move by AI
+                        for d1 in range(-1, 2):
+                            for d2 in range(-1, 2):
+                                # Modifies the opponent_eval dictionary
+                                self._opp_evaluation(opponent_eval, row, col, d1, d2)
+
+        # If the AI hasn't moved yet, it will make a move in the center of the board
         if number_of_pieces < 1:
             while True:
                 x = random.randint(int(self.board.dimension / 2) - 1, int(self.board.dimension / 2) + 1)
@@ -95,8 +99,10 @@ class MediumAI(Player):
                     return move
 
         else:
-            # check for forced moves
-            # find the max eval for both players in case there aren't any forced moves
+            # Will check for "forced moves" ie moves that mut be played
+            # Will find the max strength evaluation (eval) for both players in case there aren't any forced moves
+
+            # Stores the strength of the best move for future use
             self_max = 0
             opponent_max = 0
             for x in self_eval:
@@ -104,6 +110,7 @@ class MediumAI(Player):
                     self_max = self_eval[x]
                 if self_eval[x] > 4:
                     return x
+            # A dictionary with moves that must be made to stop the Human player from winning
             forced_blocks = {}
             for y in opponent_eval:
                 if opponent_eval[y] > opponent_max:
@@ -122,7 +129,7 @@ class MediumAI(Player):
             for y in w:
                 if w[y] < opponent_max:
                     opponent_eval.pop(y)
-
+        # A dictionary with useful moves that both players can make
         shared_moves = {}
         for x in self_eval:
             for y in opponent_eval:
@@ -135,7 +142,7 @@ class MediumAI(Player):
                     return x
         else:
             if self_max > opponent_max:
-                # pick the attacking move that is closest to the centre
+                # Picks the attacking move that is closest to the centre
                 move = -1, -1
                 move_distance = 999
                 for x in self_eval:
@@ -150,13 +157,13 @@ class MediumAI(Player):
                         return x
 
     def _self_evaluation(self, self_eval,i,j,a,b):
-        # - self eval
+        # A function that modifies the self evaluation dictionary
         temp = self.board.sum_in_line(self.name, i, j, a, b, False)
         if temp[0] != -1:
             if len(self_eval) > 0:
                 exists = False
-                for x in self_eval:
-                    if x == (temp[0], temp[1]):
+                for move in self_eval:
+                    if move == (temp[0], temp[1]):
                         exists = True
                         break
                 if exists:
@@ -170,16 +177,15 @@ class MediumAI(Player):
             else:
                 self_eval[(temp[0]), (temp[1])] = temp[2]
                 self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
-        # - end of self eval
 
     def _opp_evaluation(self, opponent_eval, i, j, a, b):
-        # - opp eval
+        # A function that modifies the opponent evaluation dictionary
         temp = self.board.sum_in_line(self.name, i, j, a, b, True)
         if temp[0] != -1:
             if len(opponent_eval) > 0:
                 exists = False
-                for x in opponent_eval:
-                    if x == (temp[0], temp[1]):
+                for move in opponent_eval:
+                    if move == (temp[0], temp[1]):
                         exists = True
                         break
                 if exists:
@@ -193,11 +199,9 @@ class MediumAI(Player):
             else:
                 opponent_eval[(temp[0]), (temp[1])] = temp[2]
                 opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
-        # - end of opp eval
 
 
 class HardAI(Player):
-
     def __init__(self, name: str, board: Board):
         Player.__init__(self, name, board)
         self.colour = (65, 65, 255)
