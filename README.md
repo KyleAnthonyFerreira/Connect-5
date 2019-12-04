@@ -89,6 +89,10 @@ With respect to the coding aspect of this project, I was assigned to the Board c
 - Wrote a rough outline for the README file and completed the installation tab.
 - Aided with any Git related issues that came with using PyCharm.
 
+**Brandon Mackel**
+
+During the start of the work on Connect 5, I was responsible for making a rough outline of the abstract player class and it's subclasses. This had the methods in the classes created, but not yet implemented. I created the entire settings menu which allows for the user to customize their game. The completion of the settings menu needed the implementation of multiple helper methods and the modification of existing code in the connect5.py file. I also created the save and load features that the player can use during game play. In the README, I was responsible for the licensing of the project repository.
+
 [Back to top](#top)
 
 ## <a name="license"></a>License Information
