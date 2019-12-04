@@ -21,11 +21,11 @@ TO-DO
 
 ## <a name="feature"></a>How to Play
 
-Connect 5 is a strategic turn based game played between two players. The main objective of this game is to create a linear line of five of your own peices before the other player does. This line can be horizontal, vertical, or diagonal.
+Connect 5 is a strategic turn based game played between two players. The main objective of this game is to create a linear line of five of your own pieces before the other player does. This line can be either horizontal, vertical, or diagonal.
 
-In this game, the 'playing board' is layed down flat, and so, game play pieces can be positioned anywhere on the board as long as it is placed within the dimensions of the board, and if that coordinate is empty.
+In this game, the "playing board" is laid down flat, and so, game play pieces can be positioned anywhere on the board as long as it is placed within the dimensions of the board, and if that posistion is unoccupied.
 
-When you first 'start up' the game, you will see the main menu which will consist of the following options: Play Game, Player vs Player, Settings, and Exit Game.
+When you first "start up" the game, you will see the main menu which will consist of the following options: Play Game, Player vs Player, Settings, and Exit Game.
 
 Before you begin playing, you can choose one of four different modes to play with, Player vs Player, Player vs AI(Easy), Player vs AI(Medium), and Player vs AI(Hard). You can select a mode by clicking on the second row of cyan-coloured text until you the screen is revealing your desired mode.
 
@@ -33,7 +33,7 @@ Before you start the game, you can select what colour your own pieces will be in
 
 Once you are ready to begin playing the game, click on "Start Game".
 
-At your given turn, you can 'click' on a coordinate where you want to place your game piece. Once you place your piece down, it is the other player's turn to put down a piece. This pattern will continue until someone has won, or there if the board is completely filled.
+At your given turn, you can "click" on a coordinate where you want to place your game piece. Once you place your piece down, it is the other player's turn to put down a piece. This pattern will continue until someone has won, or there if the board is completely filled.
 
 [Back to top](#top)
 
