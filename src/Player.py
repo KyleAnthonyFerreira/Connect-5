@@ -76,7 +76,7 @@ class MediumAI(Player):
 
     def eval(self) -> (int, int):
         """
-        Will calculate strong moves that can be made by itself and the opther player. The AI will determine the best
+        Will calculate strong moves that can be made by itself and the other player. The AI will determine the best
         move it should play, and will return that move
         :return: (int row, int col)
         """
