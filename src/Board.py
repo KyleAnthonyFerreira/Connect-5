@@ -61,6 +61,13 @@ class Board:
             self.last_move = (x, y)
 
     def remove_piece(self, x: int, y: int) -> None:
+        """
+        Removes a piece at location (x,y) if possible.
+        :param player:
+        :param x:
+        :param y:
+        :return: None
+        """
         self.board[y][x] = ""
 
     def is_empty(self, x: int, y: int) -> bool:
@@ -100,7 +107,7 @@ class Board:
         Will determine if any players have 5 pieces (or more) connected in a line
         :param player1:
         :param player2:
-        :return: player1/2.name or ""
+        :return: player1 or player2""
         """
         if self._connect_n(player1) >= 5:
             return player1.name
