@@ -23,10 +23,11 @@ class Player:
                 # Note: The board has now been modified
                 self.board.set_piece(self, x, y)
 
-    def get_move(self):
-        pass
-
     def set_colour(self, colour):
+        """
+        Assigns a color to the player
+        :param color
+        """
         self.colour = colour
 
 
@@ -160,7 +161,7 @@ class MediumAI(Player):
                 move = -1, -1
                 move_distance = 999
                 for x in self_eval:
-                    distance = (((x[0] + move[0])*(x[0] + move[0]) + (x[1] + move[1])*(x[1] + move[1]))*0.5)
+                    distance = (((x[0] + move[0]) * (x[0] + move[0]) + (x[1] + move[1]) * (x[1] + move[1])) * 0.5)
                     if move_distance > distance:
                         move_distance = distance
                         move = x[0], x[1]
@@ -229,10 +230,12 @@ class MediumAI(Player):
                         opponent_eval[(temp[0]), (temp[1])] = new_val
                 else:
                     opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                    opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, j, 1 * d1, 1 * d2, True)
+                    opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, j, 1 * d1, 1 * d2,
+                                                                                      True)
             else:
                 opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, col, 1 * d1, 1 * d2, True)
+                opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, col, 1 * d1, 1 * d2,
+                                                                                  True)
 
 
 class HardAI(Player):
