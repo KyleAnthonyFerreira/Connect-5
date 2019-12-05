@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="59e7be0d-3829-4402-803a-d9484c924e3f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Joshua Nelson &lt;joshua.nelson@mail.utoronto.ca&gt;" />
+      </list>
+    </option>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--follow-tags" />
+        <option name="title" value="Current Branch" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="D:\Git\Connect-5\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1SfkrDL0qXmiU8tBTvh1Id8qOxf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/Connect5Testing" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Git\Connect-5\src" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Game" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Connect-5" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/Game.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Human" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Connect-5" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="D:\Git\Connect-5\src\Human.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Game" />
+        <item itemvalue="Python.Human" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="59e7be0d-3829-4402-803a-d9484c924e3f" name="Default Changelist" comment="" />
+      <created>1571959949270</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1571959949270</updated>
+      <workItem from="1571962257215" duration="4055000" />
+      <workItem from="1572194587778" duration="5496000" />
+      <workItem from="1572306246023" duration="6950000" />
+      <workItem from="1572355446085" duration="1041000" />
+      <workItem from="1573315661533" duration="8281000" />
+      <workItem from="1573599007728" duration="19391000" />
+      <workItem from="1573697825911" duration="1022000" />
+      <workItem from="1573869795712" duration="7188000" />
+      <workItem from="1573878035047" duration="3968000" />
+      <workItem from="1574005652088" duration="188000" />
+    </task>
+    <task id="LOCAL-00001" summary="Create Human">
+      <created>1571960014564</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571960014564</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Create Human">
+      <created>1571960125921</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1571960125921</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Finished the Human.py class file">
+      <created>1572207997082</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1572207997082</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Changed some imports to src">
+      <created>1572306458785</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1572306458785</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Made the HardAI">
+      <created>1573328113608</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1573328113608</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Made the HardAI">
+      <created>1573328126081</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1573328126081</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed the HardAI">
+      <created>1573339918459</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1573339918459</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fixed the has_connect5 function">
+      <created>1573622090750</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1573622090750</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Worked on the HardAI">
+      <created>1573877114730</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1573877114730</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Worked on the HardAI">
+      <created>1573880992364</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1573880992364</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Adjusted the AI so it won't crash, needs to be further modified to play better moves">
+      <created>1574026808118</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1574026808118</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Removed redundant functions, modified other functions accordingly">
+      <created>1575149473288</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1575149473288</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Restructured the HardAI">
+      <created>1575151812833</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1575151812833</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added the Game Description to the README file">
+      <created>1575485126054</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1575485126054</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added comments and changed variable names in the MediumAI for readability">
+      <created>1575486255817</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1575486255817</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added documentation to the MediumAI for readability">
+      <created>1575486882570</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1575486882570</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added documentation to the MediumAI for readability">
+      <created>1575486899205</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1575486899205</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Added documentation and changed variable names for readability">
+      <created>1575487838614</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1575487838614</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Create Human" />
+    <MESSAGE value="Finished the Human.py class file" />
+    <MESSAGE value="Changed some imports to src" />
+    <MESSAGE value="Made the HardAI" />
+    <MESSAGE value="Fixed the HardAI" />
+    <MESSAGE value="Fixed the has_connect5 function" />
+    <MESSAGE value="Worked on the HardAI" />
+    <MESSAGE value="Adjusted the AI so it won't crash, needs to be further modified to play better moves" />
+    <MESSAGE value="Improved upon the HardAI, added required helper functions to Board.py, restored some old code to ensure the AI functions as intended" />
+    <MESSAGE value="Removed redundant functions, modified other functions accordingly" />
+    <MESSAGE value="Restructured the HardAI" />
+    <MESSAGE value="Added the Game Description to the README file" />
+    <MESSAGE value="Added comments and changed variable names in the MediumAI for readability" />
+    <MESSAGE value="Added documentation to the MediumAI for readability" />
+    <MESSAGE value="Added documentation and changed variable names for readability" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added documentation and changed variable names for readability" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Connect_5$Game.coverage" NAME="Game Coverage Results" MODIFIED="1573621853701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Connect_5$Connect5.coverage" NAME="Connect5 Coverage Results" MODIFIED="1573881406360" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+  </component>
+</project>

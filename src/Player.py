@@ -170,9 +170,18 @@ class MediumAI(Player):
                     if opponent_eval[x] == opponent_max:
                         return x
 
-    def _self_evaluation(self, self_eval,i,j,a,b):
+    def _self_evaluation(self, self_eval, row, col, d1, d2):
+        """
+        Modifies the self evaluation dictionary and finds strong moves that it  can make
+        :param self_eval:
+        :param row:
+        :param col:
+        :param d1:
+        :param d2:
+        :return: None
+        """
         # A function that modifies the self evaluation dictionary
-        temp = self.board.sum_in_line(self.name, i, j, a, b, False)
+        temp = self.board.sum_in_line(self.name, row, col, d1, d2, False)
         if temp[0] != -1:
             if len(self_eval) > 0:
                 exists = False
@@ -182,19 +191,30 @@ class MediumAI(Player):
                         break
                 if exists:
                     current_val = self_eval[(temp[0]), (temp[1])]
-                    new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)) + temp[2]
+                    new_val = (self.board.other_direction(self.name, row, col, 1 * d1, 1 * d2, False)) + temp[2]
                     if current_val < new_val:
                         self_eval[(temp[0]), (temp[1])] = new_val
                 else:
                     self_eval[(temp[0]), (temp[1])] = temp[2]
-                    self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
+                    self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, col, 1 * d1, 1 *
+                                                                                  d2, False)
             else:
                 self_eval[(temp[0]), (temp[1])] = temp[2]
-                self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, False)
+                self_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, col, 1 * d1, 1 *
+                                                                              d2, False)
 
-    def _opp_evaluation(self, opponent_eval, i, j, a, b):
+    def _opp_evaluation(self, opponent_eval, row, col, d1, d2):
+        """
+        Modifies the opponent dictionary and finds strong moves that the opponent can make
+        :param opponent_eval:
+        :param row:
+        :param col:
+        :param d1:
+        :param d2:
+        :return: None
+        """
         # A function that modifies the opponent evaluation dictionary
-        temp = self.board.sum_in_line(self.name, i, j, a, b, True)
+        temp = self.board.sum_in_line(self.name, row, col, d1, d2, True)
         if temp[0] != -1:
             if len(opponent_eval) > 0:
                 exists = False
@@ -204,15 +224,15 @@ class MediumAI(Player):
                         break
                 if exists:
                     current_val = opponent_eval[(temp[0]), (temp[1])]
-                    new_val = (self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)) + temp[2]
+                    new_val = (self.board.other_direction(self.name, row, j, 1 * d1, 1 * d2, True)) + temp[2]
                     if current_val < new_val:
                         opponent_eval[(temp[0]), (temp[1])] = new_val
                 else:
                     opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                    opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
+                    opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, j, 1 * d1, 1 * d2, True)
             else:
                 opponent_eval[(temp[0]), (temp[1])] = temp[2]
-                opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, i, j, 1 * a, 1 * b, True)
+                opponent_eval[(temp[0]), (temp[1])] += self.board.other_direction(self.name, row, col, 1 * d1, 1 * d2, True)
 
 
 class HardAI(Player):
