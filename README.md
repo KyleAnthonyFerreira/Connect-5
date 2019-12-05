@@ -72,7 +72,40 @@ At your given turn, you can "click" on a coordinate where you want to place your
 
 ## <a name="documen"></a>Documentation
 
-TO-DO
+The game and all of its files are located in the src folder. Outside of the src folder is the license and the readme. There should be 8 files in src in total.
+
+### `Files`
+
+1. Board.py
+2. Connect5.py
+3. Game.py
+4. Player.py
+5. blue button.png
+6. red button.png
+7. colour line.png
+8. obj.pickle
+
+The last 4 files correspond are either images for buttons or colour wheels in game, or data sturtures to hold saved games. The most important are the first 4. These first 4 contain all the code which runs the logic of the game, and provide structure for easy change.
+
+### `Board.py`
+
+Board.py is a virtual representation of the game board for connect5.
+**Attributes**
+- dimension: int
+    dimension represents the width and height of the board where the number is the number of squares
+- board: List
+    board is a list of lists. The length of the outer list is dimension and the lengths of the inner lists are dimension each. This inner lists contain empty strings that are changed as new pieces are placed.
+- last_move: Tuple(int, int)
+    this tuple stores the x, y of where the last player places their piece
+**Functions**
+- is_valid(x: int, y: int) -> bool
+    is_valid takes in an x position and y position and checks if it goes beyond the board (index out of bound). If it is within the boundary it returns true, else returns false
+- get_piece(x: int, y:int) -> str:
+    get_piece takes in an x position and y position and returns a string representation of that spot on the board; the empty string means that spot is empty
+- set_piece(player: Player,x: int, y:int) -> None:
+    set_piece takes in a player object, x position, and y position. If that spot is empty then the player.name attribute is placed in that position in board.
+
+
 
 [Back to top](#top)
 
@@ -99,6 +132,10 @@ With respect to the coding aspect of this project, I was assigned to the Board c
 **Brandon Mackel**
 
 During the start of the work on Connect 5, I was responsible for making a rough outline of the abstract player class and it's subclasses. This had the methods in the classes created, but not yet implemented. I created the entire settings menu which allows for the user to customize their game. The completion of the settings menu needed the implementation of multiple helper methods and the modification of existing code in the connect5.py file. I also created the save and load features that the player can use during game play. In the README, I was responsible for the licensing of the project repository.
+
+**Kyle Anthony Ferreira**
+
+For programming connnect 5 my main contributions were writing several of the functions in Connect5.py and reworking the MediumAI in Player.py. For Connect5.py several of the helper functions and also the main function were either created entirely or edited by Shae and Brandon. 
 
 [Back to top](#top)
 
