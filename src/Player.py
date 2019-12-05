@@ -11,7 +11,7 @@ class Player:
 
     def make_a_move(self, x, y):
         """
-        Implemented in children's class.
+        Makes a move on the board at position (x, y)
         :param x:
         :param y:
         :return: None
@@ -45,6 +45,10 @@ class EasyAI(Player):
         self.colour = (65, 65, 255)
 
     def get_move(self):
+        """
+        Will return a weak move, in the form  (row, col)
+        :return: (int row, int col)
+        """
         move = self.board.all_around()
         if self.board.is_valid(move[0], move[1]) and move[0] != -1:
             return move[0], move[1]
@@ -247,7 +251,10 @@ class HardAI(Player):
         self.line_types = [0, 1, 2, 3, 4, 5, 6, 7]
 
     def get_move(self):
-        import random
+        """
+        Will return best move, in the form  (row, col)
+        :return: (int row, int col)
+        """
         opponent_moves = {}
         ai_moves = {}
 
