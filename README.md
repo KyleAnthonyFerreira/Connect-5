@@ -70,6 +70,7 @@ At your given turn, you can "click" on a coordinate where you want to place your
 
 [Back to top](#top)
 
+
 ## <a name="documen"></a>Documentation
 
 The game and all of its files are located in the src folder. Outside of the src folder is the license and the readme. There should be 8 files in src in total.
@@ -89,21 +90,203 @@ The last 4 files correspond are either images for buttons or colour wheels in ga
 
 ### `Board.py`
 
-Board.py is a virtual representation of the game board for connect5.
+the file Board.py has the class Board which acts as a virtual representation of the game board for connect5.
+
+#### `Board`
+
 **Attributes**
+
 - dimension: int
-    dimension represents the width and height of the board where the number is the number of squares
+    - dimension represents the width and height of the board where the number is the number of squares
 - board: List
-    board is a list of lists. The length of the outer list is dimension and the lengths of the inner lists are dimension each. This inner lists contain empty strings that are changed as new pieces are placed.
-- last_move: Tuple(int, int)
-    this tuple stores the x, y of where the last player places their piece
+    - board is a list of lists. The length of the outer list is dimension and the lengths of the inner lists are dimension each. This inner lists contain empty strings that are changed as new pieces are placed.
+- last_move: (int, int)
+    - this tuple stores the x, y of where the last player places their piece
+
 **Functions**
+
 - is_valid(x: int, y: int) -> bool
-    is_valid takes in an x position and y position and checks if it goes beyond the board (index out of bound). If it is within the boundary it returns true, else returns false
-- get_piece(x: int, y:int) -> str:
-    get_piece takes in an x position and y position and returns a string representation of that spot on the board; the empty string means that spot is empty
-- set_piece(player: Player,x: int, y:int) -> None:
-    set_piece takes in a player object, x position, and y position. If that spot is empty then the player.name attribute is placed in that position in board.
+    - is_valid takes in an (x,y) coordinate and checks if it goes beyond the board (index out of bound). If it is within the boundary it returns true, else returns false
+- get_piece(x: int, y:int) -> str
+    - get_piece takes in an (x,y) coordinate and returns a string representation of that spot on the board; the empty string means that spot is empty
+- set_piece(player: Player,x: int, y:int) -> None
+    - set_piece takes in a player object, and an (x,y) coordinate. If that spot is empty then the player.name attribute is placed in that position in board.
+- remove_piece(x: int, y:int) -> None
+    - remove_piece overwrites the (x, y) coordinate with an empty string on the board
+- is_empty(x: int, y: int) -> bool
+    - is_empty returns true when the corresponding (x, y) coordinate has an empty string. It also returns true if the coordinate is not valid. It will return false only when the coordinate is valid and not an empty string
+- all_round() -> (int, int)
+    - all_round returns a random (x, y) coordinate around the last piece placed. If no coordinates are empty then (-1, -1) is returned
+- has_connect5(player1: Player, player2: Player) -> str
+    - has_connect5 returns the string representation of the player who has 5 pieces in a row in any direction. has_connect5 returns an empty string if no player has accieved this yet
+- _connect_n(player: Player) -> int
+    - _connect_n returns the greatest amount of pieces in a row that that player has placed down
+- sum_in_line(player: Player, row: int, col: int, d1: int, d2: int, is_player1: bool) -> (int, int, int)
+    - sum_in_line is a complex function that determines the coordinate after a line of pieces and length of a line given a player, a starting position for the x direction, a starting position for the y direction, a step value for the x direction, a step value for the y direction, and lastly a boolean that is used to determine if the function should track the player's pieces or the opponent's pieces
+
+
+### `Connect5.py`
+
+This file contains no functions but rather runs the main game loop and instantiates several objects that are needed to run the game.
+
+**Important Globals**
+
+- WIDTH = int(pygame.display.Info().current_w)
+    - Width of the screen; int(pygame.display.Info().current_w) sets the screen to the maximum width of the users monitor
+- HEIGHT = int(pygame.display.Info().current_h)
+    - Height of the screen; int(pygame.display.Info().current_w) sets the screen to the maximum height of the users monitor
+- DIMENSION = 19
+    - Determines how many places pieces can be placed on the game board. 19 x 19 is the standard for most connect 5 games
+- GAME_STATE = 0 
+    - This variable is used in the main function to determine the program should show the user the menu, settings, or the game. 0 is the menu.
+- GAME_MODE = 0
+    - This variable is used to determine what game mode the user wishes to play. 0 is player vs player. 1 is player vs easy AI. 2 is player vs medium AI. 3 is player vs hard AI.
+- PLAYER1_COLOUR = (0, 0, 0)
+    - default colour (black) for player 1; the integers represent RGB
+- PLAYER2_COLOUR = (255, 255, 255)
+    - default colour (white) for player 2; the integers represent RGB
+- BOARD_COLOUR = (121, 122, 125)
+    - colour of the board; the integers represent RGB
+- BOARD_LINES_COLOUR = (255, 255, 255)
+    - colour of the board lines; the integers represent RGB
+
+**Functions**
+- set_up_game() -> Game
+    - set_up_game() initialized objects needed for a new game and then returns a new Game object. It initializes 2 Players, 1 Board, and 1 Game
+- draw_menu() -> dict
+    - draw_menu() shows the visualization of the menu to the screen and also returns a dictionary of clickable regions
+- start_menu() -> None
+    - start_menu() uses the regions from draw_game() to listen for user input via mouse click on what to do next 
+- draw_settings() -> dict
+    - draw_settings() shows the visualization of the settings to the screen and also returns a dictionary of clickable regions
+- start_settings() -> None
+    - start_settings() uses the regions from draw_settings() to listen for user input via mouse click on what to do next 
+- draw_game(game_board: Board) -> dict
+    - draw_game() draws the game board (given a Board object) to the menu and returns a dictionary of clickable regions
+- update(row: int, col: int, player: Player) -> None
+    - update() draws a single piece to the board given an (x, y) coordinate and a Player object
+- is_clicked(click_able: dict, mouse_position: (int, int), new_game: Game) -> None
+    - is_clicked() uses dictionaries from the draw functions to determine what to do upon the user clicking buttons
+- start_game() -> None
+    - start_game() starts a new game by calling set_up_game and has a loop that runs through the logic of the game using the Game object.
+
+**if __name__ == "__main__"**
+- Main creates the screen and sets it to full screen. Main also has the main loop that holds the menu, game, and settings together
+
+
+
+### `Game.py`
+
+The file Game.py only has the Game class. This class is used for starting a new game and handling the interactions between the players and the board.
+
+#### `Game`
+
+**Attributes**
+
+- player1: Player
+    - This is player 1 (can be Human)
+- player2: Player
+    - This is player 2 (can be Human or AI)
+- next: Player
+    - This object indicates which Player goes next
+- board: Board
+    - A board instance that the class can manipulate
+
+**Functions**
+
+- whose_turn() -> Player
+    - returns the player object who's turn it currently is
+- who_goes_next() -> Player
+    - returns the player object who's turn is next
+- is_winner() -> bool
+    - returns true if a player has won the game, else false
+- is_game_over() -> bool
+    - returns true if a player has won or the game is tied and no one can make moves anymore, else returns false
+- make_move(x: int, yL int) -> bool
+    - given an x and y position a move is attempted. It returns true if the move was successful, else returns false
+
+### `Player.py`
+
+This file has 5 classes.
+
+- Player
+- Human
+- EasyAI
+- MediumAI
+- HardAI
+
+The 4 last classes extend Player. Player is considered to be abstract and is not to be  instantiated.
+
+#### `Player`
+
+**Attributes**
+
+- name: str
+    - string representation of the player; a name
+- board: Board
+    - board instance that the player can interact with
+- colour: (int, int, int) # default is (0, 0, 0)
+    - RGB value for the player's pieces
+
+**Functions**
+
+- make_a_move(x: int, y:int) -> None
+    - make_a_move places a piece on the board givin an (x, y) coordinate that is both empty and valid
+- get_move() -> None
+    - get_move() is unimplemented in the Player class. This function passes.
+- set_colour(colour: (int, int, int)) -> None
+    - set_colour changes the player's colour to the new colour
+
+The Human class is a represenation of an actual person playing the game
+
+#### `Human`
+
+**Attributes**
+
+- # Same as Player except colour defaults to (65, 255, 65)
+
+**Functions**
+
+- # Same as Player
+
+The easyAI is an easy AI who only seeks to play around where the other player plays
+
+#### `EasyAI`
+
+**Attributes**
+
+- # Same as Player except colour defaults to (65, 65, 255)
+
+**Functions**
+
+- get_move()
+    - get_move() is implemented in EasyAI. It preforms little board analysis and can only randomly place moves and play around the other player.
+
+The mediumAI is a medium AI that seeks to block the other players whenever and sometimes tries to win
+
+#### `MediumAI`
+
+**Attributes**
+
+- # Same as Player except colour defaults to (255, 65, 65)
+
+**Functions**
+
+- get_move()
+    - get_move() is implemented in MediumAI. It preforms complex board analysis and attempts to block the other player from winning. It also tries to win.
+
+The hardAI is a hard AI that seeks to block the other player when they are close to winning but otherwise attempts to win
+
+#### `HardAI`
+
+**Attributes**
+
+- # Same as Player except colour defaults to (65, 65, 255)
+
+**Functions**
+
+- get_move()
+    - get_move() is implemented in HardAI. It preforms complex board analysis and attempts to block the other player from winning. It also tries to win.
 
 
 
@@ -125,7 +308,7 @@ Board.py is a virtual representation of the game board for connect5.
 
 I took it upon myself to organize the group early on in hopes of alleviating stress. To do so, I initially created a rough skeleton of all classes and their respective functions. I was personally responsible for completing and documenting the Game class. As everyone worked on their designated classes, it became clear that Kyle's Connect5 class was the longest class to write. Since I finished the Game class quite early on, I focused my efforts on assisting Kyle. I restructured the GUI (theme & button alignment), wrote the update() function which visually updates the board and simplified/removed unecessary code. With regards to the Player class, I designed and coded the EasyAI algorithm. For the README file, I wrote the rough outline and "How to Install Connect-5". Lastely I aided anyone who had any Git related issues. 
 
-** Joshua Nelson**
+**Joshua Nelson**
 
 With respect to the coding part of this assignment, I worked on numerous functions in the board class, created the Medium AI class (which was once the HardAI), and developed the Player class. Additionally, I worked on documenting many of the functions and classes. Besides coding, I created the outline for the first group presentation project. To be more specific, I fully created the Meduim AI class (which was once the Hard AI). Additionally, I created the Player class (which was only a few lines of code). Lastly, I specifically created and or worked on the is_valid(), get_piece(), remove_piece(), has_connect5(), _connect_n(), sum_in_line(), connect_x(), and other_direction() functions. 
 
@@ -139,7 +322,7 @@ During the start of the work on Connect 5, I was responsible for making a rough 
 
 **Kyle Anthony Ferreira**
 
-For programming connnect 5 my main contributions were writing several of the functions in Connect5.py and reworking the MediumAI in Player.py. For Connect5.py several of the helper functions and also the main function were either created entirely or edited by Shae and Brandon. 
+For programming connnect 5 my main contributions were writing several of the functions in Connect5.py and reworking the HardAI in Player.py. For Connect5.py several of the helper functions and also the main function were either created entirely or edited by Shae and Brandon. The HardAI was nearly all my work except for using some functions in Board, like sum_in_line(). I also wrote the documentation for README.md file. 
 
 [Back to top](#top)
 
@@ -148,3 +331,10 @@ For programming connnect 5 my main contributions were writing several of the fun
 The license we chose for our project repository is the GNU General Public License v3.0. This license allows for anyone to download and modify our code. This is important to us, as we invite anyone who plays our game to also extend the game in a way that they feel improves the overall playing experience. This license also allows for the distribution of our game. We would like for as many people to play our game as possible.
 
 [Back to top](#top)
+
+
+
+
+
+
+
